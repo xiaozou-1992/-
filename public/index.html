@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta name="renderer" content="webkit" />
+		<meta charset="utf-8">
+		<meta name="force-rendering" content="webkit" />
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+		<meta name="viewport" content="width=device-width,initial-scale=1.0">
+		<!-- <meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0"> -->
+		<link rel="icon" href="<%= BASE_URL %>favicon.png">
+		<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.15&key=08044adf0ef7cb4288461967f7329d4d&plugin=AMap.CitySearch"></script>
+		<script src="http://www.kdniao.com/OutDemo/KDNWidget/KDNWidget.js"></script>
+		<script>
+			WIDGET = {
+				ID: '9hfapoOjmd'
+			};
+		</script>
+		<script type="text/javascript" src="https://apip.weatherdt.com/view/static/js/r.js?v=1111"></script>
+		<title>教室借用系统</title>
+		<style>
+			*::-webkit-scrollbar {
+				height: 5px;
+				width: 5px;
+			}
+
+			*::-webkit-scrollbar-thumb {
+				border-radius: 5px;
+				-webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+				background: #E0E0DF;
+			}
+
+			*::-webkit-scrollbar-track {
+				border-radius: 0;
+				background: #F7F7F7;
+			}
+
+			/* .ant-select-dropdown, .ant-select-tree-dropdown, .ant-select-dropdown--multiple,.ant-select-dropdown-placement-bottomLeft{
+	  	max-height: 50vh!important;
+	  	
+	  } */
+			  .ant-select-dropdown-placement-bottomLeft{
+				  max-height: 50vh;
+			  }
+			#loading-mask {
+				position: fixed;
+				left: 0;
+				top: 0;
+				height: 100%;
+				width: 100%;
+				background: #fff;
+				user-select: none;
+				z-index: 9999;
+				overflow: hidden
+			}
+
+			.loading-wrapper {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -100%)
+			}
+
+			.loading-dot {
+				animation: antRotate 1.2s infinite linear;
+				transform: rotate(45deg);
+				position: relative;
+				display: inline-block;
+				font-size: 64px;
+				width: 64px;
+				height: 64px;
+				box-sizing: border-box
+			}
+
+			.loading-dot i {
+				width: 22px;
+				height: 22px;
+				position: absolute;
+				display: block;
+				background-color: #1890ff;
+				border-radius: 100%;
+				transform: scale(.75);
+				transform-origin: 50% 50%;
+				opacity: .3;
+				animation: antSpinMove 1s infinite linear alternate
+			}
+
+			.loading-dot i:nth-child(1) {
+				top: 0;
+				left: 0
+			}
+
+			.loading-dot i:nth-child(2) {
+				top: 0;
+				right: 0;
+				-webkit-animation-delay: .4s;
+				animation-delay: .4s
+			}
+
+			.loading-dot i:nth-child(3) {
+				right: 0;
+				bottom: 0;
+				-webkit-animation-delay: .8s;
+				animation-delay: .8s
+			}
+
+			.loading-dot i:nth-child(4) {
+				bottom: 0;
+				left: 0;
+				-webkit-animation-delay: 1.2s;
+				animation-delay: 1.2s
+			}
+			
+			/* .ant-modal-confirm-btns .ant-btn:first-child{
+				display:none;
+			} */
+			.fixed-top{
+				border-bottom:1px solid #ccc;
+			}
+			.base .main{
+				padding-top:20px;
+			}
+			.ant-tag{
+				margin-right:0px!important;
+			}
+
+			@keyframes antRotate {
+				to {
+					-webkit-transform: rotate(405deg);
+					transform: rotate(405deg)
+				}
+			}
+
+			@-webkit-keyframes antRotate {
+				to {
+					-webkit-transform: rotate(405deg);
+					transform: rotate(405deg)
+				}
+			}
+
+			@keyframes antSpinMove {
+				to {
+					opacity: 1
+				}
+			}
+
+			@-webkit-keyframes antSpinMove {
+				to {
+					opacity: 1
+				}
+			}
+			
+			
+			::-webkit-scrollbar {
+			  width: 8px;
+			  height: 8px;
+			}
+			//滚动条的滑块
+			::-webkit-scrollbar-thumb {
+			  background-color: #a1a3a9;
+			  border-radius: 3px;
+			}
+			.el-table th.is-leaf {
+			 	background: #fafafa;
+			 }
+			.el-table td,
+			.el-table th {
+				padding: 5px!important;
+				display: table-cell !important;
+			}
+			
+			.print-main {
+				position: relative;
+				background: #fff;
+				border: 1px solid #eee;
+				width:96%;
+				margin: 10px auto;
+				padding: 10px;
+				min-height: 500px;
+				font-size: 10px;
+				box-shadow: 0 0 5px rgba(0, 0, 0, 0.27), 0 0 20px rgba(0, 0, 0, .1) inset;
+				font-weight: 500;color: #000000;
+			}
+
+			.print-main::after,
+			.print-main::before {
+				content: '';
+				position: absolute;
+				bottom: 6px;
+				width: 100px;
+				height: 1px;
+				z-index: -1;
+				box-shadow: 0 2px 12px 5px rgba(0, 0, 0, .3);
+			}
+
+			.print-main::after {
+				left: 4px;
+				transform: rotate(-6deg);
+			}
+
+			.print-main::before {
+				right: 4px;
+				transform: rotate(6deg);
+			}
+
+			.print-title {
+				font-size: 18px;
+				font-weight: 600;
+				line-height: 48px;
+				text-align: center;
+				position:relative;
+				margin-top: 20px;
+			}
+
+			.print-head {
+				overflow: hidden;
+			}
+
+			.print-head .print-con {
+				float: left;
+				width: 32%;
+				margin-right: 1%;
+				line-height: 26px;
+				overflow: hidden;
+			}
+			.print-head .print-con .print-tit {
+				width: 80px;
+				margin-right: 5px;
+				text-align: right;
+				float: left;
+			}
+
+			.print-head .print-con .print-cell {
+				width: 100%;
+				text-align: left;
+				float: left;
+			}
+
+			.print-table {
+				border: 1px solid #ccc;
+
+			}
+
+			.print-table .th {
+				background: #f5f5f5;
+			}
+
+			.print-table td {
+				padding: 3px;
+			}
+
+			.print-bottom .print-con {
+				float: left;
+				width: 100%;
+				line-height: 26px;
+				overflow: hidden;
+			}
+
+			.print-bottom .print-con .print-tit {
+				width: 80px;
+				margin-right: 5px;
+				text-align: right;
+				float: left;
+			}
+
+			.print-bottom-head .print-con .print-cell {
+				width: calc(100% - 85px);
+				text-align: left;
+				float: left;
+			}
+			.alert-tip{
+				position: absolute;
+				z-index: 9999;
+				padding: 0.5rem;
+				top: 45%; 
+				width: auto;
+				left: 45%;
+				box-shadow: 0px 0px 15px #999;
+				background-color: #FFFFFF;
+				border-radius: 5px;
+			}
+			.el-loading-mask{
+				background:rgba(255,255,255,.9) url(<%= BASE_URL %>loading.gif) no-repeat center!important;
+				background-size: 80px 80px!important;
+			}
+			.el-loading-mask .el-loading-spinner{
+				display:none;
+			}
+			.ant-spin.ant-spin-spinning{
+				background:url(<%= BASE_URL %>loading.gif) no-repeat center!important;
+				background-size: 80px 80px!important;
+			}
+			.ant-spin.ant-spin-spinning .ant-spin-dot-spin{
+				display:none;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<noscript>
+			<strong>We're sorry but vuetemplate doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+		</noscript>
+		<div id="app">
+			<div id="loading-mask">
+				<div class="loading-wrapper">
+					<!-- <span class="loading-dot loading-dot-spin"><i></i><i></i><i></i><i></i></span> -->
+					<!-- <span class="loading-dot loading-dot-spin">
+						<img src="../src/assets/loading.gif" />
+					</span> -->
+					<img src="<%= BASE_URL %>loading.gif" />
+				</div>
+			</div>
+		</div>
+		<!-- built files will be auto injected -->
+
+	</body>
+</html>
