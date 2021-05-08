@@ -5,31 +5,19 @@
       <a-form class="ant-advanced-search-form home-form" :form="form" @submit="handleSearch">
         <a-row :gutter="24">
           <a-col :span="8">
-            <a-form-item label="关键字">
-              <a-input class="field-right" placeholder="请输入关键字搜索" v-decorator="[`key`]" />
+            <a-form-item label="日期">
+              <a-range-picker style="width: 100%;" v-decorator="[`date`]" />
             </a-form-item>
           </a-col>
+					<a-col :span="8">
+					  <a-form-item label="节次">
+					    <a-slider range :min="JCMin" :max="JCMax" v-decorator="[`JC`]" />
+					  </a-form-item>
+					</a-col>
           <a-col :span="8">
-            <a-form-item label="年级">
-              <!-- <a-input class="field-right" placeholder="请选择年级" v-decorator="[`grade`]" /> -->
-              <a-date-picker mode="year" placeholder="请选择年级" format="YYYY" :value="gradeYear" :open="yearPickShow"
-                             @panelChange="handlePanelChange" @openChange="handleOpenChange" @change="yearChange" style="width: 100%;"
-              />
-            </a-form-item>
-          </a-col>
-          <a-col :span="8">
-            <a-form-item label="班级">
-              <a-select :allowClear="true" v-decorator="['classID']" placeholder="全部" optionFilterProp="children" showSearch>
-                <a-select-option v-for="(item, index) in ClassList" :key="index" :value="item.ID">{{ item.Name }}</a-select-option>
-              </a-select>
-            </a-form-item>
-          </a-col>
-          <a-col :span="8">
-            <a-form-item label="部门">
-              <a-select :allowClear="true" v-decorator="['departCode']" placeholder="全部" optionFilterProp="children"
-                        showSearch
-              >
-                <a-select-option v-for="(item, index) in DepartCodeList" :key="index" :value="item.Code">{{ item.Name }}</a-select-option>
+            <a-form-item label="状态">
+              <a-select v-decorator="['state']" placeholder="请选择状态" optionFilterProp="children">
+                <a-select-option v-for="(item, index) in stateList" :key="index" :value="item.ID">{{ item.Name }}</a-select-option>
               </a-select>
             </a-form-item>
           </a-col>
@@ -133,6 +121,7 @@
 					showTotal: total => `共有 ${total} 条数据` // 分页中显示总的数据
 				},
 				addIf: false,
+				stateList:[{ID:'0',Name:'待审核'},{ID:'1',Name:'学院审核通过'},{ID:'2',Name:'学院审核不通过'},{ID:'3',Name:'后勤审核通过'},{ID:'4',Name:'后勤审核不通过'}],
 				text: {},
 				visible: false,
 				confirmLoading: false,
@@ -143,6 +132,8 @@
 				worklist: [],
 				loading: false,
 				values: {},
+				JCMin:1,
+				JCMax:12,
 				pages: {
 					pageIndex: 1,
 					pageSize: 20
@@ -178,8 +169,9 @@
 				this.form.validateFields((error, values) => {
 					this.pagination.currentPage = 1
 					this.values = values
-					if (this.gradeYear) {
-						this.values.grade = this.gradeYear
+					if (values.date) {
+						values.applyStartDate = moment(values.date[0]._d).format('YYYY-MM-DD')
+						values.applyEndDate = moment(values.date[1]._d).format('YYYY-MM-DD')
 					}
 					this.getList()
 				})
