@@ -1,39 +1,39 @@
 <template>
-	<div class="bg" v-loading="loading">
-		<div class="bak" style="position:relative;">
-			<div class="case">
-				<div class="trao"><p>用户登录</p></div>
-				<div class="line"></div>
-				<a-form id="components-form-demo-normal-login" :form="form" class="login-form" @submit="handleSubmit">
-					<div>
-						<a-form-item>
-							<a-input v-decorator="['userNo', { rules: [{ required: true, message: '此功能测试所有，请勿登录!' }] }]" placeholder="此功能测试所有，请勿登录!">
-								<a-icon slot="prefix" type="user" style="color: rgba(0,0,0,.25) margin-top: 20px margin-left: 20px;" />
-							</a-input>
-						</a-form-item>
-					</div>
-					<a-form-item>
-						<a-button type="primary" html-type="submit" class="btn">
-							登录
-							<!-- {{ $store.state.token }} -->
-						</a-button>
-					</a-form-item>
-				</a-form>
-			</div>
-		</div>
-		<div class="gif" v-if="false">
-			<span>
-				技术支持：
-				<img src="@/assets/6 (3).png" alt="" />
-			</span>
-		</div>
-	</div>
+  <div class="bg" v-loading="loading">
+    <div class="bak" style="position:relative;">
+      <div class="case" v-if="false">
+        <div class="trao"><p>用户登录</p></div>
+        <div class="line"></div>
+        <a-form id="components-form-demo-normal-login" :form="form" class="login-form" @submit="handleSubmit">
+          <div>
+            <a-form-item>
+              <a-input v-decorator="['userNo', { rules: [{ required: true, message: '此功能测试所有，请勿登录!' }] }]" placeholder="此功能测试所有，请勿登录!">
+                <a-icon slot="prefix" type="user" style="color: rgba(0,0,0,.25) margin-top: 20px margin-left: 20px;" />
+              </a-input>
+            </a-form-item>
+          </div>
+          <a-form-item>
+            <a-button type="primary" html-type="submit" class="btn">
+              登录
+              <!-- {{ $store.state.token }} -->
+            </a-button>
+          </a-form-item>
+        </a-form>
+      </div>
+    </div>
+    <div class="gif" v-if="false">
+      <span>
+        技术支持：
+        <img src="@/assets/6 (3).png" alt="" />
+      </span>
+    </div>
+  </div>
 </template>
 
 <script>
-import { DoLogin, sendCode, getTokenToUser, GetUserInfo } from '@/api/follow';
-import { mapState, mapMutations } from 'vuex';
-import Cache from '@/utils/cache';
+import { DoLogin, sendCode, getTokenToUser, GetUserInfo } from '@/api/follow'
+import { mapState, mapMutations } from 'vuex'
+import Cache from '@/utils/cache'
 export default {
 	data() {
 		return {
@@ -46,10 +46,10 @@ export default {
 			sendtext: '发送验证码',
 			Phone: '',
 			loading: false
-		};
+		}
 	},
 	created() {
-		this.autoLogin();
+		this.autoLogin()
 	},
 	computed: {
 		...mapState(['token'])
@@ -57,65 +57,65 @@ export default {
 	methods: {
 		...mapMutations(['SET_TOKEN']),
 		autoLogin() {
-			let that = this;
-			let hrefUrl = window.location.href;
-			let ticket = '';
+			let that = this
+			let hrefUrl = window.location.href
+			let ticket = ''
 			if (hrefUrl.indexOf('=') > -1) {
-				ticket = decodeURIComponent(hrefUrl.split('=')[1]);
-				Cache.set('token', ticket);
-				this.SET_TOKEN(ticket);
-				Cache.set('SYS_TOKEN', ticket);
+				ticket = decodeURIComponent(hrefUrl.split('=')[1])
+				Cache.set('token', ticket)
+				this.SET_TOKEN(ticket)
+				Cache.set('SYS_TOKEN', ticket)
 				setTimeout(async function() {
-					let res1 = await GetUserInfo();
-					Cache.set('myInfo', res1.data);
-					Cache.set('loginKey', 1);
+					let res1 = await GetUserInfo()
+					Cache.set('myInfo', res1.data)
+					Cache.set('loginKey', 1)
 					that.$router.push({
 						name: 'index'
-					});
-				}, 300);
+					})
+				}, 300)
 			} else {
 				// window.location.href="http://i.aufe.edu.cn/portal_main/toPortalPage"
 			}
 		},
 		cheak(index) {
 			if (index == 0) {
-				this.userShow = true;
-				this.actice = 0;
+				this.userShow = true
+				this.actice = 0
 			} else {
-				this.userShow = false;
-				this.actice = 1;
+				this.userShow = false
+				this.actice = 1
 			}
 		},
 		handleSubmit(e) {
-			let that = this;
-			e.preventDefault();
+			let that = this
+			e.preventDefault()
 			this.form.validateFields(async (err, values) => {
 				if (!err) {
-					this.loading = !this.loading;
-					let data = values;
-					let res = await DoLogin(data);
+					this.loading = !this.loading
+					let data = values
+					let res = await DoLogin(data)
 					if (res.data.code == 0) {
-						this.$message.success(res.data.msg);
-						Cache.set('token', res.data.ticket);
-						this.SET_TOKEN(res.data.ticket);
-						Cache.set('SYS_TOKEN', res.data.ticket);
+						this.$message.success(res.data.msg)
+						Cache.set('token', res.data.ticket)
+						this.SET_TOKEN(res.data.ticket)
+						Cache.set('SYS_TOKEN', res.data.ticket)
 						setTimeout(async function() {
-							let res1 = await GetUserInfo();
-							Cache.set('myInfo', res1.data);
-							Cache.set('loginKey', 1);
+							let res1 = await GetUserInfo()
+							Cache.set('myInfo', res1.data)
+							Cache.set('loginKey', 1)
 							that.$router.push({
 								name: 'index'
-							});
-						}, 300);
+							})
+						}, 300)
 					} else {
-						this.$message.error(res.data.msg);
+						this.$message.error(res.data.msg)
 					}
-					this.loading = !this.loading;
+					this.loading = !this.loading
 				}
-			});
+			})
 		}
 	}
-};
+}
 </script>
 
 <style lang="less" scoped>

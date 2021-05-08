@@ -44,19 +44,16 @@
       ></el-pagination>
     </div>
     <add :text="text" v-show="addIf" @closeFun="closeFun"></add>
-    <synchro :text="text" :isFlag="2" v-show="visible" @closeFun="closeFun"></synchro>
   </div>
 </template>
 
 <script>
 import add from './add'
-import synchro from '../../components/synchro/index.vue'
 import { GetActTypePageList, DoDeleteActType } from '@/api/follow'
 const data = []
 export default {
 	components: {
-		add,
-		synchro
+		add
 	},
 	data() {
 		return {
