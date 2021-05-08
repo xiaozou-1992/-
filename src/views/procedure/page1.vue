@@ -48,7 +48,7 @@
 				</el-table-column>
 				<el-table-column label="操作" width="88" fixed="right">
 					<template slot-scope="scope">
-						<a-popover title="审批" v-if="scope.row.State === '1'">
+						<a-popover title="审批">
 							<i class="el-font el-icon-coordinate" style="color: #E6A23C;" @click="examine(scope.row)"></i>
 						</a-popover>
 						<a-popover title="修改">

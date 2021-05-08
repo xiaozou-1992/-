@@ -61,7 +61,7 @@
             <a-popover title="审批" v-if="scope.row.State === '1'">
               <i class="el-font el-icon-coordinate" style="color: #E6A23C;" @click="examine(scope.row)"></i>
             </a-popover>
-            <a-popover title="修改">
+            <a-popover title="修改" v-if="scope.row.State === '1'">
               <i class="el-font el-icon-edit-outline" style="color: #1890FF;" @click="modifyList(scope.row, 'modify')"></i>
             </a-popover>
           </template>
@@ -91,7 +91,7 @@
 </template>
 
 <script>
-	import add from './add'
+	import add from '../../components/examine/index.vue'
 	import moment from 'moment'
 	import {
 		GetAdminApplyPageList2,
