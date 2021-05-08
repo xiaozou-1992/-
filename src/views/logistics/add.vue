@@ -23,7 +23,7 @@
             </a-select>
           </a-form-model-item>
           <a-form-model-item label="日期" prop="date">
-            <a-range-picker style="width: 100%;" v-model="form.date" @change="meetingTime" />
+						<a-date-picker style="width: 100%;" v-model="form.date"/>
           </a-form-model-item>
           <a-form-model-item label="节次" prop="JC">
             <a-slider range v-model="form.JC" :min="JCMin" :max="JCMax" />
@@ -53,11 +53,8 @@
 		},
 		watch: {
 			text: function(text) {
-				console.log(text)
 				if (text.ID) {
 					this.form.ID = text.ID
-					// this.form.date = [moment(text.StartDate, 'YYYY-MM-DD'), moment(text.EndDate,
-					// 	'YYYY-MM-DD')]
 					this.form.JC = [text.StartJC, text.EndJC]
 				}
 			}
@@ -75,10 +72,8 @@
 				JCMin: 1,
 				JCMax: 12,
 				form: {
-					date: [],
+					date: '',
 					JC: [],
-					StartDate: '',
-					EndDate: '',
 					StartJC: [],
 					EndJC: [],
 					SchoolID: '',
@@ -119,10 +114,6 @@
 				this.form = {}
 				this.form.BorC = 'building'
 			},
-			meetingTime(e) {
-				this.form.StartDate = moment(e[0]._d).format('YYYY-MM-DD')
-				this.form.EndDate = moment(e[1]._d).format('YYYY-MM-DD')
-			},
 			async getAllSchoolList() {
 				let res = await GetAllSchoolList()
 				this.schoolList = res.data.data
@@ -141,6 +132,7 @@
 						let data = this.form
 						data.EndJC = this.form.JC[1]
 						data.StartJC = this.form.JC[0]
+						data.ApplyTime = moment(data.date._d).format('YYYY-MM-DD')
 						delete data.JC
 						delete data.date
 						delete data.BuildingID
