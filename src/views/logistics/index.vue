@@ -173,6 +173,12 @@
 						values.applyStartDate = moment(values.date[0]._d).format('YYYY-MM-DD')
 						values.applyEndDate = moment(values.date[1]._d).format('YYYY-MM-DD')
 					}
+					if (values.JC) {
+						values.startJC = values.JC[0]
+						values.endJC = values.JC[1]
+					}
+					delete values.date
+					delete values.JC
 					this.getList()
 				})
 			},
