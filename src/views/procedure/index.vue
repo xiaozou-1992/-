@@ -1,203 +1,207 @@
 <template>
-  <div class="content">
-    <div class="h2">审批流程管理</div>
-    <div id="components-form-demo-advanced-search">
-      <a-form class="ant-advanced-search-form home-form" :form="form" @submit="handleSearch">
-        <a-row :gutter="24">
-          <a-col :span="8">
-            <a-form-item label="关键字"><a-input class="field-right" placeholder="请输入关键字搜索" v-decorator="[`key`]" /></a-form-item>
-          </a-col>
-          <a-col :span="8" style="margin-top:4px;">
-            <a-button type="primary" html-type="submit" class="btn1">搜索</a-button>
-            <a-button :style="{ marginLeft: '8px' }" @click="handleReset" class="btn2">重置</a-button>
-          </a-col>
-        </a-row>
-      </a-form>
-    </div>
-    <el-button-group>
-      <el-button type="primary" size="small" icon="el-icon-plus" @click="addList">新增</el-button>
-    </el-button-group>
-    <div style="margin-top: 20px;">
-      <el-table :data="data" style="width: 100%;margin-bottom: 20px;" row-key="Code" border default-expand-all
-                :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
-      >
-        <el-table-column prop="Name" label="部门名称" min-width="360"></el-table-column>
-        <el-table-column prop="Code" label="编号" min-width="200">
-          <template slot-scope="scope">
-            <a-tag color="green">{{ scope.row.Code }}</a-tag>
-          </template>
-        </el-table-column>
-        <el-table-column prop="IsJoin" label="上级编号" min-width="200">
-          <template slot-scope="scope">
-            <a-tag color="pink">{{ scope.row.ParentCode ? scope.row.ParentCode : '暂无' }}</a-tag>
-          </template>
-        </el-table-column>
-        <el-table-column label="操作" width="88" fixed="right">
-          <template slot-scope="scope">
-            <i title="修改" class="iconfont icon-editor1" style="color: #1890FF;" @click="modifyList(scope.row, 'modify')"></i>
-            <i title="删除" class="iconfont icon-delete" style="color: red;" @click="deleteList(scope.row)"></i>
-          </template>
-        </el-table-column>
-      </el-table>
-    </div>
-    <add :text="text" :ParentList="ParentList" v-show="addIf" @closeFun="closeFun"></add>
-  </div>
+	<div class="content">
+		<div class="h2">所有申请记录</div>
+		<a-tabs default-active-key="1" @change="tabChange">
+			<a-tab-pane key="1" tab="学院审核通过">
+				<page1 ref="page1"></page1>
+			</a-tab-pane>
+			<a-tab-pane key="3" tab="后勤审核通过">
+				<page2 ref="page2"></page2>
+			</a-tab-pane>
+			<a-tab-pane key="4" tab="后勤审核不通过">
+				<page3 ref="page3"></page3>
+			</a-tab-pane>
+		</a-tabs>
+
+	</div>
 </template>
 
 <script>
-import add from './add'
-import Func from '@/utils/func'
-import { GetDepartList, GetDepartListManage, DeleteDepart } from '@/api/follow'
-const data = []
-export default {
-	components: {
-		add
-	},
-	data() {
-		return {
-			data,
-			form: this.$form.createForm(this, {
-				name: 'advanced_search'
-			}),
-			pagination: {
-				currentPage: 1,
-				pageSize: this.global.pageSize,
-				pageSizeOptions: this.global.pageSizeOptions, // 每页中显示的数据
-				showTotal: total => `共有 ${total} 条数据` // 分页中显示总的数据
-			},
-			addIf: false,
-			text: {},
-			visible: false,
-			confirmLoading: false,
-			itemId: '',
-			departmentList: [],
-			worklist: [],
-			loading: false,
-			values: {},
-			pages: {
-				pageIndex: 1,
-				pageSize: 20
-			},
-			tableHeight: parseFloat(window.innerHeight - 160),
-			ParentList: []
-		}
-	},
-	computed: {},
-	created() {
-		this.getList()
-		this.getOtherList()
-	},
-	mounted() {},
-	methods: {
-		handleSearch(e) {
-			e.preventDefault()
-			this.form.validateFields((error, values) => {
-				this.pagination.currentPage = 1
-				this.values = values
-				this.getList()
-			})
+	import moment from 'moment'
+	import page1 from './page1.vue';
+	import page2 from './page2.vue';
+	import page3 from './page3.vue';
+	import {
+		GetForbbidenBorCPageList,
+		DoDeleteForbbidenBorC,
+		GetAllBuildingList,
+		GetAllClassRoomList
+	} from '@/api/follow'
+	const data = []
+	export default {
+		components: {
+			page1,
+			page2,
+			page3
 		},
-		handleReset() {
-			this.form.resetFields()
-			this.values = {}
-			this.getList()
-		},
-		handleSizeChange(val) {
-			this.pagination.pageSize = val
-			this.getList()
-		},
-		handleCurrentChange(val) {
-			this.pagination.currentPage = val
-			this.getList()
-		},
-		async getList() {
-			this.data = []
-			this.loading = true
-			let data = {}
-			if (this.values) {
-				data = this.values
+		data() {
+			return {
+				data,
+				form: this.$form.createForm(this, {
+					name: 'advanced_search'
+				}),
+				pagination: {
+					currentPage: 1,
+					pageSize: this.global.pageSize,
+					pageSizeOptions: this.global.pageSizeOptions, // 每页中显示的数据
+					showTotal: total => `共有 ${total} 条数据` // 分页中显示总的数据
+				},
+				addIf: false,
+				text: {},
+				visible: false,
+				confirmLoading: false,
+				itemId: '',
+				departmentList: [],
+				worklist: [],
+				loading: false,
+				values: {},
+				pages: {
+					pageIndex: 1,
+					pageSize: 20
+				},
+				tableHeight: parseFloat(window.innerHeight - 160),
+				buildingList: [],
+				classroomList: [],
+				typeList: [{
+					Name: '教室',
+					ID: 'classroom'
+				}, {
+					Name: '楼宇',
+					ID: 'building'
+				}],
+				JCMin: 1,
+				JCMax: 12
 			}
-			let res = await GetDepartListManage(data)
-			this.loading = false
-			// this.data = res.data.data;
-			this.data = this.toTree(res.data.data)
 		},
-		toTree(data) {
-			let result = []
-			let map = {}
-			if (!Array.isArray(data)) {
-				// 验证data是不是数组类型
-				return []
-			}
-			data.forEach(item => {
-				// 建立每个数组元素id和该对象的关系
-				map[item.Code] = item // 这里可以理解为浅拷贝，共享引用
-			})
-			data.forEach(item => {
-				let parent = map[item.ParentCode] // 找到data中每一项item的爸爸
-				if (parent) {
-					// 说明元素有爸爸，把元素放在爸爸的children下面
-					(parent.children || (parent.children = [])).push(item)
-				} else {
-					// 说明元素没有爸爸，是根节点，把节点push到最终结果中
-					result.push(item) // item是对象的引用
-				}
-			})
-			return result // 数组里的对象和data是共享的
+		computed: {},
+		created() {
+			this.getList()
+			this.getDataInfo()
 		},
-		async getOtherList() {
-			let res = await GetDepartList(data)
-			this.ParentList = res.data.data
-		},
-		addList() {
-			this.text = {}
-			this.addIf = !this.addIf
-		},
-		async importData() {
-			// let res = await uploadFun(data)
-			// this.$message.success(res.data.msg)
-		},
-		modifyList(text) {
-			text = Object.assign(text, { time: new Date() })
-			this.addIf = !this.addIf
-			this.text = text
-		},
-		deleteList(text) {
-			let that = this
-			this.$confirm({
-				title: '提示',
-				content: `您确定删除该部门吗？`,
-				okText: '确认',
-				cancelText: '取消',
-				async onOk() {
-					let data = {}
-					data.id = text.ID
-					let res = await DeleteDepart(data)
-					if (res.data.code == 0) {
-						that.getList()
-						that.$message.success(res.data.msg)
-					} else {
-						that.$message.error(res.data.msg)
+		mounted() {},
+		methods: {
+			moment,
+			handleSearch(e) {
+				e.preventDefault()
+				this.form.validateFields((error, values) => {
+					this.pagination.currentPage = 1
+					if (values.date) {
+						values.StartDate = moment(values.date[0]._d).format('YYYY-MM-DD')
+						values.EndDate = moment(values.date[1]._d).format('YYYY-MM-DD')
 					}
-				}
-			})
-		},
-		handleCancel(e) {
-			this.visible = false
-		},
-		updataList() {
-			this.visible = true
-		},
-		closeFun(type) {
-			this.addIf = false
-			this.visible = false
-			if (type === '1') {
+					if (values.JC) {
+						values.StartJC = values.JC[0]
+						values.EndJC = values.JC[1]
+					}
+					delete values.date
+					delete values.JC
+					this.values = values
+					this.getList()
+				})
+			},
+			async getDataInfo() {
+				let building = await await GetAllBuildingList({
+					name: ''
+				})
+				this.buildingList = building.data.data
+				let classroom = await GetAllClassRoomList({
+					name: ''
+				})
+				this.classroomList = classroom.data.data
+			},
+			handleReset() {
+				this.form.resetFields()
+				this.values = {}
 				this.getList()
-				this.getOtherList()
+			},
+			handleSizeChange(val) {
+				this.pagination.pageSize = val
+				this.getList()
+			},
+			handleCurrentChange(val) {
+				this.pagination.currentPage = val
+				this.getList()
+			},
+			async getList() {
+				this.data = []
+				this.loading = true
+				let data = {}
+				if (this.values) {
+					data = this.values
+				}
+				data.pageIndex = this.pagination.currentPage
+				data.pageSize = this.pagination.pageSize
+				let res = await GetForbbidenBorCPageList(data)
+				this.loading = false
+				this.data = res.data.data
+				const pagination = { ...this.pagination
+				}
+				pagination.total = res.data.totalCount
+				this.pagination = pagination
+			},
+			toTree(data) {
+				let result = []
+				let map = {}
+				if (!Array.isArray(data)) {
+					// 验证data是不是数组类型
+					return []
+				}
+				data.forEach(item => {
+					// 建立每个数组元素id和该对象的关系
+					map[item.Code] = item // 这里可以理解为浅拷贝，共享引用
+				})
+				data.forEach(item => {
+					let parent = map[item.ParentCode] // 找到data中每一项item的爸爸
+					if (parent) {
+						// 说明元素有爸爸，把元素放在爸爸的children下面
+						(parent.children || (parent.children = [])).push(item)
+					} else {
+						// 说明元素没有爸爸，是根节点，把节点push到最终结果中
+						result.push(item) // item是对象的引用
+					}
+				})
+				return result // 数组里的对象和data是共享的
+			},
+			addList() {
+				this.text = {}
+				this.addIf = !this.addIf
+			},
+			modifyList(text) {
+				text = Object.assign(text, {
+					time: new Date()
+				})
+				this.addIf = !this.addIf
+				this.text = text
+			},
+			deleteList(text) {
+				let that = this
+				this.$confirm({
+					title: '提示',
+					content: `您确定删除该禁用数据吗？`,
+					okText: '确认',
+					cancelText: '取消',
+					async onOk() {
+						let data = {}
+						data.id = text.ID
+						let res = await DoDeleteForbbidenBorC(data)
+						if (res.data.code === 0) {
+							that.getList()
+							that.$message.success(res.data.msg)
+						} else {
+							that.$message.error(res.data.msg)
+						}
+					}
+				})
+			},
+			handleCancel(e) {
+				this.visible = false
+			},
+			closeFun() {
+				this.addIf = false
+				this.getList()
 			}
 		}
 	}
-}
 </script>
 
 <style lang="less" scoped>

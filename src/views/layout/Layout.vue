@@ -106,7 +106,7 @@
 						type: 'safety-certificate',
 						id: 7
 					}, {
-						title: '所有审批申请',
+						title: '所有申请记录',
 						path: 'procedure',
 						type: 'check-circle',
 						id: 8
