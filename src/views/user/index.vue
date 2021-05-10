@@ -23,14 +23,12 @@
           </a-col>
           <a-col :span="8">
             <a-form-item label="所属部门">
-              <a-form-model-item label="">
-                <a-select placeholder="请输入所属部门" v-decorator="['departID']" showSearch optionFilterProp="children"
-                          @search="fetchDepart" :filterOption="filterOption"
-                >
-                  <a-spin v-if="fetching" slot="notFoundContent" size="small" />
-                  <a-select-option v-for="(item, index) in departList" :key="item.ID">{{ item.Name }}</a-select-option>
-                </a-select>
-              </a-form-model-item>
+              <a-select placeholder="请输入所属部门" v-decorator="['departID']" showSearch optionFilterProp="children"
+                        @search="fetchDepart" :filterOption="filterOption"
+              >
+                <a-spin v-if="fetching" slot="notFoundContent" size="small" />
+                <a-select-option v-for="(item, index) in departList" :key="item.ID">{{ item.Name }}</a-select-option>
+              </a-select>
             </a-form-item>
           </a-col>
           <a-col :span="8" style="margin-top:4px;">

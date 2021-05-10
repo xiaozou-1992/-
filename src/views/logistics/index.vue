@@ -31,7 +31,7 @@
 		<div style="margin-top: 20px;">
 			<el-table :data="data" v-loading="loading" border :max-height="tableHeight" highlight-current-row style="width: 100%;">
 				<el-table-column prop="ActName" label="活动类型" min-width="100"></el-table-column>
-				<el-table-column prop="ActContent" label="活动内容" min-width="100"></el-table-column>
+				<el-table-column prop="ActContent" label="活动内容" min-width="200" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="Unity" label="举办单位" min-width="120"></el-table-column>
 				<el-table-column prop="StudentName" label="申请人" min-width="120"></el-table-column>
 				<el-table-column prop="Phone" label="手机号" min-width="120"></el-table-column>
