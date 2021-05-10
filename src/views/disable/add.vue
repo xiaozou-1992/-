@@ -128,6 +128,7 @@
 				this.$emit('closeFun', data)
 				this.form = {}
 				this.form.BorC = 'building'
+				this.form.JC = []
 			},
 			changeType() {
 				this.form.BIDorCID = ''
