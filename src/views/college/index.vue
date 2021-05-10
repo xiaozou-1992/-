@@ -16,10 +16,9 @@
           </a-col>
           <a-col :span="8">
             <a-form-item label="所属部门">
-              <a-select placeholder="请输入部门" showSearch v-decorator="[`departID`]" optionFilterProp="children" @search="fetchDepart"
-                        :filterOption="filterOption"
-              >
-                <a-spin v-if="fetching" slot="notFoundContent" size="small" />
+							<a-select placeholder="请输入部门" showSearch v-decorator="[`departID`]" optionFilterProp="children" :filterOption="filterOption"
+							>
+							  <a-spin v-if="fetching" slot="notFoundContent" size="small" />
                 <a-select-option v-for="(item, index) in departList" :key="item.ID">{{ item.Name }}</a-select-option>
               </a-select>
             </a-form-item>
@@ -66,7 +65,7 @@
                      :total="pagination.total"
       ></el-pagination>
     </div>
-    <add :text="text" v-show="addIf" @closeFun="closeFun"></add>
+    <add :text="text" :departList="departList" v-show="addIf" @closeFun="closeFun"></add>
   </div>
 </template>
 
@@ -124,6 +123,7 @@
 		computed: {},
 		created() {
 			this.getList()
+			this.fetchDepart()
 		},
 		mounted() {},
 		methods: {
@@ -154,14 +154,10 @@
 				return option.componentOptions.children[0].text.toLowerCase().indexOf(input.toLowerCase()) >= 0
 			},
 			async fetchDepart(value) {
-				this.fetching = true
-				if (value) {
-					let data = {}
-					data.name = value
-					let res = await GetDepartAllList(data)
-					this.fetching = false
-					this.departList = res.data.data || []
-				}
+				let data = {}
+				data.name = value || ''
+				let res = await GetDepartAllList(data)
+				this.departList = res.data.data || []
 			},
 			async getList() {
 				this.loading = true

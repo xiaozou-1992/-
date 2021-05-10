@@ -42,7 +42,8 @@
 	} from '@/api/follow'
 	export default {
 		props: {
-			text: Object
+			text: Object,
+			departList:Array
 		},
 		watch: {
 			text: function(text) {
@@ -55,7 +56,6 @@
 				gradeYear: null,
 				yearPickShow: false,
 				loading: false,
-				departList: [],
 				userList: [],
 				formLayout: 'horizontal',
 				form: this.$form.createForm(this, {
@@ -80,7 +80,6 @@
 			}
 		},
 		created() {
-			this.fetchDepart()
 		},
 		methods: {
 			filterOption(input, option) {
@@ -103,14 +102,6 @@
 					this.fetching = false
 					this.userList = res.data.data || []
 				}
-			},
-			async fetchDepart(value) {
-				this.fetching = true
-				let data = {}
-				data.name = value || ''
-				let res = await GetDepartAllList(data)
-				this.fetching = false
-				this.departList = res.data.data || []
 			},
 			handleSubmit(e) {
 				this.$refs.ruleForm.validate(async valid => {
