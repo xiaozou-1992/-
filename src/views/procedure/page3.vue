@@ -33,7 +33,7 @@
 						{{ scope.row.StartJC }} ~ {{ scope.row.EndJC }} 节
 					</template>
 				</el-table-column>
-				<el-table-column prop="IsEnable" label="状态" min-width="120">
+				<!-- <el-table-column prop="IsEnable" label="状态" min-width="150">
 					<template slot-scope="scope">
 						<a-tag color="red" v-if="scope.row.State === '2' || scope.row.State === '4'">
 							{{ scope.row.State === '2'?'学院审核不通过':'后勤审核不通过' }}
@@ -45,7 +45,7 @@
 							待审核
 						</a-tag>
 					</template>
-				</el-table-column>
+				</el-table-column> -->
 				<!-- <el-table-column label="操作" width="88" fixed="right">
 					<template slot-scope="scope">
 						<a-popover title="审批" v-if="scope.row.State === '1'">
