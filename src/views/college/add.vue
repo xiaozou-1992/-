@@ -8,8 +8,7 @@
       <div class="main" id="new_message">
         <a-form-model ref="ruleForm" :model="form" :rules="rules">
           <a-form-model-item label="部门" prop="id">
-            <a-select placeholder="请输入部门" showSearch v-model="form.id" optionFilterProp="children" @search="fetchDepart"
-                      :filterOption="filterOption"
+            <a-select placeholder="请输入部门" showSearch v-model="form.id" optionFilterProp="children" :filterOption="filterOption"
             >
               <a-spin v-if="fetching" slot="notFoundContent" size="small" />
               <a-select-option v-for="(item, index) in departList" :key="item.ID">{{ item.Name }}</a-select-option>
@@ -81,7 +80,7 @@
 			}
 		},
 		created() {
-
+			this.fetchDepart()
 		},
 		methods: {
 			filterOption(input, option) {
@@ -107,13 +106,11 @@
 			},
 			async fetchDepart(value) {
 				this.fetching = true
-				if (value) {
-					let data = {}
-					data.name = value
-					let res = await GetDepartAllList(data)
-					this.fetching = false
-					this.departList = res.data.data || []
-				}
+				let data = {}
+				data.name = value || ''
+				let res = await GetDepartAllList(data)
+				this.fetching = false
+				this.departList = res.data.data || []
 			},
 			handleSubmit(e) {
 				this.$refs.ruleForm.validate(async valid => {

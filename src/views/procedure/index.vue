@@ -1,7 +1,7 @@
 <template>
 	<div class="content">
 		<div class="h2">所有申请记录</div>
-		<a-tabs default-active-key="1" @change="tabChange">
+		<a-tabs default-active-key="1">
 			<a-tab-pane key="1" tab="学院审核通过">
 				<page1 ref="page1"></page1>
 			</a-tab-pane>

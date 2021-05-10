@@ -140,18 +140,6 @@
 		mounted() {},
 		methods: {
 			moment,
-			handleOpenChange(status) {
-				this.yearPickShow = status
-			},
-			handlePanelChange(value, mode) {
-				this.gradeYear = moment(value).format('YYYY')
-				this.yearPickShow = false
-			},
-			yearChange(date, dateString) {
-				if (!date) {
-					this.gradeYear = null
-				}
-			},
 			handleSearch(e) {
 				e.preventDefault()
 				this.form.validateFields((error, values) => {
