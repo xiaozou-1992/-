@@ -18,7 +18,7 @@
             <a-form-item label="所属部门">
               <a-form-model-item label="">
                 <a-select placeholder="请输入所属部门" v-decorator="['departID']" showSearch optionFilterProp="children"
-                          @search="fetchDepart" :filterOption="filterOption"
+                          :filterOption="filterOption"
                 >
                   <a-spin v-if="fetching" slot="notFoundContent" size="small" />
                   <a-select-option v-for="(item, index) in departList" :key="item.ID">{{ item.Name }}</a-select-option>
@@ -118,6 +118,7 @@ export default {
 	computed: {},
 	created() {
 		this.getList()
+		this.fetchDepart()
 	},
 	mounted() {},
 	methods: {
@@ -125,14 +126,8 @@ export default {
 			return option.componentOptions.children[0].text.toLowerCase().indexOf(input.toLowerCase()) >= 0
 		},
 		async fetchDepart(value) {
-			this.fetching = true
-			if (value) {
-				let data = {}
-				data.name = value
-				let res = await GetDepartAllList(data)
-				this.fetching = false
-				this.departList = res.data.data || []
-			}
+			let res = await GetDepartAllList({name:''})
+			this.departList = res.data.data || []
 		},
 		handleSearch(e) {
 			e.preventDefault()

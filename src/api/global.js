@@ -1,4 +1,4 @@
-const requestUrl = 'http://192.168.2.107:8034/'
+const requestUrl = 'http://192.168.2.112:8034/'
 const pageSizeOptions = ["10", "50", "100"]
 const pageSize = 10
 const ChannelList = [{
