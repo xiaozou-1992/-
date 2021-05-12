@@ -1,20 +1,7 @@
 const requestUrl = 'http://192.168.2.112:8034/'
 const pageSizeOptions = ["10", "50", "100"]
 const pageSize = 10
-const ChannelList = [{
-		ID: 1,
-		Name: '团购'
-	},
-	{
-		ID: 2,
-		Name: '餐饮',
-		Label: '可选填其他费用项'
-	},
-	{
-		ID: 3,
-		Name: '流通'
-	}
-]
+const JCList = [1,10]
 const outStorageTypeList = [{
 		ID: 1,
 		label: "正常入库"
@@ -73,7 +60,7 @@ const fileTypeList = [{
 export default {
 	pageSizeOptions,
 	pageSize,
-	ChannelList,
+	JCList,
 	outStorageTypeList,
 	collectionlist,
 	TeacherTypeList,

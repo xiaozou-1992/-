@@ -127,8 +127,8 @@
 				buildingList: [],
 				classroomList: [],
 				typeList: [{Name: '教室', ID: 'classroom'}, {Name: '楼宇', ID: 'building'}],
-				JCMin: 1,
-				JCMax: 12
+				JCMin: this.global.JCList[0],
+				JCMax: this.global.JCList[1]
 			}
 		},
 		computed: {},

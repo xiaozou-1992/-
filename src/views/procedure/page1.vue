@@ -120,8 +120,8 @@
 				worklist: [],
 				loading: false,
 				values: {},
-				JCMin: 1,
-				JCMax: 12,
+				JCMin: this.global.JCList[0],
+				JCMax: this.global.JCList[1],
 				pages: {
 					pageIndex: 1,
 					pageSize: 20
