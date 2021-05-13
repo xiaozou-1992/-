@@ -40,7 +40,7 @@ export default {
 			} else {
 				let that = this
 				this.form = text
-				that.form.Authority = that.form.Authority.replace(/"/g, '').replace('[', '').replace(']', '')
+				that.form.Authority = that.form.Authority.substring(1, that.form.Authority.length - 1).replace(/"/g, '')
 				that.treeValue = that.form.Authority.split(',')
 			}
 		}
