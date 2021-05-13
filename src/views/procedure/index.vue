@@ -1,26 +1,26 @@
 <template>
-	<div class="content">
-		<div class="h2">所有申请记录</div>
-		<a-tabs default-active-key="1">
-			<a-tab-pane key="1" tab="学院审核通过">
-				<page1 ref="page1"></page1>
-			</a-tab-pane>
-			<a-tab-pane key="3" tab="后勤审核通过">
-				<page2 ref="page2"></page2>
-			</a-tab-pane>
-			<a-tab-pane key="4" tab="后勤审核不通过">
-				<page3 ref="page3"></page3>
-			</a-tab-pane>
-		</a-tabs>
+  <div class="content">
+    <div class="h2">后勤审批管理</div>
+    <a-tabs default-active-key="1">
+      <a-tab-pane key="1" tab="待审核">
+        <page1 ref="page1"></page1>
+      </a-tab-pane>
+      <a-tab-pane key="3" tab="已审核">
+        <page2 ref="page2"></page2>
+      </a-tab-pane>
+      <!-- <a-tab-pane key="4" tab="后勤审核不通过">
+        <page3 ref="page3"></page3>
+      </a-tab-pane> -->
+    </a-tabs>
 
-	</div>
+  </div>
 </template>
 
 <script>
 	import moment from 'moment'
-	import page1 from './page1.vue';
-	import page2 from './page2.vue';
-	import page3 from './page3.vue';
+	import page1 from './page1.vue'
+	import page2 from './page2.vue'
+	import page3 from './page3.vue'
 	import {
 		GetForbbidenBorCPageList,
 		DoDeleteForbbidenBorC,

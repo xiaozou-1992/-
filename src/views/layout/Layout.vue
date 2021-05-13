@@ -102,12 +102,12 @@
 						id: 6
 					}, {
 						title: '后勤审批管理',
-						path: 'logistics',
+						path: 'procedure',
 						type: 'safety-certificate',
 						id: 7
 					}, {
 						title: '所有申请记录',
-						path: 'procedure',
+						path: 'logistics',
 						type: 'check-circle',
 						id: 8
 					}, {

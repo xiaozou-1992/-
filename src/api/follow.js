@@ -325,6 +325,15 @@ export function GetAdminApplyPageList2(data = {}) {
 	})
 }
 
+// 获取后勤审批记录
+export function GetAdminApplyPageList4(data = {}) {
+	return fetch({
+		url: '/api/Admin/GetApplyPageList4',
+		method: 'POST',
+		data
+	})
+}
+
 // 后勤审核
 export function ReviewAdminApply2(data = {}) {
 	return fetch({
