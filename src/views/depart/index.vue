@@ -24,9 +24,7 @@
       <el-button type="success" size="small" icon="el-icon-check" @click="updataList">同步学生信息</el-button> -->
     </el-button-group>
     <div style="margin-top: 20px;">
-      <el-table :data="data" style="width: 100%;margin-bottom: 20px;" row-key="Code" border default-expand-all
-                :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
-      >
+      <el-table :data="data" style="width: 100%;margin-bottom: 20px;" border :max-height="tableHeight" highlight-current-row>
         <el-table-column prop="Name" label="部门名称" min-width="360"></el-table-column>
         <el-table-column prop="Code" label="编号" min-width="200">
           <template slot-scope="scope">
@@ -102,7 +100,7 @@ export default {
 				pageIndex: 1,
 				pageSize: 20
 			},
-			tableHeight: parseFloat(window.innerHeight - 160)
+			tableHeight: parseFloat(window.innerHeight - 480)
 		}
 	},
 	computed: {},

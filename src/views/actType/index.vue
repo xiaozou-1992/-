@@ -80,7 +80,7 @@ export default {
 				pageIndex: 1,
 				pageSize: 20
 			},
-			tableHeight: parseFloat(window.innerHeight - 160)
+			tableHeight: parseFloat(window.innerHeight - 480)
 		}
 	},
 	computed: {},

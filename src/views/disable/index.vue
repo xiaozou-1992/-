@@ -46,9 +46,7 @@
       <el-button type="primary" size="small" icon="el-icon-plus" @click="addList">新增</el-button>
     </el-button-group>
     <div style="margin-top: 20px;">
-      <el-table :data="data" style="width: 100%;margin-bottom: 20px;" row-key="Code" border default-expand-all
-                :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
-      >
+      <el-table :data="data" style="width: 100%;margin-bottom: 20px;" border :max-height="tableHeight" highlight-current-row>
         <el-table-column prop="Name" label="名称" min-width="120" show-overflow-tooltip></el-table-column>
         <el-table-column prop="Code" label="编号" min-width="120"></el-table-column>
         <el-table-column prop="AddTime" label="禁用类型" min-width="100">
@@ -123,7 +121,7 @@
 					pageIndex: 1,
 					pageSize: 20
 				},
-				tableHeight: parseFloat(window.innerHeight - 160),
+				tableHeight: parseFloat(window.innerHeight - 480),
 				buildingList: [],
 				classroomList: [],
 				typeList: [{Name: '教室', ID: 'classroom'}, {Name: '楼宇', ID: 'building'}],
