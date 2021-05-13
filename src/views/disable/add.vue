@@ -70,6 +70,8 @@
 					this.form.date = [moment(text.StartDate, 'YYYY-MM-DD'), moment(text.EndDate,
 						'YYYY-MM-DD')]
 					this.form.JC = [text.StartJC, text.EndJC]
+				}else{
+						this.form.JC = []
 				}
 			}
 		},
@@ -128,7 +130,7 @@
 				this.$emit('closeFun', data)
 				this.form = {}
 				this.form.BorC = 'building'
-				this.form.JC = []
+			
 			},
 			changeType() {
 				this.form.BIDorCID = ''

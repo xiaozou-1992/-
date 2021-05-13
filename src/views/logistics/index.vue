@@ -47,7 +47,7 @@
 							{{ scope.row.State === '2'?'学院审核不通过':'后勤审核不通过' }}
 						</a-tag>
 						<a-tag color="green" v-if="scope.row.State === '1' || scope.row.State === '3'">
-							{{ scope.row.State === '2'?'学院审核通过':'后勤审核通过' }}
+							{{ scope.row.State === '1'?'学院审核通过':'后勤审核通过' }}
 						</a-tag>
 						<a-tag color="blue" v-if="scope.row.State === '0'">
 							待审核
