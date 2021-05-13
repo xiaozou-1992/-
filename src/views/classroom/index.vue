@@ -157,7 +157,7 @@
 				let that = this
 				this.$confirm({
 					title: '提示',
-					content: `您确定同步所有楼宇吗？`,
+					content: `您确定同步所有教室吗？`,
 					okText: '确认',
 					cancelText: '取消',
 					async onOk() {
