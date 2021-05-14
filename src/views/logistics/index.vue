@@ -38,6 +38,7 @@
         <el-table-column prop="StudentName" label="申请人" min-width="120"></el-table-column>
         <el-table-column prop="Phone" label="手机号" min-width="120"></el-table-column>
         <el-table-column prop="ApplyTime" label="申请日期" min-width="168"></el-table-column>
+        <el-table-column prop="BackReviewContent" label="审批意见" min-width="200" show-overflow-tooltip></el-table-column>
         <el-table-column prop="IsEnable" label="节次" min-width="120">
           <template slot-scope="scope">
             {{ scope.row.StartJC }} ~ {{ scope.row.EndJC }} 节
@@ -73,37 +74,23 @@
       ></el-pagination>
     </div>
     <add :text="text" :DepartCodeList="DepartCodeList" :ClassList="ClassList" v-show="addIf" @closeFun="closeFun"></add>
-    <a-modal title="后勤审批审核" :visible="visible" @ok="handleOk" :confirmLoading="confirmLoading" @cancel="handleCancel">
-      <a-form :form="updateForm" :label-col="{ span: 5 }" :wrapper-col="{ span: 18 }">
-        <a-form-item label="审核">
-          <a-radio-group name="radioGroup" v-decorator="['State', { rules: [{ required: true, message: '请输入输入学生学号' }] }]">
-            <a-radio :value="'3'">
-              通过
-            </a-radio>
-            <a-radio :value="'4'">
-              不通过
-            </a-radio>
-          </a-radio-group>
-        </a-form-item>
-      </a-form>
-    </a-modal>
+    <examine :text="text" v-show="visible" @closeFun="closeFun"></examine>
   </div>
 </template>
 
 <script>
 	import add from '../../components/examine/index.vue'
+	import examine from '../../components/examine/examine.vue'
 	import moment from 'moment'
 	import {
 		GetAdminApplyPageList2,
-		DeleteStudent,
-		ReviewAdminApply2,
-		GetClassList,
-		CoreUpdateStudent
+		DeleteStudent
 	} from '@/api/follow'
 	const data = []
 	export default {
 		components: {
-			add
+			add,
+			examine
 		},
 		data() {
 			return {
@@ -232,32 +219,8 @@
 				this.addIf = !this.addIf
 			},
 			examine(text) {
-				console.log(text)
-				this.examineID = text.ID
+				this.text = text
 				this.visible = true
-			},
-			async importData() {
-				// let res = await uploadFun(data)
-				// this.$message.success(res.data.msg)
-			},
-			async handleOk(e) {
-				e.preventDefault()
-				this.updateForm.validateFields(async (err, values) => {
-					if (!err) {
-						this.confirmLoading = true
-						let data = {}
-						data = values
-						data.ID = this.examineID
-						let res = await ReviewAdminApply2(data)
-						if (res.data.code === 0) {
-							this.$message.success(res.data.msg)
-						} else {
-							this.$message.error(res.data.msg)
-						}
-						this.visible = false
-						this.confirmLoading = false
-					}
-				})
 			},
 			handleCancel(e) {
 				this.visible = false

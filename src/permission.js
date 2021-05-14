@@ -5,7 +5,9 @@ import Cache from '@/utils/cache'
 import moment from 'moment';
 router.beforeEach((to, from, next) => {
 	if (store.state.token == null) {
+		console.log(1)
 		store.dispatch('getUserInfo').then(() => {
+			console.log(3)
 			// next({path: '/'})
 			next()
 		}).catch(function() {
