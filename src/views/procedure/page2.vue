@@ -280,9 +280,9 @@
 	.content {
 		min-height: 100%;
 		padding: 15px 0;
-		margin-left: 20px;
 		background: #fff;
 		overflow-y: hidden;
+		margin-left: 0 !important;
 	}
 
 	.btn1 {
