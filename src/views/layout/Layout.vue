@@ -197,7 +197,6 @@
 				// 	name: 'register'
 				// });
 				window.location.href = 'http://i.aufe.edu.cn/portal_main/toPortalPage'
-				// window.location.href="http://api.jlb.ac.acxk.net/User/Index/CoreLogin"
 			},
 			async _getTokenToUser() {
 				let res = await getTokenToUser()

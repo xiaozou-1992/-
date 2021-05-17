@@ -37,15 +37,14 @@
           </a-form-model-item>
           <a-form-model-item label="教学楼" prop="BuildingID">
             <a-select v-model="form.BuildingID" style="width:100%" @change="getAllClassRoomList">
-              <a-select-option v-for="(item, index) in buildingList" :key="index" :value="item.ID">{{ item.Name }}</a-select-option>
+              <a-select-option v-for="(item, index) in buildingList1" :key="index" :value="item.ID">{{ item.Name }}</a-select-option>
             </a-select>
           </a-form-model-item>
           <a-form-model-item label="教室" prop="ClassID" v-if="form.BorC === 'classroom'" >
             <a-select v-model="form.ClassID" style="width:100%">
-              <a-select-option v-for="(item, index) in classroomList" :key="index" :value="item.ID">{{ item.Name }}</a-select-option>
+              <a-select-option v-for="(item, index) in classroomList1" :key="index" :value="item.ID">{{ item.Name }}</a-select-option>
             </a-select>
           </a-form-model-item>
-
           <a-form-model-item label="日期" prop="date">
             <a-range-picker style="width: 100%;" v-model="form.date" @change="meetingTime" />
           </a-form-model-item>
@@ -78,8 +77,7 @@
 	export default {
 		props: {
 			text: Object,
-			buildingList: Array,
-			classroomList: Array
+			buildingList: Array
 		},
 		watch: {
 			text: function(text) {
@@ -107,8 +105,8 @@
 				JCMin: this.global.JCList[0],
 				JCMax: this.global.JCList[1],
 				schoolList: [],
-				buildingList: [],
-				classroomList: [],
+				classroomList1: [],
+				buildingList1:[],
 				form: {
 					BorC: 'building',
 					BIDorCID: '',
@@ -167,6 +165,9 @@
 				}
 			}
 		},
+		created(){
+			this.getAllSchoolList()
+		},
 		methods: {
 			moment,
 			filterOption(input, option) {
@@ -181,7 +182,6 @@
 				this.form.BIDorCID = ''
 			},
 			meetingTime(e) {
-				console.log(e)
 				this.form.StartDate = moment(e[0]._d).format('YYYY-MM-DD')
 				this.form.EndDate = moment(e[1]._d).format('YYYY-MM-DD')
 			},
@@ -191,11 +191,11 @@
 			},
 			async getAllBuildingList(e) {
 				let res = await GetAllBuildingList({xqID: e})
-				this.buildingList = res.data.data
+				this.buildingList1 = res.data.data
 			},
 			async getAllClassRoomList(e) {
 				let res = await GetAllClassRoomList({buildingID: e})
-				this.classroomList = res.data.data
+				this.classroomList1 = res.data.data
 			},
 			handleSubmit(e) {
 				this.$refs.ruleForm.validate(async valid => {
