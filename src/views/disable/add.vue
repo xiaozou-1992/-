@@ -10,7 +10,7 @@
           <a-form-model-item label="禁用类型" prop="BorC">
             <a-radio-group name="radioGroup" v-model="form.BorC" @change="changeType">
               <a-radio :value="'building'">
-                楼宇
+                教学楼
               </a-radio>
               <a-radio :value="'classroom'">
                 教室
@@ -81,7 +81,6 @@
 		},
 		watch: {
 			text: function(text) {
-				console.log(text)
 				if (text.ID) {
 					this.form.BorC = text.BorC
 					this.form.ID = text.ID
@@ -129,7 +128,7 @@
 					}],
 					BIDorCID: [{
 						required: true,
-						message: '请选择教室/楼宇',
+						message: '请选择教室/教学楼',
 						trigger: 'change'
 					}],
 					Remarks: [{

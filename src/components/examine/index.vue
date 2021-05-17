@@ -88,7 +88,7 @@
 					}],
 					SchoolID: [{
 						required: true,
-						message: '请选择楼宇',
+						message: '请选择教学楼',
 						trigger: 'change'
 					}],
 					date: [{
