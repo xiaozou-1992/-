@@ -4,7 +4,37 @@
       <a-form class="ant-advanced-search-form home-form" :form="form" @submit="handleSearch">
         <a-row :gutter="24">
           <a-col :span="8">
-            <a-form-item label="日期">
+            <a-form-item label="人员">
+              <a-input class="field-right" placeholder="请输入人员名称" v-decorator="[`name`]" />
+            </a-form-item>
+          </a-col>
+          <a-col :span="8">
+            <a-form-item label="校区">
+              <a-select :allowClear="true" v-decorator="['schoolID']" placeholder="请选择校区" optionFilterProp="children" showSearch
+                        @change="getAllBuildingList"
+              >
+                <a-select-option v-for="(item, index) in schoolList" :key="index" :value="item.ID">{{ item.XQM }}</a-select-option>
+              </a-select>
+            </a-form-item>
+          </a-col>
+          <a-col :span="8">
+            <a-form-item label="教学楼">
+              <a-select :allowClear="true" v-decorator="['buildingID']" placeholder="请选择教学楼" optionFilterProp="children" showSearch
+                        @change="getAllClassRoomList"
+              >
+                <a-select-option v-for="(item, index) in buildingList" :key="index" :value="item.ID">{{ item.Name }}</a-select-option>
+              </a-select>
+            </a-form-item>
+          </a-col>
+          <a-col :span="8">
+            <a-form-item label="教室">
+              <a-select :allowClear="true" v-decorator="['classID']" placeholder="请选择教室" optionFilterProp="children" showSearch>
+                <a-select-option v-for="(item, index) in classroomList" :key="index" :value="item.ID">{{ item.Name }}</a-select-option>
+              </a-select>
+            </a-form-item>
+          </a-col>
+          <a-col :span="8">
+            <a-form-item label="申请日期">
               <a-range-picker style="width: 100%;" v-decorator="[`date`]" />
             </a-form-item>
           </a-col>
@@ -65,7 +95,7 @@
                      :total="pagination.total"
       ></el-pagination>
     </div>
-    <add :text="text" :DepartCodeList="DepartCodeList" :ClassList="ClassList" v-show="addIf" @closeFun="closeFun"></add>
+    <add :text="text" :schoolList="schoolList" v-show="addIf" @closeFun="closeFun"></add>
     <examine :text="text" v-show="visible" @closeFun="closeFun"></examine>
   </div>
 </template>
@@ -76,7 +106,10 @@
 	import moment from 'moment'
 	import {
 		GetAdminApplyPageList2,
-		DeleteStudent
+		DeleteStudent,
+		GetAllSchoolList,
+		GetAllBuildingList,
+		GetAllClassRoomList
 	} from '@/api/follow'
 	const data = []
 	export default {
@@ -120,12 +153,16 @@
 				ClassList: [],
 				DepartCodeList: [],
 				layoutHeight: window.innerHeight - 460 + 'px',
-				examineID: ''
+				examineID: '',
+				buildingList: [],
+				classroomList: [],
+				schoolList: []
 			}
 		},
 		computed: {},
 		created() {
 			this.getList()
+			this.getAllSchoolList()
 		},
 		mounted() {},
 		methods: {
@@ -162,6 +199,18 @@
 				this.pagination.currentPage = val
 				this.$refs.tableForm.bodyWrapper.scrollTop = 0
 				this.getList()
+			},
+			async getAllSchoolList() {
+				let res = await GetAllSchoolList()
+				this.schoolList = res.data.data
+			},
+			async getAllBuildingList(e) {
+				let res = await GetAllBuildingList({xqID: e})
+				this.buildingList = res.data.data
+			},
+			async getAllClassRoomList(e) {
+				let res = await GetAllClassRoomList({buildingID: e})
+				this.classroomList = res.data.data
 			},
 			async getList() {
 				this.loading = true

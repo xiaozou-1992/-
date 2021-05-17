@@ -17,12 +17,12 @@
               </a-radio>
             </a-radio-group>
           </a-form-model-item>
-          <a-form-model-item label="内容" prop="BackReviewContent" v-if="form.State === '4'">
+          <a-form-model-item label="内容" v-if="form.State === '3'">
             <a-input v-model="form.BackReviewContent" type="textarea" />
           </a-form-model-item>
-          <a-form-model-item label="内容" v-else>
-            <a-input v-model="form.BackReviewContent" type="textarea" />
-          </a-form-model-item>
+					<a-form-model-item label="内容" prop="BackReviewContent" v-else>
+					  <a-input v-model="form.BackReviewContent" type="textarea" />
+					</a-form-model-item>
           <a-form-model-item label="" class="fixed-bottom">
             <a-button type="primary" @click="handleSubmit">{{ JSON.stringify(text) == '{}' ? '确认添加' : '确认修改' }}</a-button>
             <a-button style="margin-left: 10px;" @click="closeFunction">取消</a-button>
@@ -68,7 +68,7 @@
 					BackReviewContent: [{
 						required: true,
 						message: '请输入审核内容',
-						trigger: 'change'
+						trigger: 'blur'
 					}]
 				}
 			}
@@ -82,6 +82,10 @@
 				this.form = {}
 			},
 			handleSubmit(e) {
+				if(this.form.State === '4' && !this.form.BackReviewContent){
+					this.$message.error('审核内容不能为空！')
+					return false
+				}
 				this.$refs.ruleForm.validate(async valid => {
 					if (valid) {
 						let data = this.form

@@ -45,7 +45,7 @@
         <el-table-column prop="Sfzh" label="身份证后六位" min-width="130"></el-table-column>
         <el-table-column prop="DepartName" label="所属部门" min-width="160" show-overflow-tooltip></el-table-column>
         <el-table-column prop="Phone" label="电话" min-width="130"></el-table-column>
-        <el-table-column prop="CreateTime" label="添加时间" min-width="168"></el-table-column>
+        <!-- <el-table-column prop="CreateTime" label="添加时间" min-width="168"></el-table-column> -->
         <el-table-column label="操作" width="88" fixed="right">
           <template slot-scope="scope">
             <a-popover title="分配角色">

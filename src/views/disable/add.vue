@@ -17,19 +17,6 @@
               </a-radio>
             </a-radio-group>
           </a-form-model-item>
-          <!-- <a-form-model-item label="楼宇" prop="BIDorCID" v-if="form.BorC === 'building'">
-            <a-select v-model="form.BIDorCID" style="width:100%" showSearch optionFilterProp="children" :filterOption="filterOption">
-              <a-select-option v-for="(item, index) in buildingList" :key="index" :value="item.ID">{{ item.Name }}</a-select-option>
-            </a-select>
-          </a-form-model-item>
-          <a-form-model-item label="教室" prop="BIDorCID" showSearch optionFilterProp="children"
-                             :filterOption="filterOption"
-          >
-            <a-select v-model="form.BIDorCID" style="width:100%">
-              <a-select-option v-for="(item, index) in classroomList" :key="index" :value="item.ID">{{ item.Name }}</a-select-option>
-            </a-select>
-          </a-form-model-item> -->
-
           <a-form-model-item label="校区" prop="SchoolID">
             <a-select v-model="form.SchoolID" style="width:100%" @change="getAllBuildingList">
               <a-select-option v-for="(item, index) in schoolList" :key="index" :value="item.ID">{{ item.XQM }}</a-select-option>
@@ -181,9 +168,9 @@
 			},
 			async getDetail(ID){
 				let res = await GetForbbidenBorCDetail({ID:ID})
+				this.getAllBuildingList(res.data.data.SchoolID)
+				this.getAllClassRoomList(res.data.data.BuildingID)
 				let text = res.data.data
-				this.getAllBuildingList(text.xqID)
-				this.getAllClassRoomList(text.buildingID)
 				this.form = text
 				this.form.date = [moment(text.StartDate, 'YYYY-MM-DD'), moment(text.EndDate,
 					'YYYY-MM-DD')]
@@ -191,16 +178,15 @@
 			},
 			async getAllSchoolList() {
 				let res = await GetAllSchoolList()
+				this.form.BuildingID = ''
 				this.schoolList = res.data.data
 			},
 			async getAllBuildingList(e) {
 				let res = await GetAllBuildingList({xqID: e})
-				this.form.BuildingID = ''
 				this.buildingList1 = res.data.data
 			},
 			async getAllClassRoomList(e) {
 				let res = await GetAllClassRoomList({buildingID: e})
-				this.form.ClassID = ''
 				this.classroomList1 = res.data.data
 			},
 			handleSubmit(e) {

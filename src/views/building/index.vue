@@ -41,20 +41,7 @@
         <el-table-column prop="Name" label="名称" min-width="140"></el-table-column>
         <el-table-column prop="Code" label="编号" min-width="120"></el-table-column>
         <el-table-column prop="BZ" label="备注" min-width="200" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="CreateTime" label="创建时间" min-width="168"></el-table-column>
-        <!-- <el-table-column label="操作" width="110" fixed="right">
-          <template slot-scope="scope">
-            <a-popover title="修改">
-              <i class="el-font el-icon-edit-outline" style="color: #1890FF;" @click="modifyList(scope.row, 'modify')"></i>
-            </a-popover>
-            <a-popover title="删除">
-              <i class="el-font el-icon-delete" style="color: red;" @click="deleteList(scope.row)"></i>
-            </a-popover>
-            <a-popover title="禁用">
-              <i class="el-font el-icon-switch-button" style="color: #909399" @click="deleteList(scope.row)"></i>
-            </a-popover>
-          </template>
-        </el-table-column> -->
+        <el-table-column prop="CreateTime" label="同步时间" min-width="168"></el-table-column>
       </el-table>
       <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="pagination.currentPage"
                      :page-sizes="pagination.pageSizeOptions" :page-size="pagination.pageSize" layout="total, sizes, prev, pager, next, jumper"

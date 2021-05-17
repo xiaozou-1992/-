@@ -2,33 +2,33 @@
   <div class="aid">
     <div class="base">
       <p class="fixed-top">
-        修改后勤审批
+        {{ detail?'审批详情':'修改后勤审批' }}
         <a-icon @click="closeFunction" :style="{ fontSize: '20px',float: 'right', margin: '10px' }" type="close-circle" />
       </p>
       <div class="main" id="new_message">
         <a-form-model ref="ruleForm" :model="form" :rules="rules">
           <a-form-model-item label="校区" prop="SchoolID">
-            <a-select v-model="form.SchoolID" style="width:100%" @change="getAllBuildingList">
+            <a-select v-model="form.SchoolID" style="width:100%" @change="getAllBuildingList" :disabled="detail">
               <a-select-option v-for="(item, index) in schoolList" :key="index" :value="item.ID">{{ item.XQM }}</a-select-option>
             </a-select>
           </a-form-model-item>
           <a-form-model-item label="教学楼" prop="BuildingID">
-            <a-select v-model="form.BuildingID" style="width:100%" @change="getAllClassRoomList">
+            <a-select v-model="form.BuildingID" style="width:100%" @change="getAllClassRoomList" :disabled="detail">
               <a-select-option v-for="(item, index) in buildingList" :key="index" :value="item.ID">{{ item.Name }}</a-select-option>
             </a-select>
           </a-form-model-item>
           <a-form-model-item label="教室" prop="ClassID">
-            <a-select v-model="form.ClassID" style="width:100%">
+            <a-select v-model="form.ClassID" style="width:100%" :disabled="detail">
               <a-select-option v-for="(item, index) in classroomList" :key="index" :value="item.ID">{{ item.Name }}</a-select-option>
             </a-select>
           </a-form-model-item>
           <a-form-model-item label="日期" prop="date">
-            <a-date-picker style="width: 100%;" v-model="form.date"/>
+            <a-date-picker style="width: 100%;" v-model="form.date" :disabled="detail"/>
           </a-form-model-item>
           <a-form-model-item label="节次" prop="JC">
-            <a-slider range v-model="form.JC" :min="JCMin" :max="JCMax" />
+            <a-slider range v-model="form.JC" :min="JCMin" :max="JCMax" :disabled="detail"/>
           </a-form-model-item>
-          <a-form-model-item label="" class="fixed-bottom">
+          <a-form-model-item label="" class="fixed-bottom" v-if="!detail">
             <a-button type="primary" @click="handleSubmit">{{ JSON.stringify(text) == '{}' ? '确认添加' : '确认修改' }}</a-button>
             <a-button style="margin-left: 10px;" @click="closeFunction">取消</a-button>
           </a-form-model-item>
@@ -43,14 +43,15 @@
 	import moment from 'moment'
 	import {
 		DoUpdateAdmin,
-		GetAllSchoolList,
 		GetAllBuildingList,
 		GetAllClassRoomList,
 		GetAdminDetail
 	} from '@/api/follow'
 	export default {
 		props: {
-			text: Object
+			text: Object,
+			schoolList: Array,
+			detail: Boolean
 		},
 		watch: {
 			text: function(text) {
@@ -66,7 +67,6 @@
 					name: 'coordinated'
 				}),
 				DepartmenDropdowntList: [],
-				schoolList: [],
 				buildingList: [],
 				classroomList: [],
 				JCMin: this.global.JCList[0],
@@ -105,7 +105,6 @@
 			}
 		},
 		created() {
-			this.getAllSchoolList()
 		},
 		methods: {
 			moment,
@@ -125,10 +124,6 @@
 				this.form.BuildingID = text.BuildingID
 				this.getAllClassRoomList(text.BuildingID)
 				this.form.ClassID = text.ClassID
-			},
-			async getAllSchoolList() {
-				let res = await GetAllSchoolList()
-				this.schoolList = res.data.data
 			},
 			async getAllBuildingList(e) {
 				let res = await GetAllBuildingList({xqID: e})
