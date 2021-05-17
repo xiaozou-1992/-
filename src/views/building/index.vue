@@ -42,17 +42,26 @@
         <el-table-column prop="SchoolName" label="校区" min-width="140"></el-table-column>
         <el-table-column prop="Code" label="编号" min-width="120"></el-table-column>
         <el-table-column prop="CreateTime" label="同步时间" min-width="168"></el-table-column>
+				<el-table-column label="操作" width="62" fixed="right">
+				  <template slot-scope="scope">
+				    <a-popover title="禁用">
+				      <i class="el-font el-icon-remove-outline" style="color: #F56C6C;" @click="disableList(scope.row)"></i>
+				    </a-popover>
+				  </template>
+				</el-table-column>
       </el-table>
       <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="pagination.currentPage"
                      :page-sizes="pagination.pageSizeOptions" :page-size="pagination.pageSize" layout="total, sizes, prev, pager, next, jumper"
                      :total="pagination.total"
       ></el-pagination>
     </div>
+		<add :text="text" v-show="addIf" :BorCType="'building'" @closeFun="closeFun"></add>
   </div>
 </template>
 
 <script>
 	import moment from 'moment'
+	import add from '../../components/disable/index.vue'
 	import {
 		GetBuildingPageList,
 		SynchronizationBuilding,
@@ -61,7 +70,7 @@
 	const data = []
 	export default {
 		components: {
-
+			add
 		},
 		data() {
 			return {
@@ -86,7 +95,9 @@
 				},
 				tableHeight: parseFloat(window.innerHeight - 480),
 				layoutHeight: window.innerHeight - 460 + 'px',
-				schoolList: []
+				schoolList: [],
+				addIf:false,
+				text:{}
 			}
 		},
 		computed: {},
@@ -139,9 +150,15 @@
 				pagination.total = res.data.totalCount
 				this.pagination = pagination
 			},
-			async importData() {
-				// let res = await uploadFun(data)
-				// this.$message.success(res.data.msg)
+			disableList(text){
+				this.text = text
+				this.addIf = true
+			},
+			closeFun(type) {
+				this.addIf = false
+				if (type === '1') {
+					this.getList()
+				}
 			},
 			synchroAll() {
 				let that = this

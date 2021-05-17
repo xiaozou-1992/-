@@ -62,6 +62,12 @@
       <el-table ref="tableForm" :data="data" v-loading="loading" border :max-height="tableHeight" highlight-current-row
                 style="width: 100%;"
       >
+			  <el-table-column prop="IsEnable" label="状态" min-width="150">
+			    <template slot-scope="scope">
+			      <a-tag color="red" v-if="scope.row.State === '4'">后勤审核不通过</a-tag>
+			      <a-tag color="green" v-if="scope.row.State === '3'">后勤审核通过</a-tag>
+			    </template>
+			  </el-table-column>
         <el-table-column prop="ActName" label="活动类型" min-width="100"></el-table-column>
         <el-table-column prop="ActContent" label="活动内容" min-width="200" show-overflow-tooltip></el-table-column>
         <el-table-column prop="Unity" label="举办单位" min-width="120"></el-table-column>
@@ -74,29 +80,20 @@
             {{ scope.row.StartJC }} ~ {{ scope.row.EndJC }} 节
           </template>
         </el-table-column>
-        <el-table-column prop="IsEnable" label="状态" min-width="150">
-          <template slot-scope="scope">
-            <a-tag color="red" v-if="scope.row.State === '4'">后勤审核不通过</a-tag>
-            <a-tag color="green" v-if="scope.row.State === '3'">后勤审核通过</a-tag>
-          </template>
-        </el-table-column>
-        <!-- <el-table-column label="操作" width="88" fixed="right">
-					<template slot-scope="scope">
-						<a-popover title="审批" v-if="scope.row.State === '1'">
-							<i class="el-font el-icon-coordinate" style="color: #E6A23C;" @click="examine(scope.row)"></i>
-						</a-popover>
-						<a-popover title="修改">
-							<i class="el-font el-icon-edit-outline" style="color: #1890FF;" @click="modifyList(scope.row, 'modify')"></i>
-						</a-popover>
-					</template>
-				</el-table-column> -->
+       <el-table-column label="操作" width="62" fixed="right">
+         <template slot-scope="scope">
+           <a-popover title="详情">
+             <i class="el-font el-icon-view" style="color: #67C23A;" @click="modifyList(scope.row, 'modify')"></i>
+           </a-popover>
+         </template>
+       </el-table-column>
       </el-table>
       <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="pagination.currentPage"
                      :page-sizes="pagination.pageSizeOptions" :page-size="pagination.pageSize" layout="total, sizes, prev, pager, next, jumper"
                      :total="pagination.total"
       ></el-pagination>
     </div>
-    <add :text="text" :schoolList="schoolList" v-show="addIf" @closeFun="closeFun"></add>
+		<add :text="text" :detail="true" :nowTime="nowTime" :schoolList="schoolList" v-show="addIf" @closeFun="closeFun"></add>
   </div>
 </template>
 
@@ -140,6 +137,7 @@
 				itemId: '',
 				gradeYear: null,
 				yearPickShow: false,
+				nowTime:'',
 				departmentList: [],
 				worklist: [],
 				loading: false,
@@ -256,6 +254,7 @@
 				text = Object.assign(text, {
 					time: new Date()
 				})
+				this.nowTime = moment(new Date()).format('YYYY/MM/DD HH:mm:ss')
 				this.addIf = !this.addIf
 				this.text = text
 			},

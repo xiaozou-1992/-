@@ -2,33 +2,21 @@
   <div class="aid">
     <div class="base">
       <p class="fixed-top">
-        {{ detail?'审批详情':'修改后勤审批' }}
+       添加禁用时段
         <a-icon @click="closeFunction" :style="{ fontSize: '20px',float: 'right', margin: '10px' }" type="close-circle" />
       </p>
       <div class="main" id="new_message">
         <a-form-model ref="ruleForm" :model="form" :rules="rules">
-          <a-form-model-item label="校区" prop="SchoolID">
-            <a-select v-model="form.SchoolID" style="width:100%" @change="getAllBuildingList" :disabled="detail">
-              <a-select-option v-for="(item, index) in schoolList" :key="index" :value="item.ID">{{ item.XQM }}</a-select-option>
-            </a-select>
-          </a-form-model-item>
-          <a-form-model-item label="教学楼" prop="BuildingID">
-            <a-select v-model="form.BuildingID" style="width:100%" @change="getAllClassRoomList" :disabled="detail">
-              <a-select-option v-for="(item, index) in buildingList" :key="index" :value="item.ID">{{ item.Name }}</a-select-option>
-            </a-select>
-          </a-form-model-item>
-          <a-form-model-item label="教室" prop="ClassID">
-            <a-select v-model="form.ClassID" style="width:100%" :disabled="detail">
-              <a-select-option v-for="(item, index) in classroomList" :key="index" :value="item.ID">{{ item.Name }}</a-select-option>
-            </a-select>
-          </a-form-model-item>
           <a-form-model-item label="日期" prop="date">
-            <a-date-picker style="width: 100%;" v-model="form.date" :disabled="detail"/>
+            <a-range-picker style="width: 100%;" v-model="form.date" @change="meetingTime" />
           </a-form-model-item>
           <a-form-model-item label="节次" prop="JC">
-            <a-slider range v-model="form.JC" :min="JCMin" :max="JCMax" :disabled="detail"/>
+            <a-slider range v-model="form.JC" :min="JCMin" :max="JCMax" />
           </a-form-model-item>
-          <a-form-model-item label="" class="fixed-bottom" v-if="!detail">
+          <a-form-model-item label="备注" prop="Remarks">
+            <a-input v-model="form.Remarks" type="textarea" />
+          </a-form-model-item>
+          <a-form-model-item label="" class="fixed-bottom">
             <a-button type="primary" @click="handleSubmit">{{ JSON.stringify(text) == '{}' ? '确认添加' : '确认修改' }}</a-button>
             <a-button style="margin-left: 10px;" @click="closeFunction">取消</a-button>
           </a-form-model-item>
@@ -42,22 +30,21 @@
 <script>
 	import moment from 'moment'
 	import {
-		DoUpdateAdmin,
-		GetAllBuildingList,
-		GetAllClassRoomList,
-		GetAdminDetail
+		DoAddForbbidenBorC,
+		DoUpdateForbbidenBorC
 	} from '@/api/follow'
 	export default {
 		props: {
 			text: Object,
-			schoolList: Array,
-			detail: Boolean,
-			nowTime: String
+			BorCType:String
 		},
 		watch: {
-			nowTime: function(text) {
-				if (this.text.ID) {
-					this.getDetail(this.text.ID)
+			text: function(text) {
+				console.log(this.BorCType)
+				if (text.ID) {
+					// this.getDetail(text.ID)
+				} else {
+					this.form.JC = [1, 1]
 				}
 			}
 		},
@@ -68,28 +55,23 @@
 					name: 'coordinated'
 				}),
 				DepartmenDropdowntList: [],
-				buildingList: [],
-				classroomList: [],
 				JCMin: this.global.JCList[0],
 				JCMax: this.global.JCList[1],
 				form: {
-					date: '',
-					JC: [],
+					BorC: '',
+					BIDorCID: '',
+					Remarks: '',
+					date: [],
+					JC: [1, 1],
+					StartDate: '',
+					EndDate: '',
 					StartJC: [],
 					EndJC: [],
-					SchoolID: '',
-					BuildingID: '',
-					ClassID: ''
 				},
 				rules: {
-					ClassID: [{
+					Remarks: [{
 						required: true,
-						message: '请选择班级',
-						trigger: 'change'
-					}],
-					SchoolID: [{
-						required: true,
-						message: '请选择教学楼',
+						message: '请输入备注',
 						trigger: 'change'
 					}],
 					date: [{
@@ -97,7 +79,7 @@
 						message: '请选择日期',
 						trigger: 'change'
 					}],
-					BuildingID: [{
+					JC: [{
 						required: true,
 						message: '请选择节次',
 						trigger: 'change'
@@ -109,43 +91,32 @@
 		},
 		methods: {
 			moment,
+			filterOption(input, option) {
+				return option.componentOptions.children[0].text.toLowerCase().indexOf(input.toLowerCase()) >= 0
+			},
 			closeFunction(data) {
 				this.$emit('closeFun', data)
 				this.form = {}
-				this.form.BorC = 'building'
+				
 			},
-			async getDetail(ID) {
-				let res = await GetAdminDetail({ID: ID})
-				let text = res.data.data
-				this.form.ID = text.ID
-				this.form.JC = [text.StartJC, text.EndJC]
-				this.form.date = text.ApplyTime
-				this.form.SchoolID = text.SchoolID
-				this.getAllBuildingList(text.SchoolID)
-				this.form.BuildingID = text.BuildingID
-				this.getAllClassRoomList(text.BuildingID)
-				this.form.ClassID = text.ClassID
+			changeType() {
+				this.form.ClassID = ''
 			},
-			async getAllBuildingList(e) {
-				let res = await GetAllBuildingList({xqID: e})
-				this.buildingList = res.data.data
-			},
-			async getAllClassRoomList(e) {
-				let res = await GetAllClassRoomList({buildingID: e})
-				this.classroomList = res.data.data
+			meetingTime(e) {
+				this.form.StartDate = moment(e[0]._d).format('YYYY-MM-DD')
+				this.form.EndDate = moment(e[1]._d).format('YYYY-MM-DD')
 			},
 			handleSubmit(e) {
 				this.$refs.ruleForm.validate(async valid => {
 					if (valid) {
 						let data = this.form
+						this.form.BIDorCID = this.text.ID
+						this.form.BorC = this.BorCType
 						data.EndJC = this.form.JC[1]
 						data.StartJC = this.form.JC[0]
-						data.ApplyTime = moment(data.date._d).format('YYYY-MM-DD')
 						delete data.JC
 						delete data.date
-						delete data.BuildingID
-						delete data.SchoolID
-						let res = await DoUpdateAdmin(data)
+						let res = await DoAddForbbidenBorC(data)
 						if (res.data.code === 0) {
 							this.$message.success(res.data.msg)
 							this.closeFunction('1')
@@ -162,14 +133,6 @@
 </script>
 
 <style lang="less" scoped>
-	/deep/.ant-select-disabled .ant-select-selection {
-		background-color: white !important;
-		color: black;
-	}
-	/deep/.ant-input[disabled] {
-		background-color: white;
-		color: black;
-	}
 	.aid {
 		position: fixed;
 		width: 100%;
@@ -183,13 +146,13 @@
 	.base {
 		position: absolute;
 		border-radius: 12px;
-		width: 600px;
-		height: 540px;
+		width: 640px;
+		height: 340px;
 		background: #fff;
 		left: 50%;
-		margin-left: -300px;
+		margin-left: -320px;
 		top: 50%;
-		margin-top: -270px;
+		margin-top: -170px;
 		overflow-y: auto;
 
 		.main {

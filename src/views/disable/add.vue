@@ -72,7 +72,7 @@
 				if (text.ID) {
 					this.getDetail(text.ID)
 				} else {
-						this.form.JC = [1, 1]
+					this.form.JC = [1, 1]
 				}
 			}
 		},
@@ -89,7 +89,7 @@
 				classroomList1: [],
 				buildingList1: [],
 				form: {
-					BorC: 'building',
+					BorC: '',
 					BIDorCID: '',
 					Remarks: '',
 					date: [],
@@ -157,7 +157,7 @@
 			closeFunction(data) {
 				this.$emit('closeFun', data)
 				this.form = {}
-				this.form.BorC = 'building'
+				
 			},
 			changeType() {
 				this.form.ClassID = ''
@@ -193,7 +193,7 @@
 				this.$refs.ruleForm.validate(async valid => {
 					if (valid) {
 						let data = this.form
-						if (this.form.BorC = 'building') {
+						if (this.form.BorC === 'building') {
 							this.form.BIDorCID = this.form.BuildingID
 						} else {
 							this.form.BIDorCID = this.form.ClassID

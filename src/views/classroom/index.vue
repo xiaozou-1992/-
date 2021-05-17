@@ -43,31 +43,27 @@
         <el-table-column prop="Code" label="编号" min-width="120"></el-table-column>
         <el-table-column prop="BZ" label="备注" min-width="200" show-overflow-tooltip></el-table-column>
         <el-table-column prop="CreateTime" label="同步时间" min-width="168"></el-table-column>
-        <!-- <el-table-column label="操作" width="110" fixed="right">
-          <template slot-scope="scope">
-            <a-popover title="修改">
-              <i class="el-font el-icon-edit-outline" style="color: #1890FF;" @click="modifyList(scope.row, 'modify')"></i>
-            </a-popover>
-            <a-popover title="删除">
-              <i class="el-font el-icon-delete" style="color: red;" @click="deleteList(scope.row)"></i>
-            </a-popover>
-            <a-popover title="禁用">
-              <i class="el-font el-icon-switch-button" style="color: #909399" @click="deleteList(scope.row)"></i>
-            </a-popover>
-          </template>
-        </el-table-column> -->
+				<el-table-column label="操作" width="62" fixed="right">
+				  <template slot-scope="scope">
+				    <a-popover title="禁用">
+				      <i class="el-font el-icon-remove-outline" style="color: #F56C6C;" @click="disableList(scope.row)"></i>
+				    </a-popover>
+				  </template>
+				</el-table-column>
       </el-table>
       <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="pagination.currentPage"
                      :page-sizes="pagination.pageSizeOptions" :page-size="pagination.pageSize" layout="total, sizes, prev, pager, next, jumper"
                      :total="pagination.total"
       ></el-pagination>
     </div>
+		<add :text="text" v-show="addIf" :BorCType="'classroom'" @closeFun="closeFun"></add>
   </div>
 </template>
 
 <script>
 	import Func from '@/utils/func'
 	import moment from 'moment'
+	import add from '../../components/disable/index.vue'
 	import {
 		GetClassRoomPageList,
 		GetAllBuildingList,
@@ -76,7 +72,7 @@
 	const data = []
 	export default {
 		components: {
-
+			add
 		},
 		data() {
 			return {
@@ -98,7 +94,9 @@
 				},
 				tableHeight: parseFloat(window.innerHeight - 480),
 				layoutHeight: window.innerHeight - 460 + 'px',
-				buildingList: []
+				buildingList: [],
+				addIf:'',
+				text:{}
 			}
 		},
 		computed: {},
@@ -130,6 +128,16 @@
 				this.pagination.currentPage = val
 				this.$refs.tableForm.bodyWrapper.scrollTop = 0
 				this.getList()
+			},
+			disableList(text){
+				this.text = text
+				this.addIf = true
+			},
+			closeFun(type) {
+				this.addIf = false
+				if (type === '1') {
+					this.getList()
+				}
 			},
 			async getAllBuildingList() {
 				let res = await GetAllBuildingList({name: ''})
