@@ -298,6 +298,15 @@ export function DoDeleteForbbidenBorC(data = {}) {
 	})
 }
 
+// 教学楼教室禁用详情
+export function GetForbbidenBorCDetail(data = {}) {
+	return fetch({
+		url: '/api/ForbbidenBorC/GetDetail',
+		method: 'POST',
+		data
+	})
+}
+
 // 获取审批记录
 export function GetAdminApplyPageList(data = {}) {
 	return fetch({

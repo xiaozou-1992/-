@@ -255,9 +255,11 @@
 			handleCancel(e) {
 				this.visible = false
 			},
-			closeFun() {
+			closeFun(type) {
 				this.addIf = false
-				this.getList()
+				if (type === '1') {
+					this.getList()
+				}
 			}
 		}
 	}

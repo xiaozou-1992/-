@@ -72,7 +72,8 @@
 		DoUpdateForbbidenBorC,
 		GetAllSchoolList,
 		GetAllBuildingList,
-		GetAllClassRoomList
+		GetAllClassRoomList,
+		GetForbbidenBorCDetail
 	} from '@/api/follow'
 	export default {
 		props: {
@@ -82,13 +83,7 @@
 		watch: {
 			text: function(text) {
 				if (text.ID) {
-					this.form.BorC = text.BorC
-					this.form.ID = text.ID
-					this.form.BIDorCID = text.BIDorCID
-					this.form.Remarks = text.Remarks
-					this.form.date = [moment(text.StartDate, 'YYYY-MM-DD'), moment(text.EndDate,
-						'YYYY-MM-DD')]
-					this.form.JC = [text.StartJC, text.EndJC]
+					this.getDetail(text.ID)
 				} else {
 						this.form.JC = []
 				}
@@ -105,7 +100,7 @@
 				JCMax: this.global.JCList[1],
 				schoolList: [],
 				classroomList1: [],
-				buildingList1:[],
+				buildingList1: [],
 				form: {
 					BorC: 'building',
 					BIDorCID: '',
@@ -128,7 +123,7 @@
 					}],
 					BIDorCID: [{
 						required: true,
-						message: '请选择教室/教学楼',
+						message: '请选择教室/楼宇',
 						trigger: 'change'
 					}],
 					Remarks: [{
@@ -164,7 +159,7 @@
 				}
 			}
 		},
-		created(){
+		created(){ 
 			this.getAllSchoolList()
 		},
 		methods: {
@@ -178,11 +173,21 @@
 				this.form.BorC = 'building'
 			},
 			changeType() {
-				this.form.BIDorCID = ''
+				this.form.ClassID = ''
 			},
 			meetingTime(e) {
 				this.form.StartDate = moment(e[0]._d).format('YYYY-MM-DD')
 				this.form.EndDate = moment(e[1]._d).format('YYYY-MM-DD')
+			},
+			async getDetail(ID){
+				let res = await GetForbbidenBorCDetail({ID:ID})
+				let text = res.data.data
+				this.getAllBuildingList(text.xqID)
+				this.getAllClassRoomList(text.buildingID)
+				this.form = text
+				this.form.date = [moment(text.StartDate, 'YYYY-MM-DD'), moment(text.EndDate,
+					'YYYY-MM-DD')]
+				this.form.JC = [text.StartJC, text.EndJC]
 			},
 			async getAllSchoolList() {
 				let res = await GetAllSchoolList()
@@ -190,16 +195,26 @@
 			},
 			async getAllBuildingList(e) {
 				let res = await GetAllBuildingList({xqID: e})
+				this.form.BuildingID = ''
 				this.buildingList1 = res.data.data
 			},
 			async getAllClassRoomList(e) {
 				let res = await GetAllClassRoomList({buildingID: e})
+				this.form.ClassID = ''
 				this.classroomList1 = res.data.data
 			},
 			handleSubmit(e) {
 				this.$refs.ruleForm.validate(async valid => {
 					if (valid) {
 						let data = this.form
+						if(this.form.BorC = 'building'){
+							this.form.BIDorCID = this.form.BuildingID
+						}else{
+							this.form.BIDorCID = this.form.ClassID 
+						}
+						delete this.form.SchoolID
+						delete this.form.BuildingID
+						delete this.form.ClassID
 						data.EndJC = this.form.JC[1]
 						data.StartJC = this.form.JC[0]
 						delete data.JC
