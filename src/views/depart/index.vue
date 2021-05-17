@@ -33,11 +33,6 @@
             <a-tag color="green">{{ scope.row.Code }}</a-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="IsJoin" label="上级编号" min-width="200">
-          <template slot-scope="scope">
-            <a-tag color="pink">{{ scope.row.ParentCode ? scope.row.ParentCode : '暂无' }}</a-tag>
-          </template>
-        </el-table-column>
         <el-table-column prop="IsJoin" label="负责人" min-width="220" show-overflow-tooltip>
           <template slot-scope="scope">
             <span v-for="(item,index) in scope.row.ChargerList">
@@ -46,15 +41,15 @@
             </span>
           </template>
         </el-table-column>
-        <el-table-column fixed="right" width="60">
+        <el-table-column fixed="right" width="88">
           <template slot="header" slot-scope="scope">
             操作
           </template>
           <template slot-scope="scope">
-            <a-popover title="添加负责人" v-if="!scope.row.ChargerList">
+            <a-popover title="添加负责人">
               <a-icon type="user-add" class="el-font" style="color: #1890FF;" @click="addList(scope.row,1)"/>
             </a-popover>
-            <a-popover title="删除负责人" v-else>
+            <a-popover title="删除负责人" v-if="scope.row.ChargerList">
               <a-icon type="user-delete" class="el-font" style="color: #F56C6C;" @click="addList(scope.row,0)"/>
             </a-popover>
           </template>
@@ -65,11 +60,12 @@
                      :total="pagination.total"
       ></el-pagination>
     </div>
-    <add :text="text" v-show="addIf" @closeFun="closeFun"></add>
+    <add :text="text" :nowTime="nowTime" v-show="addIf" @closeFun="closeFun"></add>
   </div>
 </template>
 
 <script>
+import moment from 'moment'
 import add from './add'
 import { GetDepartPageList, SynchronizationDepart } from '@/api/follow'
 const data = []
@@ -102,7 +98,8 @@ export default {
 				pageIndex: 1,
 				pageSize: 20
 			},
-			tableHeight: parseFloat(window.innerHeight - 480)
+			tableHeight: parseFloat(window.innerHeight - 480),
+			nowTime: ''
 		}
 	},
 	computed: {},
@@ -153,6 +150,7 @@ export default {
 		addList(data, type) {
 			this.text = data
 			this.text.Type = type
+			this.nowTime = moment(new Date()).format('YYYY/MM/DD HH:mm:ss')
 			this.addIf = !this.addIf
 		},
 		async importData() {

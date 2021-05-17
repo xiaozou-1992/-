@@ -1,5 +1,5 @@
 const requestUrl = 'http://192.168.2.112:8034/'
-const pageSizeOptions = ["10", "50", "100"]
+const pageSizeOptions = ["30", "50", "100", "200", "500"]
 const pageSize = 10
 const JCList = [1,10]
 const outStorageTypeList = [{

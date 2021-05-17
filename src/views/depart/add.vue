@@ -12,7 +12,7 @@
                       @search="fetchUser" :filterOption="filterOption"
             >
               <a-spin v-if="fetching" slot="notFoundContent" size="small" />
-              <a-select-option v-for="(item, index) in userList" :key="item.ID">{{ item.Name }}</a-select-option>
+              <a-select-option v-for="(item, index) in userList" :key="item.ID">{{ item.Name }} - {{ item.DepartName }}</a-select-option>
             </a-select>
             <div v-if="text.Type === 0">
               <a-tag closable @close="userChange(item.ID)" v-for="(item, index) in userList" :key="item.ID">
@@ -39,18 +39,18 @@
 	} from '@/api/follow'
 	export default {
 		props: {
-			text: Object
+			text: Object,
+			nowTime: String
 		},
 		watch: {
-			text: function(text) {
-				if (text.ID) {
+			nowTime: function(text) {
+				console.log(this.text)
+				if (this.text.ID) {
 					this.form.charger = []
-					if (text.Type === 0) {
-						text.ChargerList.forEach(item => {
-							this.form.charger.push(item.ID)
-						})
-						this.userList = text.ChargerList
-					}
+					this.text.ChargerList.forEach(item => {
+						this.form.charger.push(item.ID)
+					})
+					this.userList = this.text.ChargerList
 				}
 			}
 		},

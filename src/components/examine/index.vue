@@ -51,12 +51,13 @@
 		props: {
 			text: Object,
 			schoolList: Array,
-			detail: Boolean
+			detail: Boolean,
+			nowTime: String
 		},
 		watch: {
-			text: function(text) {
-				if (text.ID) {
-					this.getDetail(text.ID)
+			nowTime: function(text) {
+				if (this.text.ID) {
+					this.getDetail(this.text.ID)
 				}
 			}
 		},

@@ -18,7 +18,7 @@
 			};
 		</script>
 		<script type="text/javascript" src="https://apip.weatherdt.com/view/static/js/r.js?v=1111"></script>
-		<title>教室借用系统</title>
+		<title>后勤教室借用系统</title>
 		<style>
 			*::-webkit-scrollbar {
 				height: 5px;
@@ -280,20 +280,7 @@
 				background-color: #FFFFFF;
 				border-radius: 5px;
 			}
-			.el-loading-mask{
-				background:rgba(255,255,255,.9) url(<%= BASE_URL %>loading.gif) no-repeat center!important;
-				background-size: 80px 80px!important;
-			}
-			.el-loading-mask .el-loading-spinner{
-				display:none;
-			}
-			.ant-spin.ant-spin-spinning{
-				background:url(<%= BASE_URL %>loading.gif) no-repeat center!important;
-				background-size: 80px 80px!important;
-			}
-			.ant-spin.ant-spin-spinning .ant-spin-dot-spin{
-				display:none;
-			}
+		
 			
 		</style>
 	</head>
@@ -304,11 +291,11 @@
 		<div id="app">
 			<div id="loading-mask">
 				<div class="loading-wrapper">
-					<!-- <span class="loading-dot loading-dot-spin"><i></i><i></i><i></i><i></i></span> -->
+					<span class="loading-dot loading-dot-spin"><i></i><i></i><i></i><i></i></span>
 					<!-- <span class="loading-dot loading-dot-spin">
 						<img src="../src/assets/loading.gif" />
 					</span> -->
-					<img src="<%= BASE_URL %>loading.gif" />
+					<!-- <img src="<%= BASE_URL %>loading.gif" /> -->
 				</div>
 			</div>
 		</div>

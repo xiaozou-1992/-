@@ -39,8 +39,8 @@
                 style="width: 100%;"
       >
         <el-table-column prop="Name" label="名称" min-width="140"></el-table-column>
+        <el-table-column prop="SchoolName" label="校区" min-width="140"></el-table-column>
         <el-table-column prop="Code" label="编号" min-width="120"></el-table-column>
-        <el-table-column prop="BZ" label="备注" min-width="200" show-overflow-tooltip></el-table-column>
         <el-table-column prop="CreateTime" label="同步时间" min-width="168"></el-table-column>
       </el-table>
       <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="pagination.currentPage"

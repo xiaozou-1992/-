@@ -95,7 +95,7 @@
                      :total="pagination.total"
       ></el-pagination>
     </div>
-    <add :text="text" :schoolList="schoolList" v-show="addIf" @closeFun="closeFun"></add>
+    <add :text="text" :schoolList="schoolList" :nowTime="nowTime" v-show="addIf" @closeFun="closeFun"></add>
     <examine :text="text" v-show="visible" @closeFun="closeFun"></examine>
   </div>
 </template>
@@ -156,7 +156,8 @@
 				examineID: '',
 				buildingList: [],
 				classroomList: [],
-				schoolList: []
+				schoolList: [],
+				nowTime: ''
 			}
 		},
 		computed: {},
@@ -231,6 +232,7 @@
 			},
 			addList() {
 				this.text = {}
+				this.nowTime = ''
 				this.addIf = !this.addIf
 			},
 			examine(text) {
@@ -248,6 +250,7 @@
 				text = Object.assign(text, {
 					time: new Date()
 				})
+				this.nowTime = moment(new Date()).format('YYYY/MM/DD HH:mm:ss')
 				this.addIf = !this.addIf
 				this.text = text
 			},

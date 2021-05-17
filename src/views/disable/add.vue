@@ -72,7 +72,7 @@
 				if (text.ID) {
 					this.getDetail(text.ID)
 				} else {
-						this.form.JC = []
+						this.form.JC = [1, 1]
 				}
 			}
 		},
@@ -93,7 +93,7 @@
 					BIDorCID: '',
 					Remarks: '',
 					date: [],
-					JC: [],
+					JC: [1, 1],
 					StartDate: '',
 					EndDate: '',
 					StartJC: [],
@@ -146,7 +146,7 @@
 				}
 			}
 		},
-		created(){ 
+		created() {
 			this.getAllSchoolList()
 		},
 		methods: {
@@ -166,8 +166,8 @@
 				this.form.StartDate = moment(e[0]._d).format('YYYY-MM-DD')
 				this.form.EndDate = moment(e[1]._d).format('YYYY-MM-DD')
 			},
-			async getDetail(ID){
-				let res = await GetForbbidenBorCDetail({ID:ID})
+			async getDetail(ID) {
+				let res = await GetForbbidenBorCDetail({ID: ID})
 				this.getAllBuildingList(res.data.data.SchoolID)
 				this.getAllClassRoomList(res.data.data.BuildingID)
 				let text = res.data.data
@@ -193,10 +193,10 @@
 				this.$refs.ruleForm.validate(async valid => {
 					if (valid) {
 						let data = this.form
-						if(this.form.BorC = 'building'){
+						if (this.form.BorC = 'building') {
 							this.form.BIDorCID = this.form.BuildingID
-						}else{
-							this.form.BIDorCID = this.form.ClassID 
+						} else {
+							this.form.BIDorCID = this.form.ClassID
 						}
 						delete this.form.SchoolID
 						delete this.form.BuildingID

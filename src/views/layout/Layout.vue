@@ -325,8 +325,7 @@
 	}
 
 	#components-layout-demo-top-side-2 .logo {
-		width: 310px;
-		// height: 64px;
+		height: 64px;
 		line-height: 22px;
 		background: #1890ff;
 		padding: 10px 0px 0 0px;
@@ -335,10 +334,6 @@
 		text-align: center;
 		margin-right: 30px;
 		margin-left: 10px;
-	}
-
-	#components-layout-demo-top-side-2 .logo img {
-		width: 310px;
 	}
 
 	#menutop2 .ant-menu-item-selected {

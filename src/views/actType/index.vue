@@ -22,7 +22,7 @@
                 style="width: 100%;"
       >
         <el-table-column prop="Name" label="类型名称" min-width="360"></el-table-column>
-        <el-table-column prop="Code" label="编号" min-width="200">
+        <el-table-column prop="Code" label="ID" min-width="200">
           <template slot-scope="scope">
             <a-tag color="green">{{ scope.row.ID }}</a-tag>
           </template>
