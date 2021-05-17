@@ -18,8 +18,8 @@
       <el-button type="primary" size="small" icon="el-icon-plus" @click="addList({})">新增</el-button>
     </el-button-group>
     <div style="margin-top: 20px;">
-      <el-table :data="data" style="width: 100%;margin-bottom: 20px;" row-key="Code" border default-expand-all
-                :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
+      <el-table ref="tableForm" :data="data" v-loading="loading" border :max-height="tableHeight" highlight-current-row
+                style="width: 100%;"
       >
         <el-table-column prop="Name" label="类型名称" min-width="360"></el-table-column>
         <el-table-column prop="Code" label="编号" min-width="200">
@@ -108,6 +108,7 @@ export default {
 		},
 		handleCurrentChange(val) {
 			this.pagination.currentPage = val
+			this.$refs.tableForm.bodyWrapper.scrollTop = 0
 			this.getList()
 		},
 		async getList() {

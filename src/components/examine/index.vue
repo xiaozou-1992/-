@@ -23,7 +23,7 @@
             </a-select>
           </a-form-model-item>
           <a-form-model-item label="日期" prop="date">
-						<a-date-picker style="width: 100%;" v-model="form.date"/>
+            <a-date-picker style="width: 100%;" v-model="form.date"/>
           </a-form-model-item>
           <a-form-model-item label="节次" prop="JC">
             <a-slider range v-model="form.JC" :min="JCMin" :max="JCMax" />
@@ -45,7 +45,8 @@
 		DoUpdateAdmin,
 		GetAllSchoolList,
 		GetAllBuildingList,
-		GetAllClassRoomList
+		GetAllClassRoomList,
+		GetAdminDetail
 	} from '@/api/follow'
 	export default {
 		props: {
@@ -54,8 +55,7 @@
 		watch: {
 			text: function(text) {
 				if (text.ID) {
-					this.form.ID = text.ID
-					this.form.JC = [text.StartJC, text.EndJC]
+					this.getDetail(text.ID)
 				}
 			}
 		},
@@ -113,6 +113,18 @@
 				this.$emit('closeFun', data)
 				this.form = {}
 				this.form.BorC = 'building'
+			},
+			async getDetail(ID) {
+				let res = await GetAdminDetail({ID: ID})
+				let text = res.data.data
+				this.form.ID = text.ID
+				this.form.JC = [text.StartJC, text.EndJC]
+				this.form.date = text.ApplyTime
+				this.form.SchoolID = text.SchoolID
+				this.getAllBuildingList(text.SchoolID)
+				this.form.BuildingID = text.BuildingID
+				this.getAllClassRoomList(text.BuildingID)
+				this.form.ClassID = text.ClassID
 			},
 			async getAllSchoolList() {
 				let res = await GetAllSchoolList()

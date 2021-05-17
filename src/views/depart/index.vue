@@ -24,7 +24,9 @@
       <el-button type="success" size="small" icon="el-icon-check" @click="updataList">同步学生信息</el-button> -->
     </el-button-group>
     <div style="margin-top: 20px;">
-      <el-table :data="data" style="width: 100%;margin-bottom: 20px;" border :max-height="tableHeight" highlight-current-row>
+      <el-table ref="tableForm" :data="data" style="width: 100%;margin-bottom: 20px;" border :max-height="tableHeight"
+                highlight-current-row
+      >
         <el-table-column prop="Name" label="部门名称" min-width="360"></el-table-column>
         <el-table-column prop="Code" label="编号" min-width="200">
           <template slot-scope="scope">
@@ -128,6 +130,7 @@ export default {
 		},
 		handleCurrentChange(val) {
 			this.pagination.currentPage = val
+			this.$refs.tableForm.bodyWrapper.scrollTop = 0
 			this.getList()
 		},
 		async getList() {

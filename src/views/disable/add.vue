@@ -17,16 +17,35 @@
               </a-radio>
             </a-radio-group>
           </a-form-model-item>
-          <a-form-model-item label="楼宇" prop="BIDorCID" v-if="form.BorC === 'building'">
-            <a-select v-model="form.BIDorCID" style="width:100%">
+          <!-- <a-form-model-item label="楼宇" prop="BIDorCID" v-if="form.BorC === 'building'">
+            <a-select v-model="form.BIDorCID" style="width:100%" showSearch optionFilterProp="children" :filterOption="filterOption">
               <a-select-option v-for="(item, index) in buildingList" :key="index" :value="item.ID">{{ item.Name }}</a-select-option>
             </a-select>
           </a-form-model-item>
-          <a-form-model-item label="教室" prop="BIDorCID" v-if="form.BorC === 'classroom'">
+          <a-form-model-item label="教室" prop="BIDorCID" showSearch optionFilterProp="children"
+                             :filterOption="filterOption"
+          >
             <a-select v-model="form.BIDorCID" style="width:100%">
               <a-select-option v-for="(item, index) in classroomList" :key="index" :value="item.ID">{{ item.Name }}</a-select-option>
             </a-select>
+          </a-form-model-item> -->
+
+          <a-form-model-item label="校区" prop="SchoolID">
+            <a-select v-model="form.SchoolID" style="width:100%" @change="getAllBuildingList">
+              <a-select-option v-for="(item, index) in schoolList" :key="index" :value="item.ID">{{ item.XQM }}</a-select-option>
+            </a-select>
           </a-form-model-item>
+          <a-form-model-item label="教学楼" prop="BuildingID">
+            <a-select v-model="form.BuildingID" style="width:100%" @change="getAllClassRoomList">
+              <a-select-option v-for="(item, index) in buildingList" :key="index" :value="item.ID">{{ item.Name }}</a-select-option>
+            </a-select>
+          </a-form-model-item>
+          <a-form-model-item label="教室" prop="ClassID" v-if="form.BorC === 'classroom'" >
+            <a-select v-model="form.ClassID" style="width:100%">
+              <a-select-option v-for="(item, index) in classroomList" :key="index" :value="item.ID">{{ item.Name }}</a-select-option>
+            </a-select>
+          </a-form-model-item>
+
           <a-form-model-item label="日期" prop="date">
             <a-range-picker style="width: 100%;" v-model="form.date" @change="meetingTime" />
           </a-form-model-item>
@@ -51,7 +70,10 @@
 	import moment from 'moment'
 	import {
 		DoAddForbbidenBorC,
-		DoUpdateForbbidenBorC
+		DoUpdateForbbidenBorC,
+		GetAllSchoolList,
+		GetAllBuildingList,
+		GetAllClassRoomList
 	} from '@/api/follow'
 	export default {
 		props: {
@@ -70,7 +92,7 @@
 					this.form.date = [moment(text.StartDate, 'YYYY-MM-DD'), moment(text.EndDate,
 						'YYYY-MM-DD')]
 					this.form.JC = [text.StartJC, text.EndJC]
-				}else{
+				} else {
 						this.form.JC = []
 				}
 			}
@@ -84,6 +106,9 @@
 				DepartmenDropdowntList: [],
 				JCMin: this.global.JCList[0],
 				JCMax: this.global.JCList[1],
+				schoolList: [],
+				buildingList: [],
+				classroomList: [],
 				form: {
 					BorC: 'building',
 					BIDorCID: '',
@@ -93,7 +118,10 @@
 					StartDate: '',
 					EndDate: '',
 					StartJC: [],
-					EndJC: []
+					EndJC: [],
+					SchoolID: '',
+					BuildingID: '',
+					ClassID: ''
 				},
 				rules: {
 					BorC: [{
@@ -120,17 +148,34 @@
 						required: true,
 						message: '请选择节次',
 						trigger: 'change'
+					}],
+					ClassID: [{
+						required: true,
+						message: '请选择教室',
+						trigger: 'change'
+					}],
+					BuildingID: [{
+						required: true,
+						message: '请选择教学楼',
+						trigger: 'change'
+					}],
+					SchoolID: [{
+						required: true,
+						message: '请选择校区',
+						trigger: 'change'
 					}]
 				}
 			}
 		},
 		methods: {
 			moment,
+			filterOption(input, option) {
+				return option.componentOptions.children[0].text.toLowerCase().indexOf(input.toLowerCase()) >= 0
+			},
 			closeFunction(data) {
 				this.$emit('closeFun', data)
 				this.form = {}
 				this.form.BorC = 'building'
-			
 			},
 			changeType() {
 				this.form.BIDorCID = ''
@@ -139,6 +184,18 @@
 				console.log(e)
 				this.form.StartDate = moment(e[0]._d).format('YYYY-MM-DD')
 				this.form.EndDate = moment(e[1]._d).format('YYYY-MM-DD')
+			},
+			async getAllSchoolList() {
+				let res = await GetAllSchoolList()
+				this.schoolList = res.data.data
+			},
+			async getAllBuildingList(e) {
+				let res = await GetAllBuildingList({xqID: e})
+				this.buildingList = res.data.data
+			},
+			async getAllClassRoomList(e) {
+				let res = await GetAllClassRoomList({buildingID: e})
+				this.classroomList = res.data.data
 			},
 			handleSubmit(e) {
 				this.$refs.ruleForm.validate(async valid => {

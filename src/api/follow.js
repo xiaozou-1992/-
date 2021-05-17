@@ -334,10 +334,29 @@ export function GetAdminApplyPageList4(data = {}) {
 	})
 }
 
+
+// 获取所有审批记录
+export function GetAllAdminApplyPageList(data = {}) {
+	return fetch({
+		url: '/api/Admin/GetAllApplyPageList',
+		method: 'POST',
+		data
+	})
+}
+
 // 后勤审核
 export function ReviewAdminApply2(data = {}) {
 	return fetch({
 		url: '/api/Admin/ReviewApply2',
+		method: 'POST',
+		data
+	})
+}
+
+// 后勤审核详情
+export function GetAdminDetail(data = {}) {
+	return fetch({
+		url: '/api/Admin/GetDetail',
 		method: 'POST',
 		data
 	})

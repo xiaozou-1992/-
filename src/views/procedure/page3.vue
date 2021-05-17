@@ -1,39 +1,41 @@
 <template>
-	<div class="content">
-		<div id="components-form-demo-advanced-search">
-			<a-form class="ant-advanced-search-form home-form" :form="form" @submit="handleSearch">
-				<a-row :gutter="24">
-					<a-col :span="8">
-						<a-form-item label="日期">
-							<a-range-picker style="width: 100%;" v-decorator="[`date`]" />
-						</a-form-item>
-					</a-col>
-					<a-col :span="8">
-						<a-form-item label="节次">
-							<a-slider range :min="JCMin" :max="JCMax" v-decorator="[`JC`]" />
-						</a-form-item>
-					</a-col>
-					<a-col :span="8" style="margin-top:4px;">
-						<a-button type="primary" html-type="submit" class="btn1">搜索</a-button>
-						<a-button :style="{ marginLeft: '8px' }" @click="handleReset" class="btn2">重置</a-button>
-					</a-col>
-				</a-row>
-			</a-form>
-		</div>
-		<div style="margin-top: 20px;">
-			<el-table :data="data" v-loading="loading" border :max-height="tableHeight" highlight-current-row style="width: 100%;">
-				<el-table-column prop="ActName" label="活动类型" min-width="100"></el-table-column>
-				<el-table-column prop="ActContent" label="活动内容" min-width="200" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="Unity" label="举办单位" min-width="120"></el-table-column>
-				<el-table-column prop="StudentName" label="申请人" min-width="120"></el-table-column>
-				<el-table-column prop="Phone" label="手机号" min-width="120"></el-table-column>
-				<el-table-column prop="ApplyTime" label="申请日期" min-width="168"></el-table-column>
-				<el-table-column prop="IsEnable" label="节次" min-width="120">
-					<template slot-scope="scope">
-						{{ scope.row.StartJC }} ~ {{ scope.row.EndJC }} 节
-					</template>
-				</el-table-column>
-				<!-- <el-table-column prop="IsEnable" label="状态" min-width="150">
+  <div class="content">
+    <div id="components-form-demo-advanced-search">
+      <a-form class="ant-advanced-search-form home-form" :form="form" @submit="handleSearch">
+        <a-row :gutter="24">
+          <a-col :span="8">
+            <a-form-item label="日期">
+              <a-range-picker style="width: 100%;" v-decorator="[`date`]" />
+            </a-form-item>
+          </a-col>
+          <a-col :span="8">
+            <a-form-item label="节次">
+              <a-slider range :min="JCMin" :max="JCMax" v-decorator="[`JC`]" />
+            </a-form-item>
+          </a-col>
+          <a-col :span="8" style="margin-top:4px;">
+            <a-button type="primary" html-type="submit" class="btn1">搜索</a-button>
+            <a-button :style="{ marginLeft: '8px' }" @click="handleReset" class="btn2">重置</a-button>
+          </a-col>
+        </a-row>
+      </a-form>
+    </div>
+    <div style="margin-top: 20px;">
+      <el-table :data="data" v-loading="loading" border :max-height="tableHeight" highlight-current-row
+                style="width: 100%;"
+      >
+        <el-table-column prop="ActName" label="活动类型" min-width="100"></el-table-column>
+        <el-table-column prop="ActContent" label="活动内容" min-width="200" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="Unity" label="举办单位" min-width="120"></el-table-column>
+        <el-table-column prop="StudentName" label="申请人" min-width="120"></el-table-column>
+        <el-table-column prop="Phone" label="手机号" min-width="120"></el-table-column>
+        <el-table-column prop="ApplyTime" label="申请日期" min-width="168"></el-table-column>
+        <el-table-column prop="IsEnable" label="节次" min-width="120">
+          <template slot-scope="scope">
+            {{ scope.row.StartJC }} ~ {{ scope.row.EndJC }} 节
+          </template>
+        </el-table-column>
+        <!-- <el-table-column prop="IsEnable" label="状态" min-width="150">
 					<template slot-scope="scope">
 						<a-tag color="red" v-if="scope.row.State === '2' || scope.row.State === '4'">
 							{{ scope.row.State === '2'?'学院审核不通过':'后勤审核不通过' }}
@@ -46,7 +48,7 @@
 						</a-tag>
 					</template>
 				</el-table-column> -->
-				<!-- <el-table-column label="操作" width="88" fixed="right">
+        <!-- <el-table-column label="操作" width="88" fixed="right">
 					<template slot-scope="scope">
 						<a-popover title="审批" v-if="scope.row.State === '1'">
 							<i class="el-font el-icon-coordinate" style="color: #E6A23C;" @click="examine(scope.row)"></i>
@@ -56,27 +58,28 @@
 						</a-popover>
 					</template>
 				</el-table-column> -->
-			</el-table>
-			<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="pagination.currentPage"
-			 :page-sizes="pagination.pageSizeOptions" :page-size="pagination.pageSize" layout="total, sizes, prev, pager, next, jumper"
-			 :total="pagination.total"></el-pagination>
-		</div>
-		<add :text="text" :DepartCodeList="DepartCodeList" :ClassList="ClassList" v-show="addIf" @closeFun="closeFun"></add>
-		<a-modal title="后勤审批审核" :visible="visible" @ok="handleOk" :confirmLoading="confirmLoading" @cancel="handleCancel">
-			<a-form :form="updateForm" :label-col="{ span: 5 }" :wrapper-col="{ span: 18 }">
-				<a-form-item label="审核">
-					<a-radio-group name="radioGroup" v-decorator="['State', { rules: [{ required: true, message: '请输入输入学生学号' }] }]">
-						<a-radio :value="'3'">
-							通过
-						</a-radio>
-						<a-radio :value="'4'">
-							不通过
-						</a-radio>
-					</a-radio-group>
-				</a-form-item>
-			</a-form>
-		</a-modal>
-	</div>
+      </el-table>
+      <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="pagination.currentPage"
+                     :page-sizes="pagination.pageSizeOptions" :page-size="pagination.pageSize" layout="total, sizes, prev, pager, next, jumper"
+                     :total="pagination.total"
+      ></el-pagination>
+    </div>
+    <add :text="text" :DepartCodeList="DepartCodeList" :ClassList="ClassList" v-show="addIf" @closeFun="closeFun"></add>
+    <a-modal title="后勤审批审核" :visible="visible" @ok="handleOk" :confirmLoading="confirmLoading" @cancel="handleCancel">
+      <a-form :form="updateForm" :label-col="{ span: 5 }" :wrapper-col="{ span: 18 }">
+        <a-form-item label="审核">
+          <a-radio-group name="radioGroup" v-decorator="['State', { rules: [{ required: true, message: '请输入输入学生学号' }] }]">
+            <a-radio :value="'3'">
+              通过
+            </a-radio>
+            <a-radio :value="'4'">
+              不通过
+            </a-radio>
+          </a-radio-group>
+        </a-form-item>
+      </a-form>
+    </a-modal>
+  </div>
 </template>
 
 <script>
@@ -182,6 +185,7 @@
 			},
 			handleCurrentChange(val) {
 				this.pagination.currentPage = val
+				this.$refs.tableForm.bodyWrapper.scrollTop = 0
 				this.getList()
 			},
 			async getList() {

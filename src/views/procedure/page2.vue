@@ -28,7 +28,7 @@
       </a-form>
     </div>
     <div style="margin-top: 20px;">
-      <el-table :data="data" v-loading="loading" border :max-height="tableHeight" highlight-current-row
+      <el-table ref="tableForm" :data="data" v-loading="loading" border :max-height="tableHeight" highlight-current-row
                 style="width: 100%;"
       >
         <el-table-column prop="ActName" label="活动类型" min-width="100"></el-table-column>
@@ -176,6 +176,7 @@
 			},
 			handleCurrentChange(val) {
 				this.pagination.currentPage = val
+				this.$refs.tableForm.bodyWrapper.scrollTop = 0
 				this.getList()
 			},
 			async getList() {

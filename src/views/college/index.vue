@@ -16,9 +16,8 @@
           </a-col>
           <a-col :span="8">
             <a-form-item label="所属部门">
-							<a-select placeholder="请输入部门" showSearch v-decorator="[`departID`]" optionFilterProp="children" :filterOption="filterOption"
-							>
-							  <a-spin v-if="fetching" slot="notFoundContent" size="small" />
+              <a-select placeholder="请输入部门" showSearch v-decorator="[`departID`]" optionFilterProp="children" :filterOption="filterOption">
+                <a-spin v-if="fetching" slot="notFoundContent" size="small" />
                 <a-select-option v-for="(item, index) in departList" :key="item.ID">{{ item.Name }}</a-select-option>
               </a-select>
             </a-form-item>
@@ -36,7 +35,7 @@
 			<el-button type="success" size="small" icon="el-icon-check" @click="updataList">同步学生信息</el-button> -->
     </el-button-group>
     <div style="margin-top: 20px;">
-      <el-table :data="data" v-loading="loading" border :max-height="tableHeight" highlight-current-row
+      <el-table ref="tableForm" :data="data" v-loading="loading" border :max-height="tableHeight" highlight-current-row
                 style="width: 100%;"
       >
         <el-table-column prop="Name" label="姓名" min-width="130"></el-table-column>
@@ -148,6 +147,7 @@
 			},
 			handleCurrentChange(val) {
 				this.pagination.currentPage = val
+				this.$refs.tableForm.bodyWrapper.scrollTop = 0
 				this.getList()
 			},
 			filterOption(input, option) {

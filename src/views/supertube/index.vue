@@ -37,7 +37,7 @@
       <el-button type="primary" size="small" icon="el-icon-plus" @click="addList">新增</el-button>
     </el-button-group>
     <div style="margin-top: 20px;">
-      <el-table :data="data" v-loading="loading" border :max-height="tableHeight" highlight-current-row
+      <el-table ref="tableForm" :data="data" v-loading="loading" border :max-height="tableHeight" highlight-current-row
                 style="width: 100%;"
       >
         <el-table-column prop="Name" label="姓名" min-width="130"></el-table-column>
@@ -126,7 +126,7 @@ export default {
 			return option.componentOptions.children[0].text.toLowerCase().indexOf(input.toLowerCase()) >= 0
 		},
 		async fetchDepart(value) {
-			let res = await GetDepartAllList({name:''})
+			let res = await GetDepartAllList({name: ''})
 			this.departList = res.data.data || []
 		},
 		handleSearch(e) {
@@ -148,6 +148,7 @@ export default {
 		},
 		handleCurrentChange(val) {
 			this.pagination.currentPage = val
+			this.$refs.tableForm.bodyWrapper.scrollTop = 0
 			this.getList()
 		},
 		async getList() {
