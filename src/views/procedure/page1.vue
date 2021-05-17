@@ -43,11 +43,12 @@
               <a-slider range :min="JCMin" :max="JCMax" v-decorator="[`JC`]" />
             </a-form-item>
           </a-col>
-          <a-col :span="8" style="margin-top:4px;">
-            <a-button type="primary" html-type="submit" class="btn1">搜索</a-button>
-            <a-button :style="{ marginLeft: '8px' }" @click="handleReset" class="btn2">重置</a-button>
-          </a-col>
+					<a-col :span="8">
+					  <a-button type="primary" html-type="submit" class="btn1">搜索</a-button>
+					  <a-button :style="{ marginLeft: '8px' }" @click="handleReset" class="btn2">重置</a-button>
+					</a-col>
         </a-row>
+				
       </a-form>
     </div>
     <div style="margin-top: 20px;">

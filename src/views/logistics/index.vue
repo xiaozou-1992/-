@@ -107,7 +107,7 @@
 </template>
 
 <script>
-	import add from '../../components/examine/index.vue'
+	import add from '../../components/examine/detail.vue'
 	import examine from '../../components/examine/examine.vue'
 	import moment from 'moment'
 	import {

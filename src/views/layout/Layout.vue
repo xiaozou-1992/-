@@ -29,8 +29,8 @@
       <a-layout-content v-if="isRouterAlive" ref="layoutContent" :style="{position:'relative',display:'flex', background: '#fff', minHeight: '280px',margin:'20px 20px 0 20px',padding:'20px', height: layoutContentHeight, overflow: 'hidden' }">
         <a-layout style="padding: 11px 0; background: #fff;width: 201px;border-right: 1px solid #eee;">
           <a-layout-sider class="side-left" :trigger="null">
-            <a-menu style="width: 200px" :default-selected-keys="[0]">
-              <a-menu-item @click="menu(item.id,item.path)" v-for="(item,index) in menuList" :key="index">
+            <a-menu style="width: 200px" :default-selected-keys="['2']">
+              <a-menu-item @click="menu(item.id,item.path)" v-for="(item,index) in menuList" :key="item.type">
                 <a-icon :type="item.type" />
                 <span>{{ item.title }}</span>
               </a-menu-item>
@@ -58,7 +58,7 @@
 	export default {
 		data() {
 			return {
-				keys: 0,
+				keys: ['2'],
 				showSubMenu: 0,
 				columns: '',
 				collapsed: false,
@@ -148,6 +148,11 @@
 			// 		}
 			// 	}
 			// }
+			let wurl = window.location.href
+			let urlParameter = wurl.substring(wurl.lastIndexOf('/') + 1, wurl.length)
+			let eq = urlParameter.indexOf('?')
+			let t = urlParameter.substring(eq+6)
+		
 		},
 		methods: {
 			backhome() {
@@ -156,6 +161,7 @@
 			checkMenu(index) {
 				this.showSubMenu = index
 				this.keys = index
+				console.log(this.keys)
 			},
 			menuFunction() {
 				let arr = []
