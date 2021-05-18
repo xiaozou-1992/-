@@ -70,7 +70,7 @@
 		methods: {
 			closeFunction(data) {
 				this.$emit('closeFun', data)
-				this.form = {}
+				this.$refs['ruleForm'].resetFields();
 			},
 			filterOption(input, option) {
 				return option.componentOptions.children[0].text.toLowerCase().indexOf(input.toLowerCase()) >= 0

@@ -96,8 +96,7 @@
 			},
 			closeFunction(data) {
 				this.$emit('closeFun', data)
-				this.form = {}
-				
+			  this.$refs['ruleForm'].resetFields();
 			},
 			changeType() {
 				this.form.ClassID = ''

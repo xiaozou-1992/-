@@ -43,7 +43,7 @@
           <a-form-model-item label="学院审批意见">
             <a-input v-model="form.SchoolReviewContent" disabled type="textarea"/>
           </a-form-model-item>
-          <a-form-model-item label="后勤审批意见">
+          <a-form-model-item label="后勤审批意见" v-if="form.State !== '2'">
             <a-input v-model="form.BackReviewContent" disabled type="textarea" />
           </a-form-model-item>
           <a-form-model-item label="状态">
@@ -115,8 +115,7 @@
 			moment,
 			closeFunction(data) {
 				this.$emit('closeFun', data)
-				this.form = {}
-				this.form.BorC = 'building'
+				this.$refs['ruleForm'].resetFields();
 			},
 			async getDetail(ID) {
 				let res = await GetAdminDetail({

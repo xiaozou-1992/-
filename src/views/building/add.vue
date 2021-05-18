@@ -168,9 +168,7 @@ export default {
 		},
 		closeFunction(data) {
 			this.$emit('closeFun', data);
-			this.form = {};
-			this.gradeYear = null
-			this.fileList = []
+			this.$refs['ruleForm'].resetFields();
 		},
 		handleSubmit(e) {
 			this.$refs.ruleForm.validate(async valid => {

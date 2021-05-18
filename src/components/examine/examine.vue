@@ -111,7 +111,7 @@
 			moment,
 			closeFunction(data) {
 				this.$emit('closeFun', data)
-				this.form = {}
+				this.$refs['ruleForm'].resetFields();
 			},
 			async getDetail(ID) {
 				let res = await GetAdminDetail({

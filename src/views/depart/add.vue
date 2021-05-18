@@ -76,7 +76,7 @@
 		methods: {
 			closeFunction(data) {
 				this.$emit('closeFun', data)
-				this.form = {}
+				this.$refs['ruleForm'].resetFields();
 				this.userList = []
 			},
 			filterOption(input, option) {

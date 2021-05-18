@@ -71,10 +71,6 @@
 			text: function(text) {
 				if (text.ID) {
 					this.getDetail(text.ID)
-				}else{
-					this.form = {}
-					this.form.JC = [1,1]
-					console.log(this.form)
 				}
 			}
 		},
@@ -158,6 +154,7 @@
 			},
 			closeFunction(data) {
 				this.$emit('closeFun', data)
+				this.$refs['ruleForm'].resetFields();
 			},
 			changeType() {
 				this.form.ClassID = ''
@@ -171,10 +168,8 @@
 				this.getAllBuildingList(res.data.data.SchoolID)
 				this.getAllClassRoomList(res.data.data.BuildingID)
 				let text = res.data.data
-				this.form = text
-				this.form.date = [moment(text.StartDate, 'YYYY-MM-DD'), moment(text.EndDate,
-					'YYYY-MM-DD')]
-				this.form.JC = [text.StartJC, text.EndJC]
+				this.form = Object.assign(this.form,text,{JC: [text.StartJC, text.EndJC],date:[moment(text.StartDate, 'YYYY-MM-DD'), moment(text.EndDate,
+					'YYYY-MM-DD')]})
 			},
 			async getAllSchoolList() {
 				let res = await GetAllSchoolList()
