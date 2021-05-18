@@ -27,7 +27,7 @@
               <a-select-option v-for="(item, index) in buildingList1" :key="index" :value="item.ID">{{ item.Name }}</a-select-option>
             </a-select>
           </a-form-model-item>
-          <a-form-model-item label="教室" prop="ClassID" v-if="form.BorC === 'classroom'" >
+          <a-form-model-item label="教室" prop="ClassID" v-if="form.BorC === 'classroom'">
             <a-select v-model="form.ClassID" style="width:100%">
               <a-select-option v-for="(item, index) in classroomList1" :key="index" :value="item.ID">{{ item.Name }}</a-select-option>
             </a-select>
@@ -36,7 +36,7 @@
             <a-range-picker style="width: 100%;" v-model="form.date" @change="meetingTime" />
           </a-form-model-item>
           <a-form-model-item label="节次" prop="JC">
-            <a-slider range v-model="form.JC" :min="JCMin" :max="JCMax"/>
+            <a-slider range v-model="form.JC" :min="JCMin" :max="JCMax" />
           </a-form-model-item>
           <a-form-model-item label="备注" prop="Remarks">
             <a-input v-model="form.Remarks" type="textarea" />
@@ -65,12 +65,13 @@
 	export default {
 		props: {
 			text: Object,
-			buildingList: Array
+			buildingList: Array,
+			nowTime: String
 		},
 		watch: {
-			text: function(text) {
-				if (text.ID) {
-					this.getDetail(text.ID)
+			nowTime: function(text) {
+				if (this.text.ID) {
+					this.getDetail(this.text.ID)
 				}
 			}
 		},
@@ -154,22 +155,27 @@
 			},
 			closeFunction(data) {
 				this.$emit('closeFun', data)
-				this.$refs['ruleForm'].resetFields();
+				this.$refs['ruleForm'].resetFields()
 			},
 			changeType() {
 				this.form.ClassID = ''
 			},
 			meetingTime(e) {
-				this.form.StartDate = moment(e[0]._d).format('YYYY-MM-DD')+'T00:00:00.000Z'
-				this.form.EndDate = moment(e[1]._d).format('YYYY-MM-DD')+'T00:00:00.000Z'
+				this.form.StartDate = moment(e[0]._d).format('YYYY-MM-DD') + 'T00:00:00.000Z'
+				this.form.EndDate = moment(e[1]._d).format('YYYY-MM-DD') + 'T00:00:00.000Z'
 			},
 			async getDetail(ID) {
-				let res = await GetForbbidenBorCDetail({ID: ID})
+				let res = await GetForbbidenBorCDetail({
+					ID: ID
+				})
 				this.getAllBuildingList(res.data.data.SchoolID)
 				this.getAllClassRoomList(res.data.data.BuildingID)
 				let text = res.data.data
-				this.form = Object.assign(this.form,text,{JC: [text.StartJC, text.EndJC],date:[moment(text.StartDate, 'YYYY-MM-DD'), moment(text.EndDate,
-					'YYYY-MM-DD')]})
+				this.form = Object.assign(this.form, text, {
+					JC: [text.StartJC, text.EndJC],
+					date: [moment(text.StartDate, 'YYYY-MM-DD'), moment(text.EndDate,
+						'YYYY-MM-DD')]
+				})
 			},
 			async getAllSchoolList() {
 				let res = await GetAllSchoolList()
@@ -177,11 +183,15 @@
 				this.schoolList = res.data.data
 			},
 			async getAllBuildingList(e) {
-				let res = await GetAllBuildingList({xqID: e})
+				let res = await GetAllBuildingList({
+					xqID: e
+				})
 				this.buildingList1 = res.data.data
 			},
 			async getAllClassRoomList(e) {
-				let res = await GetAllClassRoomList({buildingID: e})
+				let res = await GetAllClassRoomList({
+					buildingID: e
+				})
 				this.classroomList1 = res.data.data
 			},
 			handleSubmit(e) {

@@ -21,7 +21,7 @@
                 <p><span>申请人：</span>{{ data.StudentName }}</p>
                 <p><span>手机号：</span>{{ data.Phone }}</p>
                 <p><span>申请日期：</span>{{ data.ApplyTime }}</p>
-                <p><span>学院审批人：</span>{{ data.SchoolName }}</p>
+                <p><span>学院审批人：</span>{{ data.ChargerName }}</p>
                 <p><span>学院审批意见：</span>{{ data.SchoolReviewContent }}</p>
                 <p><span>后勤审批意见：</span>{{ data.BackReviewContent }}</p>
               </div>
@@ -73,7 +73,7 @@
 		watch: {
 			nowTime: function(text) {
 				if (this.text.ID) {
-					this.getDetail(this.text.ID)
+					this.data = this.text
 				}
 			}
 		},
@@ -111,7 +111,7 @@
 			moment,
 			closeFunction(data) {
 				this.$emit('closeFun', data)
-				this.$refs['ruleForm'].resetFields();
+				this.$refs['ruleForm'].resetFields()
 			},
 			async getDetail(ID) {
 				let res = await GetAdminDetail({

@@ -384,7 +384,7 @@
 	}
 
 	.ant-form-item-label {
-		width: 95px !important;
+		width: 98px !important;
 	}
 
 	.trigger {

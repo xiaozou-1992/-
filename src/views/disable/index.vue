@@ -84,7 +84,9 @@
         </el-table-column>
       </el-table>
     </div>
-    <add :text="text" :buildingList="buildingList" :classroomList="classroomList" v-show="addIf" @closeFun="closeFun"></add>
+    <add :text="text" :nowTime="nowTime" :buildingList="buildingList" :classroomList="classroomList" v-show="addIf"
+         @closeFun="closeFun"
+    ></add>
   </div>
 </template>
 
@@ -138,23 +140,24 @@
 					ID: 'building'
 				}],
 				JCMin: this.global.JCList[0],
-				JCMax: this.global.JCList[1]
+				JCMax: this.global.JCList[1],
+				nowTime: ''
 			}
 		},
 		computed: {},
 		created() {
 			this.getDataInfo()
-			if(this.$route.query.buildingID){
+			if (this.$route.query.buildingID) {
 				this.$nextTick(() => {
 				   this.form.setFieldsValue({buildingID: this.$route.query.buildingID})
 				})
-				this.values.buildingID =  this.$route.query.buildingID
+				this.values.buildingID = this.$route.query.buildingID
 			}
-			if(this.$route.query.classID){
+			if (this.$route.query.classID) {
 				this.$nextTick(() => {
 				   this.form.setFieldsValue({classID: this.$route.query.classID})
 				})
-				this.values.classID =  this.$route.query.classID
+				this.values.classID = this.$route.query.classID
 			}
 			this.getList()
 		},
@@ -192,7 +195,7 @@
 			handleReset() {
 				this.form.resetFields()
 				this.$nextTick(() => {
-				   this.form.setFieldsValue({JC: [1,null]})
+				   this.form.setFieldsValue({JC: [1, null]})
 				})
 				this.values = {}
 				this.getList()
@@ -254,6 +257,7 @@
 				text = Object.assign(text, {
 					time: new Date()
 				})
+				this.nowTime = moment(new Date()).format('YYYY/MM/DD HH:mm:ss')
 				this.addIf = !this.addIf
 				this.text = text
 			},

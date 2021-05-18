@@ -38,7 +38,7 @@
             <a-input v-model="form.ApplyTime" disabled />
           </a-form-model-item>
           <a-form-model-item label="学院审批人">
-            <a-input v-model="form.SchoolName" disabled/>
+            <a-input v-model="form.ChargerName" disabled/>
           </a-form-model-item>
           <a-form-model-item label="学院审批意见">
             <a-input v-model="form.SchoolReviewContent" disabled type="textarea"/>
@@ -115,7 +115,7 @@
 			moment,
 			closeFunction(data) {
 				this.$emit('closeFun', data)
-				this.$refs['ruleForm'].resetFields();
+				this.$refs['ruleForm'].resetFields()
 			},
 			async getDetail(ID) {
 				let res = await GetAdminDetail({
