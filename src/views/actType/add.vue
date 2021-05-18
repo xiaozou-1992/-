@@ -34,7 +34,7 @@
 		watch: {
 			text: function(text) {
 				if (text.ID) {
-					this.form = text
+					this.form.Name = text.Name
 				}
 			}
 		},
