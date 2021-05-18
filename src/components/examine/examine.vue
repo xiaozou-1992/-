@@ -6,28 +6,54 @@
         <a-icon @click="closeFunction" :style="{ fontSize: '20px',float: 'right', margin: '10px' }" type="close-circle" />
       </p>
       <div class="main" id="new_message">
-        <a-form-model ref="ruleForm" :model="form" :rules="rules">
-          <a-form-model-item label="审核" prop="State">
-            <a-radio-group name="radioGroup" v-model="form.State">
-              <a-radio :value="'3'">
-                通过
-              </a-radio>
-              <a-radio :value="'4'">
-                不通过
-              </a-radio>
-            </a-radio-group>
-          </a-form-model-item>
-          <a-form-model-item label="内容" v-if="form.State === '3'">
-            <a-input v-model="form.BackReviewContent" type="textarea" />
-          </a-form-model-item>
-					<a-form-model-item label="内容" prop="BackReviewContent" v-else>
-					  <a-input v-model="form.BackReviewContent" type="textarea" />
-					</a-form-model-item>
-          <a-form-model-item label="" class="fixed-bottom">
-            <a-button type="primary" @click="handleSubmit">{{ JSON.stringify(text) == '{}' ? '确认添加' : '确认修改' }}</a-button>
-            <a-button style="margin-left: 10px;" @click="closeFunction">取消</a-button>
-          </a-form-model-item>
-        </a-form-model>
+        <div style="margin: 50px;">
+          <a-timeline>
+            <a-timeline-item>
+              <h2 class="title">修改记录</h2>
+              <div class="conten">
+                <p><span>校区：</span>{{ data.SchoolName }}</p>
+                <p><span>教学楼：</span>{{ data.BuildingName }}</p>
+                <p><span>教室：</span>{{ data.ClassName }}</p>
+                <p><span>节次：</span>{{ data.StartJC }} ~ {{ data.EndJC }}</p>
+                <p><span>活动类型：</span>{{ data.ActName }}</p>
+                <p><span>活动内容：</span>{{ data.ActContent }}</p>
+                <p><span>举办单位：</span>{{ data.Unity }}</p>
+                <p><span>申请人：</span>{{ data.StudentName }}</p>
+                <p><span>手机号：</span>{{ data.Phone }}</p>
+                <p><span>申请日期：</span>{{ data.ApplyTime }}</p>
+                <p><span>学院审批人：</span>{{ data.SchoolName }}</p>
+                <p><span>学院审批意见：</span>{{ data.SchoolReviewContent }}</p>
+                <p><span>后勤审批意见：</span>{{ data.BackReviewContent }}</p>
+              </div>
+            </a-timeline-item>
+            <a-timeline-item>
+              <h2 class="title">后勤审批</h2>
+              <a-form-model ref="ruleForm" :model="form" :rules="rules">
+                <a-form-model-item label="审核" prop="State">
+                  <a-radio-group name="radioGroup" v-model="form.State">
+                    <a-radio :value="'3'">
+                      通过
+                    </a-radio>
+                    <a-radio :value="'4'">
+                      不通过
+                    </a-radio>
+                  </a-radio-group>
+                </a-form-model-item>
+                <a-form-model-item label="内容" v-if="form.State === '3'">
+                  <a-input v-model="form.BackReviewContent" type="textarea" />
+                </a-form-model-item>
+                <a-form-model-item label="内容" prop="BackReviewContent" v-else>
+                  <a-input v-model="form.BackReviewContent" type="textarea" />
+                </a-form-model-item>
+                <a-form-model-item label="" class="fixed-bottom">
+                  <a-button type="primary" @click="handleSubmit">{{ JSON.stringify(text) == '{}' ? '确认添加' : '确认修改' }}</a-button>
+                  <a-button style="margin-left: 10px;" @click="closeFunction">取消</a-button>
+                </a-form-model-item>
+              </a-form-model>
+            </a-timeline-item>
+          </a-timeline>
+        </div>
+
       </div>
     </div>
   </div>
@@ -36,25 +62,29 @@
 <script>
 	import moment from 'moment'
 	import {
-		ReviewAdminApply2
+		ReviewAdminApply2,
+		GetAdminDetail
 	} from '@/api/follow'
 	export default {
 		props: {
-			text: Object
+			text: Object,
+			nowTime: String
 		},
 		watch: {
-			text: function(text) {
-				if (text.ID) {
-
+			nowTime: function(text) {
+				if (this.text.ID) {
+					this.getDetail(this.text.ID)
 				}
 			}
 		},
 		data() {
 			return {
 				formLayout: 'horizontal',
+				targetOffset: undefined,
 				form: this.$form.createForm(this, {
 					name: 'coordinated'
 				}),
+				data: {},
 				form: {
 					State: '3',
 					BackReviewContent: ''
@@ -73,16 +103,24 @@
 				}
 			}
 		},
-		created() {
+		mounted() {
+			this.targetOffset = window.innerHeight / 2
 		},
+		created() {},
 		methods: {
 			moment,
 			closeFunction(data) {
 				this.$emit('closeFun', data)
 				this.form = {}
 			},
+			async getDetail(ID) {
+				let res = await GetAdminDetail({
+					ID: ID
+				})
+				this.data = res.data.data
+			},
 			handleSubmit(e) {
-				if(this.form.State === '4' && !this.form.BackReviewContent){
+				if (this.form.State === '4' && !this.form.BackReviewContent) {
 					this.$message.error('审核内容不能为空！')
 					return false
 				}
@@ -107,6 +145,15 @@
 </script>
 
 <style lang="less" scoped>
+	.title{
+		font-size: 16px;
+		font-weight: bold;
+	}
+	.conten{
+		span{
+			color: #333;
+		}
+	}
 	.aid {
 		position: fixed;
 		width: 100%;
@@ -120,13 +167,13 @@
 	.base {
 		position: absolute;
 		border-radius: 12px;
-		width: 640px;
-		height: 340px;
+		width: 600px;
+		height: 540px;
 		background: #fff;
 		left: 50%;
-		margin-left: -320px;
+		margin-left: -300px;
 		top: 50%;
-		margin-top: -170px;
+		margin-top: -270px;
 		overflow-y: auto;
 
 		.main {
@@ -137,20 +184,18 @@
 		/deep/.ant-form-item {
 			margin: 20px 50px;
 
-			/deep/.ant-form-item-label {
-				width: 100px;
-				overflow: hidden;
-				white-space: nowrap;
-				text-overflow: ellipsis;
-				text-align: right;
-			}
-
 			/deep/.ant-form-item-control-wrapper {
 				flex: 1;
 			}
 		}
 	}
-
+	/deep/.ant-form-item-label {
+		width: 55px !important;
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		text-align: right;
+	}
 	.base p {
 		padding: 10px 0 0 10px;
 	}
@@ -175,6 +220,7 @@
 
 	.ant-form-item {
 		margin-bottom: 10px;
+		margin: 0 !important;
 	}
 
 	.btn2 {
@@ -212,15 +258,11 @@
 	.fixed-bottom {
 		width: 164px;
 		left: 50%;
-		bottom: 0px;
+		bottom: -66px;
 		margin: 0px 0px 0px -82px !important;
 		position: absolute;
 		background-color: white;
 		z-index: 999;
 	}
 
-	/deep/.ant-form {
-		margin-top: 50px;
-		padding-bottom: 50px;
-	}
 </style>

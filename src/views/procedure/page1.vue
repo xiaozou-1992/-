@@ -99,7 +99,7 @@
       ></el-pagination>
     </div>
     <add :text="text" :schoolList="schoolList" :nowTime="nowTime" v-show="addIf" @closeFun="closeFun"></add>
-    <examine :text="text" v-show="visible" @closeFun="closeFun"></examine>
+    <examine :text="text" v-show="visible" :nowTime="nowTime" @closeFun="closeFun"></examine>
   </div>
 </template>
 
@@ -241,11 +241,8 @@
 			},
 			examine(text) {
 				this.text = text
+				this.nowTime = moment(new Date()).format('YYYY/MM/DD HH:mm:ss')
 				this.visible = true
-			},
-			async importData() {
-				// let res = await uploadFun(data)
-				// this.$message.success(res.data.msg)
 			},
 			handleCancel(e) {
 				this.visible = false
