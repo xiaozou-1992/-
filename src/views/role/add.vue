@@ -44,8 +44,8 @@
 					that.treeValue = []
 				} else {
 					let that = this
-					this.form = text
-					that.form.Authority = that.form.Authority.substring(1, that.form.Authority.length - 1).replace(/"/g, '')
+					this.form.Name = text.Name
+					that.form.Authority = text.Authority.substring(1, text.Authority.length - 1).replace(/"/g, '')
 					that.treeValue = that.form.Authority.split(',')
 				}
 			}
@@ -114,7 +114,7 @@
 			},
 			closeFunction(data) {
 				this.$emit('closeFun', data)
-				this.$refs['ruleForm'].resetFields();
+				this.$refs['ruleForm'].resetFields()
 			},
 			handleSubmit(e) {
 				this.$refs.ruleForm.validate(async valid => {
