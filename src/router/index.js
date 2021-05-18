@@ -92,10 +92,7 @@ export const constantRouterMap = [
 			{
 				path: 'procedure',
 				name: 'procedure',
-				component: _import('procedure/index'),
-				meta: {
-					keepAlive: true,
-				},
+				component: _import('procedure/index')
 			},
 			{
 				path: 'actType',

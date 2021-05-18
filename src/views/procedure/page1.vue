@@ -39,23 +39,25 @@
             </a-form-item>
           </a-col>
           <a-col :span="8">
+
+          </a-col>
+          <a-col :span="8">
             <a-form-item label="节次">
               <a-slider range :min="JCMin" :max="JCMax" v-decorator="[`JC`]" />
             </a-form-item>
           </a-col>
-					<a-col :span="8">
-					  <a-button type="primary" html-type="submit" class="btn1">搜索</a-button>
-					  <a-button :style="{ marginLeft: '8px' }" @click="handleReset" class="btn2">重置</a-button>
-					</a-col>
+          <a-col :span="8" style="margin-top: 4px;">
+            <a-button type="primary" html-type="submit" class="btn1">搜索</a-button>
+            <a-button :style="{ marginLeft: '8px' }" @click="handleReset" class="btn2">重置</a-button>
+          </a-col>
         </a-row>
-				
       </a-form>
     </div>
     <div style="margin-top: 20px;">
       <el-table ref="tableForm" :data="data" v-loading="loading" border :max-height="tableHeight" highlight-current-row
                 style="width: 100%;"
       >
-        <el-table-column prop="ActName" label="活动类型" min-width="100"></el-table-column>
+        <el-table-column prop="ActName" label="活动类型" min-width="180" show-overflow-tooltip></el-table-column>
         <el-table-column prop="ActContent" label="活动内容" min-width="200" show-overflow-tooltip></el-table-column>
         <el-table-column prop="Unity" label="举办单位" min-width="120"></el-table-column>
         <el-table-column prop="StudentName" label="申请人" min-width="120"></el-table-column>
@@ -189,6 +191,7 @@
 			},
 			handleReset() {
 				this.form.resetFields()
+				this.form.setFieldsValue({JC: [1, 1]})
 				this.values = {}
 				this.gradeYear = null
 				this.getList()

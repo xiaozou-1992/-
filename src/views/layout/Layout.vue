@@ -30,10 +30,10 @@
       <a-layout-content v-if="isRouterAlive" ref="layoutContent" :style="{position:'relative',display:'flex', background: '#fff', minHeight: '280px',margin:'20px 20px 0 20px',padding:'20px', height: layoutContentHeight, overflow: 'hidden' }">
         <a-layout style="padding: 11px 0; background: #fff;width: 201px;border-right: 1px solid #eee;">
           <a-layout-sider class="side-left" :trigger="null">
-            <a-menu mode="inline" :default-selected-keys="['4']">
-              <a-menu-item @click="menu(item.id,item.path)" v-for="(item,index) in menuList" :key="item.id">
+            <a-menu mode="inline" :default-selected-keys="keys">
+              <a-menu-item v-for="(item,index) in menuList" @click="menu(item.id,item.path)" :key="item.id">
                 <a-icon :type="item.type" />
-                <span>{{ item.title }}</span>
+                <span class="nav-text">{{ item.title }}</span>
               </a-menu-item>
             </a-menu>
           </a-layout-sider>
@@ -49,6 +49,7 @@
 </template>
 <script>
 	import Cache from '@/utils/cache'
+	import { comm } from '@/api/comm'
 	import {
 		getTokenMarketInner,
 		getTokenToUser,
@@ -137,6 +138,8 @@
 				this.myInfo = Cache.get('myInfo')
 				// this._getTokenToUser()
 			}
+			let keys = parseInt(comm('type').type)
+			this.keys = [keys]
 		},
 		methods: {
 			backhome() {

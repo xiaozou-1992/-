@@ -13,14 +13,18 @@
           </a-col>
           <a-col :span="8">
             <a-form-item label="教学楼">
-              <a-select :allowClear="true" v-decorator="['buildingID']" placeholder="请选择教学楼" optionFilterProp="children" showSearch>
+              <a-select :allowClear="true" v-decorator="['buildingID']" placeholder="请选择教学楼" optionFilterProp="children"
+                        showSearch
+              >
                 <a-select-option v-for="(item, index) in buildingList" :key="index" :value="item.ID">{{ item.Name }}</a-select-option>
               </a-select>
             </a-form-item>
           </a-col>
           <a-col :span="8">
             <a-form-item label="教室">
-              <a-select :allowClear="true" v-decorator="['classID']" placeholder="请选择教室" optionFilterProp="children" showSearch>
+              <a-select :allowClear="true" v-decorator="['classID']" placeholder="请选择教室" optionFilterProp="children"
+                        showSearch
+              >
                 <a-select-option v-for="(item, index) in classroomList" :key="index" :value="item.ID">{{ item.Name }}</a-select-option>
               </a-select>
             </a-form-item>
@@ -126,7 +130,13 @@
 				tableHeight: parseFloat(window.innerHeight - 530),
 				buildingList: [],
 				classroomList: [],
-				typeList: [{Name: '教室', ID: 'classroom'}, {Name: '楼宇', ID: 'building'}],
+				typeList: [{
+					Name: '教室',
+					ID: 'classroom'
+				}, {
+					Name: '楼宇',
+					ID: 'building'
+				}],
 				JCMin: this.global.JCList[0],
 				JCMax: this.global.JCList[1]
 			}
@@ -169,6 +179,7 @@
 			},
 			handleReset() {
 				this.form.resetFields()
+				this.form.setFieldsValue({JC: [1, 1]})
 				this.values = {}
 				this.getList()
 			},

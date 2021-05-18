@@ -1,69 +1,72 @@
 <template>
-	<div class="aid">
-		<div class="base">
-			<p class="fixed-top">
-				审批详情
-				<a-icon @click="closeFunction" :style="{ fontSize: '20px',float: 'right', margin: '10px' }" type="close-circle" />
-			</p>
-			<div class="main" id="new_message">
-				<a-form-model ref="ruleForm" :model="form">
-					<a-form-model-item label="校区">
-						<a-input v-model="form.SchoolName" disabled />
-					</a-form-model-item>
-					<a-form-model-item label="教学楼">
-						<a-input v-model="form.BuildingName" disabled />
-					</a-form-model-item>
-					<a-form-model-item label="教室">
-						<a-input v-model="form.ClassName" disabled />
-					</a-form-model-item>
-					<a-form-model-item label="节次" prop="JC">
-						<a-slider range v-model="form.JC" :min="JCMin" :max="JCMax" disabled />
-					</a-form-model-item>
-					<a-form-model-item label="活动类型">
-						<a-input v-model="form.ActName" disabled />
-					</a-form-model-item>
-					<a-form-model-item label="活动内容">
-						<a-input v-model="form.ActContent" disabled />
-					</a-form-model-item>
-					<a-form-model-item label="举办单位">
-						<a-input v-model="form.Unity" disabled />
-					</a-form-model-item>
-					<a-form-model-item label="申请人">
-						<a-input v-model="form.StudentName" disabled />
-					</a-form-model-item>
-					<a-form-model-item label="手机号">
-						<a-input v-model="form.Phone" disabled />
-					</a-form-model-item>
-					<a-form-model-item label="申请日期">
-						<a-input v-model="form.ApplyTime" disabled />
-					</a-form-model-item>
-					<a-form-model-item label="审批意见">
-						<a-input v-model="form.BackReviewContent" disabled />
-					</a-form-model-item>
-					<a-form-model-item label="状态">
-						<a-tag color="red" v-if="form.State === '2' || form.State === '4'">
-							{{ form.State === '2'?'学院审核不通过':'后勤审核不通过' }}
-						</a-tag>
-						<a-tag color="green" v-if="form.State === '1' || form.State === '3'">
-							{{ form.State === '1'?'学院审核通过':'后勤审核通过' }}
-						</a-tag>
-						<a-tag color="blue" v-if="form.State === '0'">
-							待审核
-						</a-tag>
-					</a-form-model-item>
-				</a-form-model>
-			</div>
+  <div class="aid">
+    <div class="base">
+      <p class="fixed-top">
+        审批详情
+        <a-icon @click="closeFunction" :style="{ fontSize: '20px',float: 'right', margin: '10px' }" type="close-circle" />
+      </p>
+      <div class="main" id="new_message">
+        <a-form-model ref="ruleForm" :model="form">
+          <a-form-model-item label="校区">
+            <a-input v-model="form.SchoolName" disabled />
+          </a-form-model-item>
+          <a-form-model-item label="教学楼">
+            <a-input v-model="form.BuildingName" disabled />
+          </a-form-model-item>
+          <a-form-model-item label="教室">
+            <a-input v-model="form.ClassName" disabled />
+          </a-form-model-item>
+          <a-form-model-item label="节次" prop="JC">
+            <a-slider range v-model="form.JC" :min="JCMin" :max="JCMax" disabled />
+          </a-form-model-item>
+          <a-form-model-item label="活动类型">
+            <a-input v-model="form.ActName" disabled />
+          </a-form-model-item>
+          <a-form-model-item label="活动内容">
+            <a-input v-model="form.ActContent" disabled />
+          </a-form-model-item>
+          <a-form-model-item label="举办单位">
+            <a-input v-model="form.Unity" disabled />
+          </a-form-model-item>
+          <a-form-model-item label="申请人">
+            <a-input v-model="form.StudentName" disabled />
+          </a-form-model-item>
+          <a-form-model-item label="手机号">
+            <a-input v-model="form.Phone" disabled />
+          </a-form-model-item>
+          <a-form-model-item label="申请日期">
+            <a-input v-model="form.ApplyTime" disabled />
+          </a-form-model-item>
+          <a-form-model-item label="学院审批人">
+            <a-input v-model="form.SchoolName" disabled/>
+          </a-form-model-item>
+          <a-form-model-item label="学院审批意见">
+            <a-input v-model="form.SchoolReviewContent" disabled type="textarea"/>
+          </a-form-model-item>
+          <a-form-model-item label="后勤审批意见">
+            <a-input v-model="form.BackReviewContent" disabled type="textarea" />
+          </a-form-model-item>
+          <a-form-model-item label="状态">
+            <a-tag color="red" v-if="form.State === '2' || form.State === '4'">
+              {{ form.State === '2'?'学院审核不通过':'后勤审核不通过' }}
+            </a-tag>
+            <a-tag color="green" v-if="form.State === '1' || form.State === '3'">
+              {{ form.State === '1'?'学院审核通过':'后勤审核通过' }}
+            </a-tag>
+            <a-tag color="blue" v-if="form.State === '0'">
+              待审核
+            </a-tag>
+          </a-form-model-item>
+        </a-form-model>
+      </div>
 
-		</div>
-	</div>
+    </div>
+  </div>
 </template>
 
 <script>
 	import moment from 'moment'
 	import {
-		DoUpdateAdmin,
-		GetAllBuildingList,
-		GetAllClassRoomList,
 		GetAdminDetail
 	} from '@/api/follow'
 	export default {
@@ -94,15 +97,15 @@
 				form: {
 					ApplyTime: '',
 					SchoolName: '',
-					BuildingName:'',
-					ClassName:'',
-					ActName:'',
-					ActContent:'',
-					Unity:'',
-					StudentName:'',
-					Phone:'',
-					BackReviewContent:'',
-					State:'',
+					BuildingName: '',
+					ClassName: '',
+					ActName: '',
+					ActContent: '',
+					Unity: '',
+					StudentName: '',
+					Phone: '',
+					BackReviewContent: '',
+					State: '',
 					JC: []
 				}
 			}
@@ -122,29 +125,6 @@
 				let text = res.data.data
 				this.form = text
 				this.form.JC = [text.StartJC, text.EndJC]
-			},
-			handleSubmit(e) {
-				this.$refs.ruleForm.validate(async valid => {
-					if (valid) {
-						let data = this.form
-						data.EndJC = this.form.JC[1]
-						data.StartJC = this.form.JC[0]
-						data.ApplyTime = moment(data.date._d).format('YYYY-MM-DD')
-						delete data.JC
-						delete data.date
-						delete data.BuildingID
-						delete data.SchoolID
-						let res = await DoUpdateAdmin(data)
-						if (res.data.code === 0) {
-							this.$message.success(res.data.msg)
-							this.closeFunction('1')
-						} else {
-							this.$message.error(res.data.msg)
-						}
-					} else {
-						return false
-					}
-				})
 			}
 		}
 	}
