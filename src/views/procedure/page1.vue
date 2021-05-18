@@ -191,7 +191,7 @@
 			},
 			handleReset() {
 				this.form.resetFields()
-				this.form.setFieldsValue({JC: [1, 1]})
+				this.form.setFieldsValue({JC: [1,null]})
 				this.values = {}
 				this.gradeYear = null
 				this.getList()

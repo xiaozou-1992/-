@@ -36,7 +36,7 @@
             <a-range-picker style="width: 100%;" v-model="form.date" @change="meetingTime" />
           </a-form-model-item>
           <a-form-model-item label="节次" prop="JC">
-            <a-slider range v-model="form.JC" :min="JCMin" :max="JCMax" />
+            <a-slider range v-model="form.JC" :min="JCMin" :max="JCMax"/>
           </a-form-model-item>
           <a-form-model-item label="备注" prop="Remarks">
             <a-input v-model="form.Remarks" type="textarea" />
@@ -71,8 +71,10 @@
 			text: function(text) {
 				if (text.ID) {
 					this.getDetail(text.ID)
-				} else {
-					this.form.JC = [1, 1]
+				}else{
+					this.form = {}
+					this.form.JC = [1,1]
+					console.log(this.form)
 				}
 			}
 		},
@@ -156,15 +158,13 @@
 			},
 			closeFunction(data) {
 				this.$emit('closeFun', data)
-				this.form = {}
-				
 			},
 			changeType() {
 				this.form.ClassID = ''
 			},
 			meetingTime(e) {
-				this.form.StartDate = moment(e[0]._d).format('YYYY-MM-DD')
-				this.form.EndDate = moment(e[1]._d).format('YYYY-MM-DD')
+				this.form.StartDate = moment(e[0]._d).format('YYYY-MM-DD')+'T00:00:00.000Z'
+				this.form.EndDate = moment(e[1]._d).format('YYYY-MM-DD')+'T00:00:00.000Z'
 			},
 			async getDetail(ID) {
 				let res = await GetForbbidenBorCDetail({ID: ID})

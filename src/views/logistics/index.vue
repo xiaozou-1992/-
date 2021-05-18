@@ -78,11 +78,15 @@
         </el-table-column>
         <el-table-column prop="ActName" label="活动类型" min-width="180" show-overflow-tooltip></el-table-column>
         <el-table-column prop="ActContent" label="活动内容" min-width="200" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="Unity" label="举办单位" min-width="120"></el-table-column>
+        <el-table-column prop="Unity" label="举办单位" min-width="180" show-overflow-tooltip></el-table-column>
         <el-table-column prop="StudentName" label="申请人" min-width="120"></el-table-column>
         <el-table-column prop="Phone" label="手机号" min-width="120"></el-table-column>
         <el-table-column prop="ApplyTime" label="申请日期" min-width="168"></el-table-column>
-        <el-table-column prop="BackReviewContent" label="审批意见" min-width="200" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="" label="审批意见" min-width="200" show-overflow-tooltip>
+				<template slot-scope="scope">
+				  {{ scope.row.State === '1' || scope.row.State === '2'? scope.row.SchoolReviewContent: scope.row.State === '3' || scope.row.State === '4'? scope.row.BackReviewContent :'' }}
+				</template>
+			  </el-table-column>
         <el-table-column prop="IsEnable" label="节次" min-width="120">
           <template slot-scope="scope">
             {{ scope.row.StartJC }} ~ {{ scope.row.EndJC }} 节
@@ -236,7 +240,7 @@
 			},
 			handleReset() {
 				this.form.resetFields()
-				this.form.setFieldsValue({JC: [1, 1]})
+				this.form.setFieldsValue({JC: [1,null]})
 				this.values = {}
 				this.gradeYear = null
 				this.getList()

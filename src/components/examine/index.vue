@@ -113,6 +113,7 @@
 				this.$emit('closeFun', data)
 				this.form = {}
 				this.form.BorC = 'building'
+				this.form.JC = [1,null]
 			},
 			async getDetail(ID) {
 				let res = await GetAdminDetail({ID: ID})

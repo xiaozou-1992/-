@@ -143,8 +143,20 @@
 		},
 		computed: {},
 		created() {
-			this.getList()
 			this.getDataInfo()
+			if(this.$route.query.buildingID){
+				this.$nextTick(() => {
+				   this.form.setFieldsValue({buildingID: this.$route.query.buildingID})
+				})
+				this.values.buildingID =  this.$route.query.buildingID
+			}
+			if(this.$route.query.classID){
+				this.$nextTick(() => {
+				   this.form.setFieldsValue({classID: this.$route.query.classID})
+				})
+				this.values.classID =  this.$route.query.classID
+			}
+			this.getList()
 		},
 		mounted() {},
 		methods: {
@@ -179,7 +191,9 @@
 			},
 			handleReset() {
 				this.form.resetFields()
-				this.form.setFieldsValue({JC: [1, 1]})
+				this.$nextTick(() => {
+				   this.form.setFieldsValue({JC: [1,null]})
+				})
 				this.values = {}
 				this.getList()
 			},

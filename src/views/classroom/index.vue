@@ -39,24 +39,27 @@
                 style="width: 100%;"
       >
         <el-table-column prop="Name" label="名称" min-width="140"></el-table-column>
-        <el-table-column prop="BuildingName" label="教学楼" min-width="140"></el-table-column>
-        <el-table-column prop="Code" label="编号" min-width="120"></el-table-column>
+        <el-table-column prop="BuildingName" label="教学楼" min-width="180" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="Code" label="编号" min-width="140"></el-table-column>
         <el-table-column prop="BZ" label="备注" min-width="200" show-overflow-tooltip></el-table-column>
         <el-table-column prop="CreateTime" label="同步时间" min-width="168"></el-table-column>
-				<el-table-column label="操作" width="62" fixed="right">
-				  <template slot-scope="scope">
-				    <a-popover title="禁用">
-				      <i class="el-font el-icon-remove-outline" style="color: #F56C6C;" @click="disableList(scope.row)"></i>
-				    </a-popover>
-				  </template>
-				</el-table-column>
+        <el-table-column label="操作" width="88" fixed="right">
+          <template slot-scope="scope">
+            <a-popover title="禁用">
+              <i class="el-font el-icon-remove-outline" style="color: #F56C6C;" @click="disableList(scope.row)"></i>
+            </a-popover>
+            <a-popover title="详情">
+              <i class="el-font el-icon-view" style="color: #67C23A;" @click="goPage(scope.row)"></i>
+            </a-popover>
+          </template>
+        </el-table-column>
       </el-table>
       <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="pagination.currentPage"
                      :page-sizes="pagination.pageSizeOptions" :page-size="pagination.pageSize" layout="total, sizes, prev, pager, next, jumper"
                      :total="pagination.total"
       ></el-pagination>
     </div>
-		<add :text="text" v-show="addIf" :BorCType="'classroom'" @closeFun="closeFun"></add>
+    <add :text="text" v-show="addIf" :BorCType="'classroom'" @closeFun="closeFun"></add>
   </div>
 </template>
 
@@ -95,8 +98,8 @@
 				tableHeight: parseFloat(window.innerHeight - 530),
 				layoutHeight: window.innerHeight - 460 + 'px',
 				buildingList: [],
-				addIf:'',
-				text:{}
+				addIf: '',
+				text: {}
 			}
 		},
 		computed: {},
@@ -107,6 +110,14 @@
 		mounted() {},
 		methods: {
 			moment,
+			goPage(d) {
+				this.$router.push({
+					name: 'disable',
+					query: {
+						classID: d.ID
+					}
+				})
+			},
 			handleSearch(e) {
 				e.preventDefault()
 				this.form.validateFields((error, values) => {
@@ -129,7 +140,7 @@
 				this.$refs.tableForm.bodyWrapper.scrollTop = 0
 				this.getList()
 			},
-			disableList(text){
+			disableList(text) {
 				this.text = text
 				this.addIf = true
 			},
