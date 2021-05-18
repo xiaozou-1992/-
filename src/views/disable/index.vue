@@ -123,7 +123,7 @@
 					pageIndex: 1,
 					pageSize: 20
 				},
-				tableHeight: parseFloat(window.innerHeight - 480),
+				tableHeight: parseFloat(window.innerHeight - 530),
 				buildingList: [],
 				classroomList: [],
 				typeList: [{Name: '教室', ID: 'classroom'}, {Name: '楼宇', ID: 'building'}],

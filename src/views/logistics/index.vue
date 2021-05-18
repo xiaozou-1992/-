@@ -174,7 +174,7 @@
 					pageIndex: 1,
 					pageSize: 20
 				},
-				tableHeight: parseFloat(window.innerHeight - 480),
+				tableHeight: parseFloat(window.innerHeight - 530),
 				ClassList: [],
 				DepartCodeList: [],
 				layoutHeight: window.innerHeight - 460 + 'px',

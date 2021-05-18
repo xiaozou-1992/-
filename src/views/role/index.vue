@@ -82,7 +82,7 @@
 					pageIndex: 2,
 					pageSize: 20
 				},
-				tableHeight: parseFloat(window.innerHeight - 480),
+				tableHeight: parseFloat(window.innerHeight - 530),
 				RoleList: []
 			}
 		},

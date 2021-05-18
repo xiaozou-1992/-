@@ -4,6 +4,7 @@
       <a-layout-header class="header">
         <div class="logo">
           <img src="../../assets/logo.png" />
+          <span>后勤教室借用系统</span>
         </div>
         <div class="btn-con">
           <a-button class="trigger" type="primary" @click="goBack()">
@@ -29,8 +30,8 @@
       <a-layout-content v-if="isRouterAlive" ref="layoutContent" :style="{position:'relative',display:'flex', background: '#fff', minHeight: '280px',margin:'20px 20px 0 20px',padding:'20px', height: layoutContentHeight, overflow: 'hidden' }">
         <a-layout style="padding: 11px 0; background: #fff;width: 201px;border-right: 1px solid #eee;">
           <a-layout-sider class="side-left" :trigger="null">
-            <a-menu style="width: 200px" :default-selected-keys="['2']">
-              <a-menu-item @click="menu(item.id,item.path)" v-for="(item,index) in menuList" :key="item.type">
+            <a-menu mode="inline" :default-selected-keys="['4']">
+              <a-menu-item @click="menu(item.id,item.path)" v-for="(item,index) in menuList" :key="item.id">
                 <a-icon :type="item.type" />
                 <span>{{ item.title }}</span>
               </a-menu-item>
@@ -58,7 +59,7 @@
 	export default {
 		data() {
 			return {
-				keys: ['2'],
+				keys: ['5'],
 				showSubMenu: 0,
 				columns: '',
 				collapsed: false,
@@ -136,32 +137,10 @@
 				this.myInfo = Cache.get('myInfo')
 				// this._getTokenToUser()
 			}
-			// let currentName = this.$router.history.current.name
-			// let current1
-			// for (let i = 0; i < this.menuList.length; i++) {
-			// 	for (let m = 0; m < this.menuList[i].children.length; m++) {
-			// 		for (let n = 0; n < this.menuList[i].children[m].children.length; n++) {
-			// 			if (this.menuList[i].children[m].children[n].path == currentName) {
-			// 				this.keys = i
-			// 				this.showSubMenu = i
-			// 			}
-			// 		}
-			// 	}
-			// }
-			let wurl = window.location.href
-			let urlParameter = wurl.substring(wurl.lastIndexOf('/') + 1, wurl.length)
-			let eq = urlParameter.indexOf('?')
-			let t = urlParameter.substring(eq+6)
-		
 		},
 		methods: {
 			backhome() {
 				this.$router.push('/index')
-			},
-			checkMenu(index) {
-				this.showSubMenu = index
-				this.keys = index
-				console.log(this.keys)
 			},
 			menuFunction() {
 				let arr = []
@@ -177,7 +156,6 @@
 					}
 				})
 				this.keys = [type]
-				this.isShow = parseInt(type)
 			},
 			goBack() {
 				this.$router.back(-1)
@@ -336,10 +314,12 @@
 		background: #1890ff;
 		padding: 10px 0px 0 0px;
 		float: left;
-		color: #fff;
+		color: #EFEFEF;
 		text-align: center;
-		margin-right: 30px;
+		margin-right: 10px;
 		margin-left: 10px;
+		font-size: 20px;
+		font-weight: bold;
 	}
 
 	#menutop2 .ant-menu-item-selected {
