@@ -59,7 +59,7 @@
                      :total="pagination.total"
       ></el-pagination>
     </div>
-    <add :text="text" v-show="addIf" :BorCType="'classroom'" @closeFun="closeFun"></add>
+    <add :text="text" v-show="addIf" :borCType="'classroom'" @closeFun="closeFun"></add>
   </div>
 </template>
 

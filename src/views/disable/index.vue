@@ -34,11 +34,11 @@
               <a-range-picker style="width: 100%;" v-decorator="[`date`]" />
             </a-form-item>
           </a-col>
-          <a-col :span="8">
+          <!-- <a-col :span="8">
             <a-form-item label="节次">
               <a-slider range :min="JCMin" :max="JCMax" v-decorator="[`JC`]" />
             </a-form-item>
-          </a-col>
+          </a-col> -->
           <a-col :span="8" style="margin-top:4px;">
             <a-button type="primary" html-type="submit" class="btn1">搜索</a-button>
             <a-button :style="{ marginLeft: '8px' }" @click="handleReset" class="btn2">重置</a-button>
@@ -65,11 +65,11 @@
             {{ scope.row.StartDate }} ~ {{ scope.row.EndDate }}
           </template>
         </el-table-column>
-        <el-table-column prop="Name" label="节次" min-width="120">
+        <!-- <el-table-column prop="Name" label="节次" min-width="120">
           <template slot-scope="scope">
             {{ scope.row.StartJC }} ~ {{ scope.row.EndJC }}节
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column prop="Remarks" label="备注" min-width="160" show-overflow-tooltip></el-table-column>
         <el-table-column label="操作" width="82" fixed="right">
           <template slot-scope="scope">
@@ -172,12 +172,12 @@
 						values.StartDate = moment(values.date[0]._d).format('YYYY-MM-DD')
 						values.EndDate = moment(values.date[1]._d).format('YYYY-MM-DD')
 					}
-					if (values.JC) {
-						values.StartJC = values.JC[0]
-						values.EndJC = values.JC[1]
-					}
+					// if (values.JC) {
+					// 	values.StartJC = values.JC[0]
+					// 	values.EndJC = values.JC[1]
+					// }
 					delete values.date
-					delete values.JC
+					// delete values.JC
 					this.values = values
 					this.getList()
 				})
@@ -194,9 +194,9 @@
 			},
 			handleReset() {
 				this.form.resetFields()
-				this.$nextTick(() => {
-				   this.form.setFieldsValue({JC: [1, null]})
-				})
+				// this.$nextTick(() => {
+				//    this.form.setFieldsValue({JC: [1, null]})
+				// })
 				this.values = {}
 				this.getList()
 			},

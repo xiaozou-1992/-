@@ -2,7 +2,7 @@
   <div class="aid">
     <div class="base">
       <p class="fixed-top">
-       添加禁用时段
+        添加禁用时段
         <a-icon @click="closeFunction" :style="{ fontSize: '20px',float: 'right', margin: '10px' }" type="close-circle" />
       </p>
       <div class="main" id="new_message">
@@ -10,9 +10,9 @@
           <a-form-model-item label="日期" prop="date">
             <a-range-picker style="width: 100%;" v-model="form.date" @change="meetingTime" />
           </a-form-model-item>
-          <a-form-model-item label="节次" prop="JC">
+          <!-- <a-form-model-item label="节次" prop="JC">
             <a-slider range v-model="form.JC" :min="JCMin" :max="JCMax" />
-          </a-form-model-item>
+          </a-form-model-item> -->
           <a-form-model-item label="备注" prop="Remarks">
             <a-input v-model="form.Remarks" type="textarea" />
           </a-form-model-item>
@@ -36,15 +36,13 @@
 	export default {
 		props: {
 			text: Object,
-			BorCType:String
+			borCType: String
 		},
 		watch: {
 			text: function(text) {
-				console.log(this.BorCType)
+				console.log(this.borCType)
 				if (text.ID) {
 					// this.getDetail(text.ID)
-				} else {
-					this.form.JC = [1, 1]
 				}
 			}
 		},
@@ -62,11 +60,8 @@
 					BIDorCID: '',
 					Remarks: '',
 					date: [],
-					JC: [1, 1],
 					StartDate: '',
-					EndDate: '',
-					StartJC: [],
-					EndJC: [],
+					EndDate: ''
 				},
 				rules: {
 					Remarks: [{
@@ -77,11 +72,6 @@
 					date: [{
 						required: true,
 						message: '请选择日期',
-						trigger: 'change'
-					}],
-					JC: [{
-						required: true,
-						message: '请选择节次',
 						trigger: 'change'
 					}]
 				}
@@ -96,24 +86,21 @@
 			},
 			closeFunction(data) {
 				this.$emit('closeFun', data)
-			  this.$refs['ruleForm'].resetFields();
+			  this.$refs['ruleForm'].resetFields()
 			},
 			changeType() {
 				this.form.ClassID = ''
 			},
 			meetingTime(e) {
-				this.form.StartDate = moment(e[0]._d).format('YYYY-MM-DD')
-				this.form.EndDate = moment(e[1]._d).format('YYYY-MM-DD')
+				this.form.StartDate = moment(e[0]._d).format('YYYY-MM-DD') + 'T00:00:00.000Z'
+				this.form.EndDate = moment(e[1]._d).format('YYYY-MM-DD') + 'T00:00:00.000Z'
 			},
 			handleSubmit(e) {
 				this.$refs.ruleForm.validate(async valid => {
 					if (valid) {
 						let data = this.form
 						this.form.BIDorCID = this.text.ID
-						this.form.BorC = this.BorCType
-						data.EndJC = this.form.JC[1]
-						data.StartJC = this.form.JC[0]
-						delete data.JC
+						this.form.BorC = this.borCType
 						delete data.date
 						let res = await DoAddForbbidenBorC(data)
 						if (res.data.code === 0) {

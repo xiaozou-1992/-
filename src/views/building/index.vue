@@ -58,7 +58,7 @@
                      :total="pagination.total"
       ></el-pagination>
     </div>
-    <add :text="text" v-show="addIf" :BorCType="'building'" @closeFun="closeFun"></add>
+    <add :text="text" v-show="addIf" :borCType="'building'" @closeFun="closeFun"></add>
   </div>
 </template>
 
@@ -124,7 +124,7 @@
 					name: 'disable',
 					query: {
 						buildingID: d.ID,
-						type:6
+						type: 6
 					}
 				})
 			},
