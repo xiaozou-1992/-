@@ -11,7 +11,7 @@
           </a-col>
           <a-col :span="8">
             <a-form-item label="编号">
-              <a-input class="field-right" placeholder="请输入名称" v-decorator="[`code`]" />
+              <a-input class="field-right" placeholder="请输入编号" v-decorator="[`code`]" />
             </a-form-item>
           </a-col>
           <a-col :span="8">
@@ -42,8 +42,11 @@
         <el-table-column prop="SchoolName" label="校区" min-width="140"></el-table-column>
         <el-table-column prop="Code" label="编号" min-width="120"></el-table-column>
         <el-table-column prop="CreateTime" label="同步时间" min-width="168"></el-table-column>
-        <el-table-column label="操作" width="88" fixed="right">
+        <el-table-column label="操作" width="110" fixed="right">
           <template slot-scope="scope">
+            <a-popover title="同步">
+              <i class="el-font el-icon-check" style="color: #409EFF" @click="synchroAll(scope.row)"></i>
+            </a-popover>
             <a-popover title="禁用">
               <i class="el-font el-icon-remove-outline" style="color: #F56C6C;" @click="disableList(scope.row)"></i>
             </a-popover>
@@ -172,15 +175,23 @@
 					this.getList()
 				}
 			},
-			synchroAll() {
+			synchroAll(d) {
+				let msg = ''
+				let data = {}
+				if (d.ID) {
+					msg = `您确定同步此楼宇下的教室吗？`
+					data.BuildingID = d.ID
+				} else {
+					msg = `您确定同步所有楼宇吗？`
+				}
 				let that = this
 				this.$confirm({
 					title: '提示',
-					content: `您确定同步所有楼宇吗？`,
+					content: msg,
 					okText: '确认',
 					cancelText: '取消',
 					async onOk() {
-						let res = await SynchronizationBuilding()
+						let res = await SynchronizationBuilding(data)
 						if (res.data.code === 0) {
 							that.getList()
 							that.$message.success(res.data.msg)

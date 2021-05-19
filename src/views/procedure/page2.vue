@@ -74,7 +74,6 @@
         <el-table-column prop="StudentName" label="申请人" min-width="120"></el-table-column>
         <el-table-column prop="Phone" label="手机号" min-width="120"></el-table-column>
         <el-table-column prop="ApplyTime" label="申请日期" min-width="168"></el-table-column>
-        <el-table-column prop="BackReviewContent" label="审批意见" min-width="200" show-overflow-tooltip></el-table-column>
         <el-table-column prop="IsEnable" label="节次" min-width="120">
           <template slot-scope="scope">
             {{ scope.row.StartJC }} ~ {{ scope.row.EndJC }} 节
@@ -190,8 +189,8 @@
 					this.pagination.currentPage = 1
 					this.values = values
 					if (values.date) {
-						values.applyStartDate = moment(values.date[0]._d).format('YYYY-MM-DD')
-						values.applyEndDate = moment(values.date[1]._d).format('YYYY-MM-DD')
+						values.applyStartDate = moment(values.date[0]._d).format('YYYY-MM-DD') + 'T00:00:00.000Z'
+						values.applyEndDate = moment(values.date[1]._d).format('YYYY-MM-DD') + 'T00:00:00.000Z'
 					}
 					if (values.JC) {
 						values.startJC = values.JC[0]
@@ -204,7 +203,7 @@
 			},
 			handleReset() {
 				this.form.resetFields()
-				this.form.setFieldsValue({JC: [1,null]})
+				this.form.setFieldsValue({JC: [1, null]})
 				this.values = {}
 				this.gradeYear = null
 				this.getList()

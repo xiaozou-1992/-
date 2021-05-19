@@ -119,11 +119,6 @@
 						message: '请选择日期',
 						trigger: 'change'
 					}],
-					JC: [{
-						required: true,
-						message: '请选择节次',
-						trigger: 'change'
-					}],
 					ClassID: [{
 						required: true,
 						message: '请选择教室',
@@ -155,11 +150,13 @@
 				this.$refs['ruleForm'].resetFields()
 			},
 			changeType() {
+				this.form.SchoolID = ''
+				this.form.BuildingID = ''
 				this.form.ClassID = ''
 			},
 			meetingTime(e) {
-				this.form.StartDate = moment(e[0]._d).format('YYYY-MM-DD') + 'T00:00:00.000Z'
-				this.form.EndDate = moment(e[1]._d).format('YYYY-MM-DD') + 'T00:00:00.000Z'
+				this.form.StartDate = moment(e[0]._d).format('YYYY-MM-DD')
+				this.form.EndDate = moment(e[1]._d).format('YYYY-MM-DD')
 			},
 			async getDetail(ID) {
 				let res = await GetForbbidenBorCDetail({
@@ -168,15 +165,12 @@
 				this.getAllBuildingList(res.data.data.SchoolID)
 				this.getAllClassRoomList(res.data.data.BuildingID)
 				let text = res.data.data
-				this.form = Object.assign(this.form, text, {
-					JC: [text.StartJC, text.EndJC],
-					date: [moment(text.StartDate, 'YYYY-MM-DD'), moment(text.EndDate,
+				this.form = Object.assign(this.form, text, {date: [moment(text.StartDate, 'YYYY-MM-DD'), moment(text.EndDate,
 						'YYYY-MM-DD')]
 				})
 			},
 			async getAllSchoolList() {
 				let res = await GetAllSchoolList()
-				this.form.BuildingID = ''
 				this.schoolList = res.data.data
 			},
 			async getAllBuildingList(e) {
@@ -200,6 +194,8 @@
 						} else {
 							this.form.BIDorCID = this.form.ClassID
 						}
+						this.form.StartDate = this.form.StartDate + 'T00:00:00.000Z'
+						this.form.EndDate = this.form.EndDate + 'T00:00:00.000Z'
 						delete this.form.SchoolID
 						delete this.form.BuildingID
 						delete this.form.ClassID

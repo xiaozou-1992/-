@@ -40,6 +40,9 @@
           <a-form-model-item label="学院审批人">
             <a-input v-model="form.ChargerName" disabled/>
           </a-form-model-item>
+          <a-form-model-item label="主管部门">
+            <a-input v-model="form.DepartName" disabled/>
+          </a-form-model-item>
           <a-form-model-item label="学院审批意见">
             <a-input v-model="form.SchoolReviewContent" disabled type="textarea"/>
           </a-form-model-item>
@@ -79,6 +82,7 @@
 		watch: {
 			nowTime: function(text) {
 				if (this.text.ID) {
+					console.log(11111111)
 					this.getDetail(this.text.ID)
 				}
 			}
@@ -106,7 +110,8 @@
 					Phone: '',
 					BackReviewContent: '',
 					State: '',
-					JC: []
+					JC: [],
+					DepartName: ''
 				}
 			}
 		},

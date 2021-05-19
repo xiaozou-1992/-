@@ -23,7 +23,6 @@
                 <p><span>申请日期：</span>{{ data.ApplyTime }}</p>
                 <p><span>学院审批人：</span>{{ data.ChargerName }}</p>
                 <p><span>学院审批意见：</span>{{ data.SchoolReviewContent }}</p>
-                <p><span>后勤审批意见：</span>{{ data.BackReviewContent }}</p>
               </div>
             </a-timeline-item>
             <a-timeline-item>
@@ -72,6 +71,7 @@
 		},
 		watch: {
 			nowTime: function(text) {
+				console.log(this.text)
 				if (this.text.ID) {
 					this.data = this.text
 				}

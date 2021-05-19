@@ -55,6 +55,7 @@
 		},
 		watch: {
 			nowTime: function(text) {
+				console.log(2222222)
 				if (this.text.ID) {
 					this.getDetail(this.text.ID)
 				}
@@ -133,7 +134,7 @@
 						let data = this.form
 						data.EndJC = this.form.JC[1]
 						data.StartJC = this.form.JC[0]
-						data.ApplyTime = moment(data.date._d).format('YYYY-MM-DD')
+						data.ApplyTime = moment(data.date._d).format('YYYY-MM-DD') + 'T00:00:00.000Z'
 						delete data.JC
 						delete data.date
 						delete data.BuildingID
