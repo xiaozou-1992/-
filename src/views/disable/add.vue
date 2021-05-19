@@ -196,9 +196,9 @@
 						}
 						this.form.StartDate = this.form.StartDate + 'T00:00:00.000Z'
 						this.form.EndDate = this.form.EndDate + 'T00:00:00.000Z'
-						delete this.form.SchoolID
-						delete this.form.BuildingID
-						delete this.form.ClassID
+						delete data.SchoolID
+						delete data.BuildingID
+						delete data.ClassID
 						delete data.date
 						let res = {}
 						if (!this.text.ID) {

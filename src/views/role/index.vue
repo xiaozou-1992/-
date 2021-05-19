@@ -41,12 +41,15 @@
                      :total="pagination.total"
       ></el-pagination>
     </div>
-    <add :text="text" :RoleList="RoleList" :treeDate="RoleList" v-show="addIf" @closeFun="closeFun"></add>
+    <add :text="text" :nowTime="nowTime" :RoleList="RoleList" :treeDate="RoleList" v-show="addIf"
+         @closeFun="closeFun"
+    ></add>
   </div>
 </template>
 
 <script>
 	import add from './add'
+	import moment from 'moment'
 	import {
 		GetRolePageList,
 		DoDeleteRole,
@@ -83,7 +86,8 @@
 					pageSize: 20
 				},
 				tableHeight: parseFloat(window.innerHeight - 530),
-				RoleList: []
+				RoleList: [],
+				nowTime: ''
 			}
 		},
 		computed: {},
@@ -150,6 +154,7 @@
 				text = Object.assign(text, {
 					time: new Date()
 				})
+				this.nowTime = moment(new Date()).format('YYYY/MM/DD HH:mm:ss')
 				this.addIf = !this.addIf
 				this.text = text
 			},

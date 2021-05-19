@@ -5,8 +5,8 @@
       <a-form class="ant-advanced-search-form home-form" :form="form" @submit="handleSearch">
         <a-row :gutter="24">
           <a-col :span="8">
-            <a-form-item label="人员">
-              <a-input class="field-right" placeholder="请输入人员名称" v-decorator="[`name`]" />
+            <a-form-item label="申请人">
+              <a-input class="field-right" placeholder="请输入申请人名称" v-decorator="[`name`]" />
             </a-form-item>
           </a-col>
           <a-col :span="8">

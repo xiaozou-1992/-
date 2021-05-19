@@ -17,7 +17,8 @@
             <a-input v-model="form.ClassName" disabled />
           </a-form-model-item>
           <a-form-model-item label="节次" prop="JC">
-            <a-slider range v-model="form.JC" :min="JCMin" :max="JCMax" disabled />
+            <a-input v-model="form.StartJC" style="width: 47%;" disabled /> ~
+            <a-input v-model="form.EndJC" style="width: 47%;" disabled/>
           </a-form-model-item>
           <a-form-model-item label="活动类型">
             <a-input v-model="form.ActName" disabled />
@@ -82,7 +83,6 @@
 		watch: {
 			nowTime: function(text) {
 				if (this.text.ID) {
-					console.log(11111111)
 					this.getDetail(this.text.ID)
 				}
 			}
@@ -128,7 +128,6 @@
 				})
 				let text = res.data.data
 				this.form = text
-				this.form.JC = [text.StartJC, text.EndJC]
 			}
 		}
 	}

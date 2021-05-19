@@ -26,7 +26,8 @@
             <a-date-picker style="width: 100%;" v-model="form.date"/>
           </a-form-model-item>
           <a-form-model-item label="节次" prop="JC">
-            <a-slider range v-model="form.JC" :min="JCMin" :max="JCMax"/>
+            <a-input-number :min="JCMin" :max="JCMax" v-model="form.StartJC" @blur="numberChange(1)" style="width: 47%;"/> ~  <a-input-number style="width: 47%;" :min="JCMin" :max="JCMax" v-model="form.EndJC" @blur="numberChange(2)"/>
+            <!-- <a-slider range v-model="form.JC" :min="JCMin" :max="JCMax"/> -->
           </a-form-model-item>
           <a-form-model-item label="" class="fixed-bottom">
             <a-button type="primary" @click="handleSubmit">{{ JSON.stringify(text) == '{}' ? '确认添加' : '确认修改' }}</a-button>
@@ -55,7 +56,6 @@
 		},
 		watch: {
 			nowTime: function(text) {
-				console.log(2222222)
 				if (this.text.ID) {
 					this.getDetail(this.text.ID)
 				}
@@ -74,9 +74,8 @@
 				JCMax: this.global.JCList[1],
 				form: {
 					date: '',
-					JC: [],
-					StartJC: [],
-					EndJC: [],
+					StartJC: 1,
+					EndJC: 1,
 					SchoolID: '',
 					BuildingID: '',
 					ClassID: ''
@@ -113,12 +112,17 @@
 				this.$emit('closeFun', data)
 				this.$refs['ruleForm'].resetFields()
 			},
+			numberChange(type) {
+				if (this.form.StartJC > this.form.EndJC) {
+					this.form.EndJC = 10
+				}
+			},
 			async getDetail(ID) {
 				let res = await GetAdminDetail({ID: ID})
 				this.getAllBuildingList(res.data.data.SchoolID)
 				this.getAllClassRoomList(res.data.data.BuildingID)
 				let text = res.data.data
-				this.form = Object.assign(this.form, text, {JC: [text.StartJC, text.EndJC], date: text.ApplyTime})
+				this.form = Object.assign(this.form, text, {date: moment(text.ApplyTime, 'YYYY-MM-DD')})
 			},
 			async getAllBuildingList(e) {
 				let res = await GetAllBuildingList({xqID: e})
@@ -132,10 +136,7 @@
 				this.$refs.ruleForm.validate(async valid => {
 					if (valid) {
 						let data = this.form
-						data.EndJC = this.form.JC[1]
-						data.StartJC = this.form.JC[0]
 						data.ApplyTime = moment(data.date._d).format('YYYY-MM-DD') + 'T00:00:00.000Z'
-						delete data.JC
 						delete data.date
 						delete data.BuildingID
 						delete data.SchoolID

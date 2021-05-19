@@ -29,12 +29,14 @@
 	} from '@/api/follow'
 	export default {
 		props: {
-			text: Object
+			text: Object,
+			nowTime: String
 		},
 		watch: {
-			text: function(text) {
-				if (text.ID) {
-					this.form.Name = text.Name
+			nowTime: function(text) {
+				if (this.text.ID) {
+					this.form.Name = this.text.Name
+					this.form.ID = this.text.ID
 				}
 			}
 		},

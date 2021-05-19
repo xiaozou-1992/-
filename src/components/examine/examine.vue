@@ -45,7 +45,7 @@
                   <a-input v-model="form.BackReviewContent" type="textarea" />
                 </a-form-model-item>
                 <a-form-model-item label="" class="fixed-bottom">
-                  <a-button type="primary" @click="handleSubmit">{{ JSON.stringify(text) == '{}' ? '确认添加' : '确认修改' }}</a-button>
+                  <a-button type="primary" @click="handleSubmit">{{ JSON.stringify(text) == '{}' ? '确认' : '确认' }}</a-button>
                   <a-button style="margin-left: 10px;" @click="closeFunction">取消</a-button>
                 </a-form-model-item>
               </a-form-model>

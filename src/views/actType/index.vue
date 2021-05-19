@@ -43,12 +43,13 @@
                      :total="pagination.total"
       ></el-pagination>
     </div>
-    <add :text="text" v-show="addIf" @closeFun="closeFun"></add>
+    <add :text="text" v-show="addIf" :nowTime="nowTime" @closeFun="closeFun"></add>
   </div>
 </template>
 
 <script>
 import add from './add'
+import moment from 'moment'
 import { GetActTypePageList, DoDeleteActType } from '@/api/follow'
 const data = []
 export default {
@@ -80,7 +81,8 @@ export default {
 				pageIndex: 1,
 				pageSize: 20
 			},
-			tableHeight: parseFloat(window.innerHeight - 530)
+			tableHeight: parseFloat(window.innerHeight - 530),
+			nowTime: ''
 		}
 	},
 	computed: {},
@@ -130,6 +132,7 @@ export default {
 		},
 		addList(data) {
 			this.text = data
+			this.nowTime = moment(new Date()).format('YYYY/MM/DD HH:mm:ss')
 			this.addIf = !this.addIf
 		},
 		async importData() {

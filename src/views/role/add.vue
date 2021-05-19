@@ -35,17 +35,19 @@
 		},
 		props: {
 			text: Object,
-			treeDate: Array
+			treeDate: Array,
+			nowTime: String
 		},
 		watch: {
-			text: function(text) {
-				if (!text.ID) {
+			nowTime: function(text) {
+				if (!this.text.ID) {
 					let that = this
 					that.treeValue = []
 				} else {
 					let that = this
-					this.form.Name = text.Name
-					that.form.Authority = text.Authority.substring(1, text.Authority.length - 1).replace(/"/g, '')
+					this.form.Name = this.text.Name
+					this.form.ID = this.text.ID
+					that.form.Authority = this.text.Authority.substring(1, this.text.Authority.length - 1).replace(/"/g, '')
 					that.treeValue = that.form.Authority.split(',')
 				}
 			}
@@ -66,7 +68,7 @@
 				rules: {
 					Name: [{
 						required: true,
-						message: '请输入俱乐部名称',
+						message: '请输入角色名称',
 						trigger: 'change'
 					}],
 					Authority: [{
@@ -115,6 +117,7 @@
 			closeFunction(data) {
 				this.$emit('closeFun', data)
 				this.$refs['ruleForm'].resetFields()
+				this.treeValue = []
 			},
 			handleSubmit(e) {
 				this.$refs.ruleForm.validate(async valid => {
