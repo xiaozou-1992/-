@@ -43,7 +43,7 @@
           </a-col>
           <a-col :span="8">
             <a-form-item label="节次">
-              <a-slider range :min="JCMin" :max="JCMax" v-decorator="[`JC`]" />
+              <a-input-number :min="JCMin" :max="JCMax" v-decorator="[`StartJC`]" @blur="numberChange(1)" style="width: 46%;"/> ~  <a-input-number style="width: 46%;" :min="JCMin" :max="JCMax" v-decorator="[`EndJC`]" @blur="numberChange(2)"/>
             </a-form-item>
           </a-col>
           <a-col :span="8" style="margin-top: 4px;">
@@ -68,19 +68,6 @@
             {{ scope.row.StartJC }} ~ {{ scope.row.EndJC }} 节
           </template>
         </el-table-column>
-        <!-- <el-table-column prop="IsEnable" label="状态" min-width="150">
-					<template slot-scope="scope">
-						<a-tag color="red" v-if="scope.row.State === '2' || scope.row.State === '4'">
-							{{ scope.row.State === '2'?'学院审核不通过':'后勤审核不通过' }}
-						</a-tag>
-						<a-tag color="green" v-if="scope.row.State === '1' || scope.row.State === '3'">
-							{{ scope.row.State === '2'?'学院审核通过':'后勤审核通过' }}
-						</a-tag>
-						<a-tag color="blue" v-if="scope.row.State === '0'">
-							待审核
-						</a-tag>
-					</template>
-				</el-table-column> -->
         <el-table-column label="操作" width="88" fixed="right">
           <template slot-scope="scope">
             <a-popover title="审批">
@@ -179,20 +166,20 @@
 						values.applyStartDate = moment(values.date[0]._d).format('YYYY-MM-DD') + 'T00:00:00.000Z'
 						values.applyEndDate = moment(values.date[1]._d).format('YYYY-MM-DD') + 'T00:00:00.000Z'
 					}
-					if (values.JC) {
-						values.startJC = values.JC[0]
-						values.endJC = values.JC[1]
-					}
 					delete values.date
-					delete values.JC
 					this.getList()
+				})
+			},
+			numberChange(type) {
+				this.form.validateFields((error, values) => {
+					if (values.StartJC > values.EndJC) {
+						this.form.setFieldsValue({EndJC: this.JCMax})
+					}
 				})
 			},
 			handleReset() {
 				this.form.resetFields()
-				this.form.setFieldsValue({JC: [1, null]})
 				this.values = {}
-				this.gradeYear = null
 				this.getList()
 			},
 			handleSizeChange(val) {

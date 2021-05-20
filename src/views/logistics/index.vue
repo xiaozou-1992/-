@@ -41,7 +41,7 @@
           </a-col>
           <a-col :span="8">
             <a-form-item label="节次">
-              <a-slider range :min="JCMin" :max="JCMax" v-decorator="[`JC`]" />
+              <a-input-number :min="JCMin" :max="JCMax" v-decorator="[`StartJC`]" @blur="numberChange(1)" style="width: 46%;"/> ~  <a-input-number style="width: 46%;" :min="JCMin" :max="JCMax" v-decorator="[`EndJC`]" @blur="numberChange(2)"/>
             </a-form-item>
           </a-col>
           <a-col :span="8"></a-col>
@@ -196,18 +196,6 @@
 		mounted() {},
 		methods: {
 			moment,
-			handleOpenChange(status) {
-				this.yearPickShow = status
-			},
-			handlePanelChange(value, mode) {
-				this.gradeYear = moment(value).format('YYYY')
-				this.yearPickShow = false
-			},
-			yearChange(date, dateString) {
-				if (!date) {
-					this.gradeYear = null
-				}
-			},
 			async getAllSchoolList() {
 				let res = await GetAllSchoolList()
 				this.schoolList = res.data.data
@@ -229,20 +217,20 @@
 						values.applyStartDate = moment(values.date[0]._d).format('YYYY-MM-DD') + 'T00:00:00.000Z'
 						values.applyEndDate = moment(values.date[1]._d).format('YYYY-MM-DD') + 'T00:00:00.000Z'
 					}
-					if (values.JC) {
-						values.startJC = values.JC[0]
-						values.endJC = values.JC[1]
-					}
 					delete values.date
-					delete values.JC
 					this.getList()
+				})
+			},
+			numberChange(type) {
+				this.form.validateFields((error, values) => {
+					if (values.StartJC > values.EndJC) {
+						this.form.setFieldsValue({EndJC: this.JCMax})
+					}
 				})
 			},
 			handleReset() {
 				this.form.resetFields()
-				this.form.setFieldsValue({JC: [1, null]})
 				this.values = {}
-				this.gradeYear = null
 				this.getList()
 			},
 			handleSizeChange(val) {
