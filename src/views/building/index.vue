@@ -6,12 +6,12 @@
         <a-row :gutter="24">
           <a-col :span="8">
             <a-form-item label="名称">
-              <a-input class="field-right" placeholder="请输入名称" v-decorator="[`name`]" />
+              <a-input class="field-right" placeholder="请输入名称" v-decorator="[`name`]" autocomplete="off"/>
             </a-form-item>
           </a-col>
           <a-col :span="8">
             <a-form-item label="编号">
-              <a-input class="field-right" placeholder="请输入编号" v-decorator="[`code`]" />
+              <a-input class="field-right" placeholder="请输入编号" v-decorator="[`code`]" autocomplete="off" />
             </a-form-item>
           </a-col>
           <a-col :span="8">

@@ -5,10 +5,10 @@
       <a-form class="ant-advanced-search-form home-form" :form="form" @submit="handleSearch">
         <a-row :gutter="24">
           <a-col :span="8">
-            <a-form-item label="部门名称"><a-input class="field-right" placeholder="请输入部门名称" v-decorator="[`name`]" /></a-form-item>
+            <a-form-item label="部门名称"><a-input class="field-right" placeholder="请输入部门名称" v-decorator="[`name`]" autocomplete="off"/></a-form-item>
           </a-col>
           <a-col :span="8">
-            <a-form-item label="编号"><a-input class="field-right" placeholder="请输入编号" v-decorator="[`code`]" /></a-form-item>
+            <a-form-item label="编号"><a-input class="field-right" placeholder="请输入编号" v-decorator="[`code`]" autocomplete="off"/></a-form-item>
           </a-col>
           <a-col :span="8" style="margin-top:4px;">
             <a-button type="primary" html-type="submit" class="btn1">搜索</a-button>

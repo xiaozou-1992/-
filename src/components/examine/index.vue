@@ -18,7 +18,7 @@
             </a-select>
           </a-form-model-item>
           <a-form-model-item label="教室" prop="ClassID">
-            <a-select v-model="form.ClassID" style="width:100%">
+            <a-select style="width:100%">
               <a-select-option v-for="(item, index) in classroomList" :key="index" :value="item.ID">{{ item.Name }}</a-select-option>
             </a-select>
           </a-form-model-item>
