@@ -23,7 +23,7 @@
             </a-select>
           </a-form-model-item>
           <a-form-model-item label="日期" prop="date">
-            <a-date-picker style="width: 100%;" v-model="form.date"/>
+            <a-date-picker style="width: 100%;" v-model="form.date" @change="changes"/>
           </a-form-model-item>
           <a-form-model-item label="节次" prop="JC">
             <a-input-number :min="JCMin" :max="JCMax" v-model="form.StartJC" @blur="numberChange(1)" style="width: 47%;"/> ~  <a-input-number style="width: 47%;" :min="JCMin" :max="JCMax" v-model="form.EndJC" @blur="numberChange(2)"/>
@@ -117,12 +117,17 @@
 					this.form.EndJC = 10
 				}
 			},
+			changes(date, dateString) {
+				console.log(date)
+				console.log(dateString)
+			},
 			async getDetail(ID) {
 				let res = await GetAdminDetail({ID: ID})
 				this.getAllBuildingList(res.data.data.SchoolID)
 				this.getAllClassRoomList(res.data.data.BuildingID)
 				let text = res.data.data
 				this.form = Object.assign(this.form, text, {date: moment(text.ApplyTime, 'YYYY-MM-DD')})
+				console.log(this.form)
 			},
 			async getAllBuildingList(e) {
 				let res = await GetAllBuildingList({xqID: e})
@@ -137,7 +142,7 @@
 					if (valid) {
 						let data = this.form
 						data.ApplyTime = moment(data.date._d).format('YYYY-MM-DD') + 'T00:00:00.000Z'
-						delete data.date
+						// delete data.date
 						delete data.BuildingID
 						delete data.SchoolID
 						let res = await DoUpdateAdmin(data)

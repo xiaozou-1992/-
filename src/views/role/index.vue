@@ -6,7 +6,7 @@
         <a-row :gutter="24">
           <a-col :span="8">
             <a-form-item label="名称">
-              <a-input class="field-right" placeholder="请输入角色名称" v-decorator="[`name`]"  autocomplete="off"/>
+              <a-input class="field-right" placeholder="请输入角色名称" v-decorator="[`name`]" autocomplete="off"/>
             </a-form-item>
           </a-col>
           <a-col :span="8" style="margin-top:4px;">

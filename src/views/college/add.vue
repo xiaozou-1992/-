@@ -19,7 +19,7 @@
                       :filterOption="filterOption"
             >
               <a-spin v-if="fetching" slot="notFoundContent" size="small" />
-              <a-select-option v-for="(item, index) in userList" :key="item.ID">{{ item.Name }}</a-select-option>
+              <a-select-option v-for="(item, index) in userList" :key="item.ID">{{ item.Name }} - {{ item.DepartName }}</a-select-option>
             </a-select>
           </a-form-model-item>
           <a-form-model-item label="" class="fixed-bottom">
