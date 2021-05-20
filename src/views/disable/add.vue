@@ -197,10 +197,10 @@
 						} else {
 							this.form.BIDorCID = this.form.ClassID
 						}
-						delete data.SchoolID
-						delete data.BuildingID
-						delete data.ClassID
-						delete data.date
+						// delete data.SchoolID
+						// delete data.BuildingID
+						// delete data.ClassID
+						// delete data.date
 						let res = {}
 						if (!this.text.ID) {
 							res = await DoAddForbbidenBorC(data)
