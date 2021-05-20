@@ -10,9 +10,6 @@
           <a-form-model-item label="日期" prop="date">
             <a-range-picker style="width: 100%;" v-model="form.date" @change="meetingTime" />
           </a-form-model-item>
-          <!-- <a-form-model-item label="节次" prop="JC">
-            <a-slider range v-model="form.JC" :min="JCMin" :max="JCMax" />
-          </a-form-model-item> -->
           <a-form-model-item label="备注" prop="Remarks">
             <a-input v-model="form.Remarks" type="textarea" />
           </a-form-model-item>

@@ -155,8 +155,8 @@
 				this.form.ClassID = ''
 			},
 			meetingTime(e) {
-				this.form.StartDate = moment(e[0]._d).format('YYYY-MM-DD')
-				this.form.EndDate = moment(e[1]._d).format('YYYY-MM-DD')
+				this.form.StartDate = moment(e[0]._d).format('YYYY-MM-DD') + 'T00:00:00.000Z'
+				this.form.EndDate = moment(e[1]._d).format('YYYY-MM-DD') + 'T00:00:00.000Z'
 			},
 			async getDetail(ID) {
 				let res = await GetForbbidenBorCDetail({
@@ -165,8 +165,11 @@
 				this.getAllBuildingList(res.data.data.SchoolID)
 				this.getAllClassRoomList(res.data.data.BuildingID)
 				let text = res.data.data
-				this.form = Object.assign(this.form, text, {date: [moment(text.StartDate, 'YYYY-MM-DD'), moment(text.EndDate,
-						'YYYY-MM-DD')]
+				this.form = Object.assign(this.form, text, {
+					date: [moment(text.StartDate, 'YYYY-MM-DD'), moment(text.EndDate,
+						'YYYY-MM-DD')],
+					StartDate: text.StartDate + 'T00:00:00.000Z',
+					EndDate: text.EndDate + 'T00:00:00.000Z'
 				})
 			},
 			async getAllSchoolList() {
@@ -194,8 +197,6 @@
 						} else {
 							this.form.BIDorCID = this.form.ClassID
 						}
-						this.form.StartDate = this.form.StartDate + 'T00:00:00.000Z'
-						this.form.EndDate = this.form.EndDate + 'T00:00:00.000Z'
 						delete data.SchoolID
 						delete data.BuildingID
 						delete data.ClassID

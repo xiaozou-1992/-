@@ -83,6 +83,10 @@
           </template>
         </el-table-column>
       </el-table>
+      <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="pagination.currentPage"
+                     :page-sizes="pagination.pageSizeOptions" :page-size="pagination.pageSize" layout="total, sizes, prev, pager, next, jumper"
+                     :total="pagination.total"
+      ></el-pagination>
     </div>
     <add :text="text" :nowTime="nowTime" :buildingList="buildingList" :classroomList="classroomList" v-show="addIf"
          @closeFun="closeFun"
