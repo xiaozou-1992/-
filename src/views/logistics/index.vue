@@ -44,7 +44,7 @@
               <a-input-number :min="JCMin" :max="JCMax" v-decorator="[`StartJC`]" @blur="numberChange(1)" style="width: 46%;"/> ~  <a-input-number style="width: 46%;" :min="JCMin" :max="JCMax" v-decorator="[`EndJC`]" @blur="numberChange(2)"/>
             </a-form-item>
           </a-col>
-          <a-col :span="8"></a-col>
+
           <a-col :span="8">
             <a-form-item label="状态">
               <a-select v-decorator="['state']" placeholder="请选择状态" optionFilterProp="children">
@@ -313,9 +313,11 @@
 					}
 				})
 			},
-			closeFun() {
+			closeFun(type) {
 				this.addIf = false
-				this.getList()
+				if(type === '1'){
+					this.getList()
+				}
 			}
 		}
 	}

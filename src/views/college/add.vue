@@ -8,14 +8,15 @@
       <div class="main" id="new_message">
         <a-form-model ref="ruleForm" :model="form" :rules="rules">
           <a-form-model-item label="部门" prop="id">
-            <a-select placeholder="请输入部门" showSearch v-model="form.id" optionFilterProp="children" :filterOption="filterOption"
+            <a-select placeholder="请输入部门" showSearch @change="departChange" v-model="form.id" optionFilterProp="children"
+                      :filterOption="filterOption"
             >
               <a-spin v-if="fetching" slot="notFoundContent" size="small" />
               <a-select-option v-for="(item, index) in departList" :key="item.ID">{{ item.Name }}</a-select-option>
             </a-select>
           </a-form-model-item>
           <a-form-model-item label="姓名" prop="charger">
-            <a-select mode="multiple" placeholder="请输入姓名" showSearch v-model="form.charger" optionFilterProp="children" @search="fetchUser"
+            <a-select mode="multiple" placeholder="请输入姓名" showSearch v-model="form.charger" optionFilterProp="children"
                       :filterOption="filterOption"
             >
               <a-spin v-if="fetching" slot="notFoundContent" size="small" />
@@ -43,7 +44,7 @@
 	export default {
 		props: {
 			text: Object,
-			departList:Array
+			departList: Array
 		},
 		watch: {
 			text: function(text) {
@@ -88,11 +89,16 @@
 			moment,
 			closeFunction(data) {
 				this.$emit('closeFun', data)
-				this.$refs['ruleForm'].resetFields();
+				this.$refs['ruleForm'].resetFields()
 				this.userList = []
 			},
 			filterOption(input, option) {
 				return option.componentOptions.children[0].text.toLowerCase().indexOf(input.toLowerCase()) >= 0
+			},
+			async departChange(e) {
+				this.form.charger = []
+				let res = await GetUserAllList({departID: e})
+				this.userList = res.data.data || []
 			},
 			async fetchUser(value) {
 				this.fetching = true

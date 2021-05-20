@@ -5,7 +5,7 @@
         审批详情
         <a-icon @click="closeFunction" :style="{ fontSize: '20px',float: 'right', margin: '10px' }" type="close-circle" />
       </p>
-      <div class="main" id="new_message">
+      <div class="main" id="new_message" ref="main">
         <a-form-model ref="ruleForm" :model="form">
           <a-form-model-item label="校区">
             <a-input v-model="form.SchoolName" disabled />
@@ -121,6 +121,7 @@
 			closeFunction(data) {
 				this.$emit('closeFun', data)
 				this.$refs['ruleForm'].resetFields()
+				this.$refs.main.scrollTop = 0
 			},
 			async getDetail(ID) {
 				let res = await GetAdminDetail({

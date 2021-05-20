@@ -39,11 +39,8 @@
             </a-form-item>
           </a-col>
           <a-col :span="8">
-
-          </a-col>
-          <a-col :span="8">
             <a-form-item label="节次">
-              <a-input-number :min="JCMin" :max="JCMax" v-decorator="[`StartJC`]" @blur="numberChange(1)" style="width: 46%;"/> ~  <a-input-number style="width: 46%;" :min="JCMin" :max="JCMax" v-decorator="[`EndJC`]" @blur="numberChange(2)"/>
+              <a-input-number :min="JCMin" :max="JCMax" v-decorator="[`StartJC`]" @blur="numberChange(1)" style="width: 45.5%;"/> ~  <a-input-number style="width: 45.5%;" :min="JCMin" :max="JCMax" v-decorator="[`EndJC`]" @blur="numberChange(2)"/>
             </a-form-item>
           </a-col>
           <a-col :span="8" style="margin-top: 4px;">

@@ -5,7 +5,7 @@
         后勤审批审核
         <a-icon @click="closeFunction" :style="{ fontSize: '20px',float: 'right', margin: '10px' }" type="close-circle" />
       </p>
-      <div class="main" id="new_message">
+      <div class="main" id="new_message" ref="main">
         <div style="margin: 50px;">
           <a-timeline>
             <a-timeline-item>
@@ -112,6 +112,7 @@
 			closeFunction(data) {
 				this.$emit('closeFun', data)
 				this.$refs['ruleForm'].resetFields()
+				this.$refs.main.scrollTop = 0
 			},
 			async getDetail(ID) {
 				let res = await GetAdminDetail({
