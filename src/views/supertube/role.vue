@@ -37,12 +37,13 @@
 
 		},
 		props: {
-			text: Object
+			text: Object,
+			nowTime: String
 		},
 		watch: {
-			text: function(text) {
-				this.form.id = text.ID
-				this.getDetail(text.ID)
+			nowTime: function(text) {
+				this.form.id = this.text.ID
+				this.getDetail(this.text.ID)
 			}
 		},
 		data() {

@@ -8,7 +8,7 @@
       <div class="main" id="new_message">
         <a-form-model ref="ruleForm" :model="form" :rules="rules">
           <a-form-model-item label="禁用类型" prop="BorC">
-            <a-radio-group name="radioGroup" v-model="form.BorC" @change="changeType">
+            <a-radio-group name="radioGroup" v-model="form.BorC">
               <a-radio :value="'building'">
                 教学楼
               </a-radio>
@@ -23,12 +23,16 @@
             </a-select>
           </a-form-model-item>
           <a-form-model-item label="教学楼" prop="BuildingID">
-            <a-select v-model="form.BuildingID" style="width:100%" @change="getAllClassRoomList">
+            <a-select v-model="form.BuildingID" style="width:100%" @change="getAllClassRoomList" optionFilterProp="children"
+                      :filterOption="filterOption" showSearch
+            >
               <a-select-option v-for="(item, index) in buildingList1" :key="index" :value="item.ID">{{ item.Name }}</a-select-option>
             </a-select>
           </a-form-model-item>
           <a-form-model-item label="教室" prop="ClassID" v-if="form.BorC === 'classroom'">
-            <a-select v-model="form.ClassID" style="width:100%">
+            <a-select v-model="form.ClassID" style="width:100%" optionFilterProp="children"
+                      :filterOption="filterOption" showSearch
+            >
               <a-select-option v-for="(item, index) in classroomList1" :key="index" :value="item.ID">{{ item.Name }}</a-select-option>
             </a-select>
           </a-form-model-item>

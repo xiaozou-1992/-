@@ -172,6 +172,15 @@ export function DoAddDepartCharger(data = {}) {
 	})
 }
 
+// 编辑学院审批人
+export function UpdateDepartCharger(data = {}) {
+	return fetch({
+		url: '/api/Depart/UpdateCharger',
+		method: 'POST',
+		data
+	})
+}
+
 // 删除部门审批人
 export function DeleteDepartCharger(data = {}) {
 	return fetch({

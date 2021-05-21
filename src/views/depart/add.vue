@@ -2,23 +2,23 @@
   <div class="aid">
     <div class="base">
       <p class="fixed-top">
-        {{ text.Type === 1 ? '添加部门负责人' : '删除部门负责人' }}
+        {{ text.Type === 1 ? '修改部门负责人' : '添加部门负责人' }}
         <a-icon @click="closeFunction" :style="{ fontSize: '20px',float: 'right', margin: '10px' }" type="close-circle" />
       </p>
       <div class="main" id="new_message">
         <a-form-model ref="ruleForm" :model="form" :rules="rules">
           <a-form-model-item label="姓名" prop="charger">
-            <a-select v-if="text.Type === 1" mode="multiple" placeholder="请输入姓名" v-model="form.charger" optionFilterProp="children"
-                      @search="fetchUser" :filterOption="filterOption"
+            <a-select mode="multiple" placeholder="请输入姓名" v-model="form.charger" optionFilterProp="children"
+                      :filterOption="filterOption"
             >
               <a-spin v-if="fetching" slot="notFoundContent" size="small" />
               <a-select-option v-for="(item, index) in userList" :key="item.ID">{{ item.Name }} - {{ item.DepartName }}</a-select-option>
             </a-select>
-            <div v-if="text.Type === 0">
+            <!-- <div v-if="text.Type === 0">
               <a-tag closable @close="userChange(item.ID)" v-for="(item, index) in userList" :key="item.ID">
                 {{ item.Name }}
               </a-tag>
-            </div>
+            </div> -->
           </a-form-model-item>
           <a-form-model-item label="" class="fixed-bottom">
             <a-button type="primary" @click="handleSubmit">{{ JSON.stringify(text) == '{}' ? '确认添加' : '确认修改' }}</a-button>
@@ -34,7 +34,7 @@
 <script>
 	import {
 		DoAddDepartCharger,
-		DeleteDepartCharger,
+		UpdateDepartCharger,
 		GetUserAllList
 	} from '@/api/follow'
 	export default {
@@ -47,10 +47,13 @@
 				console.log(this.text)
 				if (this.text.ID) {
 					this.form.charger = []
-					this.text.ChargerList.forEach(item => {
-						this.form.charger.push(item.ID)
-					})
-					this.userList = this.text.ChargerList
+					if (this.text.ChargerList) {
+						this.text.ChargerList.forEach(item => {
+							this.form.charger.push(item.ID)
+						})
+						this.userList = this.text.ChargerList
+					}
+					this.fetchUser('')
 				}
 			}
 		},
@@ -64,7 +67,6 @@
 				form: {
 					charger: []
 				},
-				deleteCharger: [],
 				rules: {
 					charger: [{
 						required: true,
@@ -84,32 +86,22 @@
 				return option.componentOptions.children[0].text.toLowerCase().indexOf(input.toLowerCase()) >= 0
 			},
 			async fetchUser(value) {
-				this.fetching = true
-				if (value) {
-					let data = {}
-					data.name = value
-					let res = await GetUserAllList(data)
-					this.fetching = false
-					this.userList = res.data.data || []
-				}
-			},
-			userChange(item) {
-				console.log(item)
-				this.deleteCharger.push(item)
-				console.log(this.form.charger)
+				let data = {}
+				data.departID = this.text.ID
+				let res = await GetUserAllList(data)
+				this.userList = res.data.data || []
 			},
 			handleSubmit(e) {
 				this.$refs.ruleForm.validate(async valid => {
 					if (valid) {
 						let data = {}
 						data.id = this.text.ID
+						data.charger = this.form.charger.toString()
 						let res = {}
 						if (this.text.Type === 1) {
-							data.charger = this.form.charger.toString()
-							res = await DoAddDepartCharger(data)
+							res = await UpdateDepartCharger(data)
 						} else {
-							data.charger = this.deleteCharger.toString()
-							res = await DeleteDepartCharger(data)
+							res = await DoAddDepartCharger(data)
 						}
 						if (res.data.code === 0) {
 							this.$message.success(res.data.msg)

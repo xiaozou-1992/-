@@ -41,17 +41,17 @@
             </span>
           </template>
         </el-table-column>
-        <el-table-column fixed="right" width="88">
+        <el-table-column fixed="right" width="62">
           <template slot="header" slot-scope="scope">
             操作
           </template>
           <template slot-scope="scope">
-            <a-popover title="添加负责人">
-              <a-icon type="user-add" class="el-font" style="color: #1890FF;" @click="addList(scope.row,1)"/>
+            <a-popover title="负责人">
+              <a-icon type="user-add" class="el-font" style="color: #1890FF;" @click="addList(scope.row)"/>
             </a-popover>
-            <a-popover title="删除负责人" v-if="scope.row.ChargerList">
+            <!-- <a-popover title="删除负责人" v-if="scope.row.ChargerList">
               <a-icon type="user-delete" class="el-font" style="color: #F56C6C;" @click="addList(scope.row,0)"/>
-            </a-popover>
+            </a-popover> -->
           </template>
         </el-table-column>
       </el-table>
@@ -147,9 +147,9 @@ export default {
 			pagination.total = res.data.totalCount
 			this.pagination = pagination
 		},
-		addList(data, type) {
+		addList(data) {
 			this.text = data
-			this.text.Type = type
+			this.text.Type = data.ChargerList ? 1 : 0
 			this.nowTime = moment(new Date()).format('YYYY/MM/DD HH:mm:ss')
 			this.addIf = !this.addIf
 		},

@@ -68,14 +68,14 @@
       ></el-pagination>
     </div>
     <add :text="text" :RoleList="RoleList" :treeDate="RoleList" v-show="addIf" @closeFun="closeFun"></add>
-    <role :text="text" v-show="roleIf" @closeFun="closeFun"></role>
+    <role :text="text" v-show="roleIf" @closeFun="closeFun" :nowTime="nowTime"></role>
   </div>
 </template>
 
 <script>
 import add from './add'
 import role from './role.vue'
-import Func from '@/utils/func'
+import moment from 'moment'
 import { GetAdminUserPageList, DoDeleteAdminUser, GetDepartAllList } from '@/api/follow'
 const data = []
 export default {
@@ -112,7 +112,8 @@ export default {
 			tableHeight: parseFloat(window.innerHeight - 530),
 			RoleList: [],
 			departList: [],
-			fetching: false
+			fetching: false,
+			nowTime: ''
 		}
 	},
 	computed: {},
@@ -172,6 +173,7 @@ export default {
 		},
 		addRole(text) {
 			this.text = text
+			this.nowTime = moment(new Date()).format('YYYY/MM/DD HH:mm:ss')
 			this.roleIf = true
 		},
 		deleteList(text) {

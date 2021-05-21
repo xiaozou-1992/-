@@ -98,7 +98,6 @@
 						let data = this.form
 						this.form.BIDorCID = this.text.ID
 						this.form.BorC = this.borCType
-						delete data.date
 						let res = await DoAddForbbidenBorC(data)
 						if (res.data.code === 0) {
 							this.$message.success(res.data.msg)
