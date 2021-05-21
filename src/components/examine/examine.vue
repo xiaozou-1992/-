@@ -38,11 +38,11 @@
                     </a-radio>
                   </a-radio-group>
                 </a-form-model-item>
-                <a-form-model-item label="内容" v-if="form.State === '3'">
+                <a-form-model-item label="内容" prop="BackReviewContent" v-if="form.State === '4'">
                   <a-input v-model="form.BackReviewContent" type="textarea" />
                 </a-form-model-item>
-                <a-form-model-item label="内容" prop="BackReviewContent" v-else>
-                  <a-input v-model="form.BackReviewContent" type="textarea" />
+                <a-form-model-item label="内容" v-else>
+                  <a-input v-model="form.BackReviewContent" type="textarea"/>
                 </a-form-model-item>
                 <a-form-model-item label="" class="fixed-bottom">
                   <a-button type="primary" @click="handleSubmit">{{ JSON.stringify(text) == '{}' ? '确认' : '确认' }}</a-button>
@@ -71,7 +71,6 @@
 		},
 		watch: {
 			nowTime: function(text) {
-				console.log(this.text)
 				if (this.text.ID) {
 					this.data = this.text
 				}
@@ -86,7 +85,7 @@
 				}),
 				data: {},
 				form: {
-					State: '3',
+					State: '',
 					BackReviewContent: ''
 				},
 				rules: {
@@ -112,6 +111,7 @@
 			closeFunction(data) {
 				this.$emit('closeFun', data)
 				this.$refs['ruleForm'].resetFields()
+				this.form.BackReviewContent = ''
 				this.$refs.main.scrollTop = 0
 			},
 			async getDetail(ID) {

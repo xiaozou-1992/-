@@ -64,6 +64,7 @@
 				form: {
 					charger: []
 				},
+				deleteCharger: [],
 				rules: {
 					charger: [{
 						required: true,
@@ -76,7 +77,7 @@
 		methods: {
 			closeFunction(data) {
 				this.$emit('closeFun', data)
-				this.$refs['ruleForm'].resetFields();
+				this.$refs['ruleForm'].resetFields()
 				this.userList = []
 			},
 			filterOption(input, option) {
@@ -93,19 +94,21 @@
 				}
 			},
 			userChange(item) {
-				this.form.charger = []
-				this.form.charger.push(item)
+				console.log(item)
+				this.deleteCharger.push(item)
+				console.log(this.form.charger)
 			},
 			handleSubmit(e) {
 				this.$refs.ruleForm.validate(async valid => {
 					if (valid) {
 						let data = {}
 						data.id = this.text.ID
-						data.charger = this.form.charger.toString()
 						let res = {}
 						if (this.text.Type === 1) {
+							data.charger = this.form.charger.toString()
 							res = await DoAddDepartCharger(data)
 						} else {
+							data.charger = this.deleteCharger.toString()
 							res = await DeleteDepartCharger(data)
 						}
 						if (res.data.code === 0) {
