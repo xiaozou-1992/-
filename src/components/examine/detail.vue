@@ -50,10 +50,10 @@
           <a-form-model-item label="学院审批时间">
             <a-input v-model="form.SchoolReviewTime" disabled/>
           </a-form-model-item>
-          <a-form-model-item label="后勤审批意见" v-if="form.State !== '2'">
+          <a-form-model-item label="后勤审批意见" v-if="form.State === '3' || form.State === '4'">
             <a-input v-model="form.BackReviewContent" disabled type="textarea" />
           </a-form-model-item>
-          <a-form-model-item label="后勤审批时间">
+          <a-form-model-item label="后勤审批时间" v-if="form.State === '3' || form.State === '4'">
             <a-input v-model="form.BackReviewTime" disabled/>
           </a-form-model-item>
           <a-form-model-item label="状态">
