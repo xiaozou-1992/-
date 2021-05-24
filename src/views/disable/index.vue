@@ -50,7 +50,7 @@
       <el-button type="primary" size="small" icon="el-icon-plus" @click="addList">新增</el-button>
     </el-button-group>
     <div style="margin-top: 20px;">
-      <el-table ref="tableForm" :data="data" style="width: 100%;margin-bottom: 20px;" border :max-height="tableHeight"
+      <el-table ref="tableForm" :data="data" v-loading="loading" style="width: 100%;margin-bottom: 20px;" border :max-height="tableHeight"
                 highlight-current-row
       >
         <el-table-column prop="Name" label="名称" min-width="120" show-overflow-tooltip></el-table-column>

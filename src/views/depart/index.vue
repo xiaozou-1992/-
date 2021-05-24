@@ -24,7 +24,7 @@
       <el-button type="success" size="small" icon="el-icon-check" @click="updataList">同步学生信息</el-button> -->
     </el-button-group>
     <div style="margin-top: 20px;">
-      <el-table ref="tableForm" :data="data" style="width: 100%;margin-bottom: 20px;" border :max-height="tableHeight"
+      <el-table ref="tableForm" :data="data" v-loading="loading" style="width: 100%;margin-bottom: 20px;" border :max-height="tableHeight"
                 highlight-current-row
       >
         <el-table-column prop="Name" label="部门名称" min-width="360"></el-table-column>

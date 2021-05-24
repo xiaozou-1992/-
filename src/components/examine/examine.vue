@@ -23,6 +23,7 @@
                 <p><span>申请日期：</span>{{ data.ApplyTime }}</p>
                 <p><span>学院审批人：</span>{{ data.ChargerName }}</p>
                 <p><span>学院审批意见：</span>{{ data.SchoolReviewContent }}</p>
+                <p><span>学院审批时间：</span>{{ data.SchoolReviewTime }}</p>
               </div>
             </a-timeline-item>
             <a-timeline-item>

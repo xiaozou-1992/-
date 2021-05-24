@@ -7,7 +7,7 @@
       </p>
       <div class="main" id="new_message">
         <a-form-model ref="ruleForm" :model="form" :rules="rules">
-          <a-form-model-item label="姓名" prop="charger">
+          <a-form-model-item label="姓名">
             <a-select mode="multiple" placeholder="请输入姓名" v-model="form.charger" optionFilterProp="children"
                       :filterOption="filterOption"
             >

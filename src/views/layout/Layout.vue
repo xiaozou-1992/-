@@ -162,36 +162,36 @@
 			},
 			goBack() {
 				this.$router.back(-1)
-				// this.reload()
-				// this.$router.go(-1)
+				let keys = 0
+				let that = this
+				setTimeout(() => {
+					keys = parseInt(comm('type').type)
+					that.$nextTick(function() {
+						that.keys = [keys]
+					})
+				}, 300)
 			},
 			reload() {
-				// this.$router.go(0)
 				this.isRouterAlive = false
 				this.$nextTick(function() {
 					this.isRouterAlive = true
 				})
 			},
 			async logout() {
-				let res = await LoginOut()
+				await LoginOut()
 				Cache.remove('token')
 				Cache.remove('SYS_TOKEN')
 				Cache.remove('listMenus')
 				Cache.remove('DealerID')
 				Cache.remove('Type')
 				Cache.remove('info')
-				// this.$router.push({
-				// 	name: 'register'
-				// });
-				window.location.href = 'http://i.aufe.edu.cn/portal_main/toPortalPage'
+				window.location.href = 'http://jjx.hq.acxk.net/#/register'
 			},
 			async _getTokenToUser() {
 				let res = await getTokenToUser()
 				this.detail = res.data.data
 				Cache.set('info', res.data.data)
 				this.info = Cache.get('info')
-				// Cache.set('DealerID', res.data.data.DealerID)
-				// Cache.set('DealerName', res.data.data.DealerName)
 				Cache.set('Type', 3)
 			}
 		},

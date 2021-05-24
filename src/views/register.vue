@@ -74,7 +74,7 @@ export default {
 					})
 				}, 300)
 			} else {
-				// window.location.href="http://i.aufe.edu.cn/portal_main/toPortalPage"
+				 // window.location.href = 'http://api.jjx.hq.acxk.net/Home/Login'
 			}
 		},
 		cheak(index) {
