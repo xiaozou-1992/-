@@ -28,13 +28,14 @@
           </a-col>
           <a-col :span="8" style="margin-top:4px;">
             <a-button type="primary" html-type="submit" class="btn1">搜索</a-button>
-            <a-button :style="{ marginLeft: '8px' }" @click="handleReset" class="btn2">重置</a-button>
+            <a-button @click="handleReset" class="btn1">重置</a-button>
+						<a-button type="primary" icon="plus" @click="addList">新增</a-button>
           </a-col>
         </a-row>
       </a-form>
     </div>
     <el-button-group>
-      <el-button type="primary" size="small" icon="el-icon-plus" @click="addList">新增</el-button>
+      
     </el-button-group>
     <div style="margin-top: 20px;">
       <el-table ref="tableForm" :data="data" v-loading="loading" border :max-height="tableHeight" highlight-current-row
@@ -241,7 +242,7 @@ export default {
 	}
 
 	.btn1 {
-		margin-left: 15px;
+		margin-right: 8px;
 	}
 
 	.el-pagination {
@@ -357,7 +358,7 @@ export default {
 	}
 
 	.el-button {
-		padding: 10px 12px !important;
+		padding: 8px 12px !important;
 	}
 
 	.pointer {
