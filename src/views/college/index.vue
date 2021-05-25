@@ -45,7 +45,8 @@
         <el-table-column prop="Phone" label="电话" min-width="130"></el-table-column>
         <el-table-column prop="AddTime" label="用户类型" min-width="100">
           <template slot-scope="scope">
-            <a-tag color="pink">{{ scope.row.Type === 1?'老师':'学生' }}</a-tag>
+            <a-tag color="orange" v-if="scope.row.Type === 1">教师</a-tag>
+            <a-tag color="green" v-else>学生</a-tag>
           </template>
         </el-table-column>
         <el-table-column label="操作" width="62" fixed="right">

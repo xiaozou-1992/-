@@ -77,7 +77,7 @@
 						<a-tag color="green" v-if="scope.row.State === '3'">
 						 后勤审核通过
 						</a-tag>
-            <a-tag color="blue" v-if="scope.row.State === '0'">
+            <a-tag color="cyan" v-if="scope.row.State === '0'">
               待审核
             </a-tag>
           </template>

@@ -57,7 +57,8 @@
         <el-table-column prop="Code" label="编号" min-width="120"></el-table-column>
         <el-table-column prop="AddTime" label="禁用类型" min-width="100">
           <template slot-scope="scope">
-            <a-tag color="pink">{{ scope.row.BorC === 'building'?'楼宇':'教室' }}</a-tag>
+						<a-tag color="red" v-if="scope.row.BorC === 'building'">楼宇</a-tag>
+						<a-tag color="orange" v-else>教室</a-tag>
           </template>
         </el-table-column>
         <el-table-column prop="Name" label="日期" min-width="260">

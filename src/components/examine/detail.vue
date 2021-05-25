@@ -69,7 +69,7 @@
 						<a-tag color="green" v-if="form.State === '3'">
 						 后勤审核通过
 						</a-tag>
-						<a-tag color="blue" v-if="form.State === '0'">
+						<a-tag color="cyan" v-if="form.State === '0'">
 						  待审核
 						</a-tag>
           </a-form-model-item>
