@@ -11,11 +11,20 @@
 		comm
 	} from '@/api/comm'
 	import Cache from '@/utils/cache'
+	import {
+		GetUserAuthorityList
+	} from '@/api/follow'
 	export default {
 		data() {
-			return {}
+			return {
+				menuListSub: []
+			}
 		},
 		computed: {},
+		async beforeCreate() {
+			let res = await GetUserAuthorityList()
+			Cache.set('menuListSub', res.data.data)
+		},
 		created() {
 			if (!Cache.get('SYS_TOKEN')) {
 				let token = comm('userToken').userToken

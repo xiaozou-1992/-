@@ -31,7 +31,7 @@
         <a-layout style="padding: 11px 0; background: #fff;width: 201px;border-right: 1px solid #eee;">
           <a-layout-sider class="side-left" :trigger="null">
             <a-menu mode="inline" :default-selected-keys="keys">
-              <a-menu-item v-for="(item,index) in menuList" @click="menu(item.id,item.path)" :key="item.id">
+              <a-menu-item v-for="(item,index) in menuListSub" @click="menu(item.id)" :key="item.id">
                 <a-icon :type="item.type" />
                 <span class="nav-text">{{ item.title }}</span>
               </a-menu-item>
@@ -51,7 +51,7 @@
 	import Cache from '@/utils/cache'
 	import { comm } from '@/api/comm'
 	import {
-
+		GetUserInfo
 	} from '@/api/follow'
 	export default {
 		data() {
@@ -125,25 +125,35 @@
 						id: 11
 					}
 				],
-				menuListSub: [],
+				menuListSub: Cache.get('menuListSub'),
 				list: []
 			}
 		},
-		async created() {
+		created() {
 			let keys = parseInt(comm('type').type)
 			this.keys = [keys]
+			this.getUserInfo()
+			let that = this
+			setTimeout(() => {
+				that.menuListSub = Cache.get('menuListSub')
+			}, 300)
 		},
 		methods: {
 			backhome() {
 				this.$router.push('/')
 			},
-			menu(type, s) {
+			menu(type) {
+				let item = this.menuList.find(d => (d.id === type))
 				this.$router.push({
-					name: s,
+					name: item.path,
 					query: {
 						type: type
 					}
 				})
+			},
+			async getUserInfo() {
+				let res = await GetUserInfo()
+				this.myInfo = res.data.data
 			},
 			goBack() {
 				this.$router.back(-1)

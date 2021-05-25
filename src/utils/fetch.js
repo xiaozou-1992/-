@@ -59,7 +59,7 @@ service.interceptors.request.use(config => {
     // config.headers['timestamp'] = new Date().getTime()
     if (store.getters.token || Cache.get('SYS_TOKEN')) { // 抑制store可能未实例化时的异常
 				//config.headers['Authorization'] = Cache.get('SYS_TOKEN')
-				config.headers['Authorization'] = '9W0/FTnx++a+HLtfa3iW+h=='
+				config.headers['Authorization'] = 'se87U4qeF0xhrunEntcYiR=='
 				
     }
     if (/^(post|put|delete)$/.test(config.method.toLowerCase())) {
