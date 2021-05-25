@@ -8,8 +8,7 @@
       <div class="main" id="new_message">
         <a-form-model ref="ruleForm" :model="form" :rules="rules">
           <a-form-model-item label="角色" prop="Name">
-            <a-select mode="multiple" placeholder="请输入角色名称" showSearch v-model="form.roleIDList" optionFilterProp="children"
-                      @search="fetchRole" :filterOption="filterOption"
+            <a-select mode="multiple" placeholder="请输入角色名称" showSearch v-model="form.roleIDList" optionFilterProp="children" :filterOption="filterOption"
             >
               <a-spin v-if="fetching" slot="notFoundContent" size="small" />
               <a-select-option v-for="(item, index) in roleList" :key="item.ID">{{ item.Name }}</a-select-option>
@@ -30,7 +29,8 @@
 	import {
 		DoUpdateAdminUserRole,
 		GetRoleAllList,
-		GetAdminRoleList
+		GetAdminRoleList,
+		GetUserAuthorityList
 	} from '@/api/follow'
 	export default {
 		components: {
@@ -69,29 +69,24 @@
 				}
 			}
 		},
-		created() {},
+		created() {
+			this.fetchRole()
+		},
 		methods: {
 			filterOption(input, option) {
 				return option.componentOptions.children[0].text.toLowerCase().indexOf(input.toLowerCase()) >= 0
 			},
 			async fetchRole(value) {
-				this.fetching = true
-				if (value) {
-					let data = {}
-					data.name = value
-					let res = await GetRoleAllList(data)
-					this.fetching = false
-					this.roleList = res.data.data || []
-				}
+				let res = await GetRoleAllList({name:''})
+				this.roleList = res.data.data || []
 			},
 			async getDetail(value) {
 				if (value) {
 					let data = {}
 					data.id = value
 					let res = await GetAdminRoleList(data)
-					this.roleList = res.data.data || []
-					if (this.roleList.length > 0) {
-						this.roleList.forEach(item => {
+					if (res.data.data.length > 0) {
+						res.data.data.forEach(item => {
 							this.form.roleIDList.push(item.ID)
 						})
 					}
@@ -109,7 +104,11 @@
 						let res = await DoUpdateAdminUserRole(data)
 						if (res.data.code === 0) {
 							this.$message.success(res.data.msg)
+							this.getInfo()
 							this.closeFunction('1')
+							setTimeout(()=>{
+								window.location.reload();
+							},300)
 						} else {
 							this.$message.error(res.data.msg)
 						}
@@ -117,6 +116,10 @@
 						return false
 					}
 				})
+			},
+			async getInfo(){
+				let res = await GetUserAuthorityList()
+				Cache.set('menuListSub', res.data.data)
 			},
 			handleCancel() {
 				this.previewVisible = false

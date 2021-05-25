@@ -27,7 +27,8 @@
 	import tree from '@/components/tree/tree.vue'
 	import {
 		DoAddRole,
-		DoUpdateRole
+		DoUpdateRole,
+		GetUserAuthorityList
 	} from '@/api/follow'
 	export default {
 		components: {
@@ -84,34 +85,6 @@
 		},
 		methods: {
 			getMsgFormSon(data) {
-				// this.power = data
-				// let ids = []
-				// for (let m = 0; m < data.length; m++) {
-				// 	for (let i = 0; i < this.treeDate.length; i++) {
-				// 		if (this.treeDate[i].value === data[m]) {
-				// 			for (let j = 0; j < this.treeDate[i].children.length; j++) {
-				// 				for (let p = 0; p < this.treeDate[i].children[j].children.length; p++) {
-				// 					ids.push(this.treeDate[i].children[j].children[p].value)
-				// 				}
-				// 			}
-				// 		} else {
-				// 			for (let j = 0; j < this.treeDate[i].children.length; j++) {
-				// 				if (this.treeDate[i].children[j].value == data[m]) {
-				// 					for (let p = 0; p < this.treeDate[i].children[j].children.length; p++) {
-				// 						ids.push(this.treeDate[i].children[j].children[p].value)
-				// 					}
-				// 				} else {
-				// 					for (let p = 0; p < this.treeDate[i].children[j].children.length; p++) {
-				// 						if (this.treeDate[i].children[j].children[p].value == data[m]) {
-				// 							ids.push(this.treeDate[i].children[j].children[p].value)
-				// 						}
-				// 					}
-				// 				}
-				// 			}
-				// 		}
-				// 	}
-				// }
-				// this.form.Authority = ids.join(',')
 				this.form.Authority = data.join(',')
 			},
 			closeFunction(data) {
@@ -131,7 +104,11 @@
 						}
 						if (res.data.code === 0) {
 							this.$message.success(res.data.msg)
+							this.getInfo()
 							this.closeFunction('1')
+							setTimeout(()=>{
+								window.location.reload();
+							},300)
 						} else {
 							this.$message.error(res.data.msg)
 						}
@@ -139,6 +116,10 @@
 						return false
 					}
 				})
+			},
+			async getInfo(){
+				let res = await GetUserAuthorityList()
+				Cache.set('menuListSub', res.data.data)
 			},
 			handleCancel() {
 				this.previewVisible = false

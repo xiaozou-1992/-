@@ -172,6 +172,7 @@
 			},
 			async logout() {
 				Cache.remove('SYS_TOKEN')
+				Cache.remove('menuListSub')
 				window.location.href = 'http://jjx.hq.acxk.net/#/register'
 			}
 		},
