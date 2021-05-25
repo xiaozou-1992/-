@@ -1,7 +1,7 @@
 <template>
   <div class="main">
     <a-row :gutter="[16, 16]" style="margin:0px;">
-      <h2 class="title">欢迎使用安徽财经大学后勤教室借用系统</h2>
+      <!-- <h2 class="title">欢迎使用安徽财经大学后勤教室借用系统</h2> -->
     </a-row>
   </div>
 </template>
@@ -57,17 +57,16 @@
 		min-height: calc(~'100% - 12px');
 		width: 100%;
 		margin-left:18px;
-		background-image: linear-gradient(90deg,#ecf5ff,#d9ecff);
-		background-image: -webkit-gradient(linear,left top,right top,from(#ecf5ff),to(#d9ecff));
+		background: url('../assets/newbg2.png') no-repeat;
+		background-size:cover;
 		.title {
-			margin-top: 180px;
+			background-color: rgba(255,255,255,.6);
+			padding: 90px 0;
 			text-align: center;
 			font-weight: 600;
 			font-size: 36px;
 			margin-bottom: 0px;
-			background-image: -webkit-linear-gradient(bottom, #5d93ff,#1890ff );
-			-webkit-background-clip: text;
-			-webkit-text-fill-color: transparent;
+			color: firebrick;
 		}
 	}
 

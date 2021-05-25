@@ -65,12 +65,18 @@
       >
         <el-table-column prop="IsEnable" label="状态" min-width="150">
           <template slot-scope="scope">
-            <a-tag color="red" v-if="scope.row.State === '2' || scope.row.State === '4'">
-              {{ scope.row.State === '2'?'学院审核不通过':'后勤审核不通过' }}
+            <a-tag color="orange" v-if="scope.row.State === '2'">
+              学院审核不通过
             </a-tag>
-            <a-tag color="green" v-if="scope.row.State === '1' || scope.row.State === '3'">
-              {{ scope.row.State === '1'?'学院审核通过':'后勤审核通过' }}
+						<a-tag color="red" v-if="scope.row.State === '4'">
+						 后勤审核不通过
+						</a-tag>
+            <a-tag color="blue" v-if="scope.row.State === '1'">
+              学院审核通过
             </a-tag>
+						<a-tag color="green" v-if="scope.row.State === '3'">
+						 后勤审核通过
+						</a-tag>
             <a-tag color="blue" v-if="scope.row.State === '0'">
               待审核
             </a-tag>

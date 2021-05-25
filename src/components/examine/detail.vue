@@ -57,15 +57,21 @@
             <a-input v-model="form.BackReviewTime" disabled/>
           </a-form-model-item>
           <a-form-model-item label="状态">
-            <a-tag color="red" v-if="form.State === '2' || form.State === '4'">
-              {{ form.State === '2'?'学院审核不通过':'后勤审核不通过' }}
-            </a-tag>
-            <a-tag color="green" v-if="form.State === '1' || form.State === '3'">
-              {{ form.State === '1'?'学院审核通过':'后勤审核通过' }}
-            </a-tag>
-            <a-tag color="blue" v-if="form.State === '0'">
-              待审核
-            </a-tag>
+						<a-tag color="orange" v-if="form.State === '2'">
+						  学院审核不通过
+						</a-tag>
+						<a-tag color="red" v-if="form.State === '4'">
+						 后勤审核不通过
+						</a-tag>
+						<a-tag color="blue" v-if="form.State === '1'">
+						  学院审核通过
+						</a-tag>
+						<a-tag color="green" v-if="form.State === '3'">
+						 后勤审核通过
+						</a-tag>
+						<a-tag color="blue" v-if="form.State === '0'">
+						  待审核
+						</a-tag>
           </a-form-model-item>
         </a-form-model>
       </div>

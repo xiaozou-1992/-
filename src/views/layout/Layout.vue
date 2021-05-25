@@ -1,55 +1,57 @@
 <template>
-  <a-layout id="components-layout-demo-top-side-2">
-    <a-layout>
-      <a-layout-header class="header">
-        <div class="logo">
-          <img src="../../assets/logo.png" />
-          <span>后勤教室借用系统</span>
-        </div>
-        <div class="btn-con">
-          <a-button class="trigger" type="primary" @click="goBack()">
-            <a-icon type="rollback" />
-          </a-button>
-          <a-button class="trigger" type="primary" @click="reload()">
-            <a-icon type="reload" />
-          </a-button>
-        </div>
-        <div class="trigger-right" @click="logout()">
-          退出登录
-          <a-icon type="logout" />
-        </div>
-        <!-- <div class="trigger-right" @click="backhome()">
+	<a-layout id="components-layout-demo-top-side-2">
+		<a-layout>
+			<a-layout-header class="header">
+				<div class="logo">
+					<img src="../../assets/logo.png" />
+					<span>后勤教室借用系统</span>
+				</div>
+				<div class="btn-con">
+					<a-button class="trigger" type="primary" @click="goBack()">
+						<a-icon type="rollback" />
+					</a-button>
+					<a-button class="trigger" type="primary" @click="reload()">
+						<a-icon type="reload" />
+					</a-button>
+				</div>
+				<div class="trigger-right" @click="logout()">
+					退出登录
+					<a-icon type="logout" />
+				</div>
+				<!-- <div class="trigger-right" @click="backhome()">
           返回首页
           <a-icon type="home" />
         </div> -->
-        <!-- <div class="changePassword" @click="menu('changePassword')">修改密码</div> -->
-        <div class="changePassword">
-          {{ myInfo?myInfo.Name:'暂无' }}
-        </div>
-      </a-layout-header>
-      <a-layout-content v-if="isRouterAlive" ref="layoutContent" :style="{position:'relative',display:'flex', background: '#fff', minHeight: '280px',margin:'20px 20px 0 20px',padding:'20px', height: layoutContentHeight, overflow: 'hidden' }">
-        <a-layout style="padding: 11px 0; background: #fff;width: 201px;border-right: 1px solid #eee;">
-          <a-layout-sider class="side-left" :trigger="null">
-            <a-menu mode="inline" :default-selected-keys="keys">
-              <a-menu-item v-for="(item,index) in menuListSub" @click="menu(item.id)" :key="item.id">
-                <a-icon :type="item.type" />
-                <span class="nav-text">{{ item.title }}</span>
-              </a-menu-item>
-            </a-menu>
-          </a-layout-sider>
-        </a-layout>
-        <keep-alive>
-          <router-view :key="$route.fullPath" v-if="$route.meta.keepAlive"></router-view>
-        </keep-alive>
-        <router-view :key="$route.fullPath" v-if="!$route.meta.keepAlive"></router-view>
-      </a-layout-content>
-    </a-layout>
-    <a-layout-footer style="text-align: center;padding:10px 0;">安财信科提供技术支持</a-layout-footer>
-  </a-layout>
+				<!-- <div class="changePassword" @click="menu('changePassword')">修改密码</div> -->
+				<div class="changePassword">
+					{{ myInfo?myInfo.Name:'暂无' }}
+				</div>
+			</a-layout-header>
+			<a-layout-content v-if="isRouterAlive" ref="layoutContent" :style="{position:'relative',display:'flex', background: '#fff', minHeight: '280px',margin:'20px 20px 0 20px',padding:'20px', height: layoutContentHeight, overflow: 'hidden' }">
+				<a-layout style="padding: 11px 0; background: #fff;width: 201px;border-right: 1px solid #eee;">
+					<a-layout-sider class="side-left" :trigger="null">
+						<a-menu mode="inline" :default-selected-keys="keys">
+							<a-menu-item :class="{'on': menuList.find(d=>(d.id==item.id)).path=== routeOn?true:false}" v-for="(item,index) in menuListSub" @click="menu(item.id)" :key="item.id">
+								<a-icon :type="item.type" />
+								<span class="nav-text">{{ item.title }}</span>
+							</a-menu-item>
+						</a-menu>
+					</a-layout-sider>
+				</a-layout>
+				<keep-alive>
+					<router-view :key="$route.fullPath" v-if="$route.meta.keepAlive"></router-view>
+				</keep-alive>
+				<router-view :key="$route.fullPath" v-if="!$route.meta.keepAlive"></router-view>
+			</a-layout-content>
+		</a-layout>
+		<a-layout-footer style="text-align: center;padding:10px 0;">安财信科提供技术支持</a-layout-footer>
+	</a-layout>
 </template>
 <script>
 	import Cache from '@/utils/cache'
-	import { comm } from '@/api/comm'
+	import {
+		comm
+	} from '@/api/comm'
 	import {
 		GetUserInfo
 	} from '@/api/follow'
@@ -69,74 +71,78 @@
 				isRouterAlive: true,
 				myInfo: {},
 				menuList: [{
-						title: '用户管理',
-						path: 'user',
-						type: 'team',
-						id: 1
-					}, {
-						title: '部门管理',
-						path: 'depart',
-						type: 'layout',
-						id: 2
-					}, {
-						title: '楼宇管理',
-						path: 'building',
-						type: 'hdd',
-						id: 3
-					}, {
-						title: '教室管理',
-						path: 'classroom',
-						type: 'shop',
-						id: 4
-					}, {
-						title: '学院审批人管理',
-						path: 'college',
-						type: 'user',
-						id: 5
-					}, {
-						title: '楼宇教室禁用管理',
-						path: 'disable',
-						type: 'close-circle',
-						id: 6
-					}, {
-						title: '后勤审批管理',
-						path: 'procedure',
-						type: 'safety-certificate',
-						id: 7
-					}, {
-						title: '所有申请记录',
-						path: 'logistics',
-						type: 'check-circle',
-						id: 8
-					}, {
-						title: '活动类型',
-						path: 'actType',
-						type: 'bell',
-						id: 9
-					}, {
-						title: '管理员管理',
-						path: 'supertube',
-						type: 'user-add',
-						id: 10
-					}, {
-						title: '角色管理',
-						path: 'role',
-						type: 'user-delete',
-						id: 11
-					}
-				],
+					title: '用户管理',
+					path: 'user',
+					type: 'team',
+					id: 1
+				}, {
+					title: '部门管理',
+					path: 'depart',
+					type: 'layout',
+					id: 2
+				}, {
+					title: '楼宇管理',
+					path: 'building',
+					type: 'hdd',
+					id: 3
+				}, {
+					title: '教室管理',
+					path: 'classroom',
+					type: 'shop',
+					id: 4
+				}, {
+					title: '学院审批人管理',
+					path: 'college',
+					type: 'user',
+					id: 5
+				}, {
+					title: '楼宇教室禁用管理',
+					path: 'disable',
+					type: 'close-circle',
+					id: 6
+				}, {
+					title: '后勤审批管理',
+					path: 'procedure',
+					type: 'safety-certificate',
+					id: 7
+				}, {
+					title: '所有申请记录',
+					path: 'logistics',
+					type: 'check-circle',
+					id: 8
+				}, {
+					title: '活动类型',
+					path: 'actType',
+					type: 'bell',
+					id: 9
+				}, {
+					title: '管理员管理',
+					path: 'supertube',
+					type: 'user-add',
+					id: 10
+				}, {
+					title: '角色管理',
+					path: 'role',
+					type: 'user-delete',
+					id: 11
+				}],
 				menuListSub: Cache.get('menuListSub'),
-				list: []
+				list: [],
+				routeOn:''
+			}
+		},
+		watch: {
+			$route(to, from) {
+				this.routeOn = this.$route.name
 			}
 		},
 		created() {
-			let keys = parseInt(comm('type').type)
-			this.keys = [keys]
 			this.getUserInfo()
 			let that = this
 			setTimeout(() => {
 				that.menuListSub = Cache.get('menuListSub')
 			}, 300)
+			this.routeOn = this.$route.name
 		},
 		methods: {
 			backhome() {
@@ -157,8 +163,6 @@
 			},
 			goBack() {
 				this.$router.back(-1)
-				let k = parseInt(comm('type').type)
-				this.keys = [k]
 			},
 			reload() {
 				this.isRouterAlive = false
@@ -194,6 +198,21 @@
 </script>
 
 <style lang="less">
+	.side-left{
+		.ant-menu-item-selected{
+				background-color: #fff!important;
+				color: rgba(0,0,0,.65);
+				&::after{
+					border-right: 1px solid rgb(238, 238, 238) !important;
+				}
+			}
+		.on{
+			background-color: #e6f7ff !important;
+			color: #1890ff;
+			border-right: 3px solid #1890ff;
+		}
+	}
+	
 	.ant-menu {
 		border-right: 0 !important;
 	}
@@ -386,12 +405,14 @@
 	.ant-form-item-control-wrapper {
 		flex: 1;
 	}
-	.ant-advanced-search-form .ant-form-item{
-		.ant-form-item-label{
+
+	.ant-advanced-search-form .ant-form-item {
+		.ant-form-item-label {
 			width: 88px !important;
 		}
 	}
-	.ant-form-item-label{
+
+	.ant-form-item-label {
 		width: 80px;
 		text-overflow: ellipsis;
 	}

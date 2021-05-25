@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import { DoLogin, sendCode, getTokenToUser, GetUserInfo } from '@/api/follow'
+import { DoLogin, GetUserInfo } from '@/api/follow'
 import { mapState, mapMutations } from 'vuex'
 import Cache from '@/utils/cache'
 export default {
