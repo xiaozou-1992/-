@@ -44,10 +44,10 @@
           <a-form-model-item label="主管部门">
             <a-input v-model="form.DepartName" disabled/>
           </a-form-model-item>
-          <a-form-model-item label="学院审批意见">
+          <a-form-model-item label="学院审批意见" v-if="form.State !== '0'">
             <a-input v-model="form.SchoolReviewContent" disabled type="textarea"/>
           </a-form-model-item>
-          <a-form-model-item label="学院审批时间">
+          <a-form-model-item label="学院审批时间" v-if="form.State !== '0'">
             <a-input v-model="form.SchoolReviewTime" disabled/>
           </a-form-model-item>
           <a-form-model-item label="后勤审批意见" v-if="form.State === '3' || form.State === '4'">

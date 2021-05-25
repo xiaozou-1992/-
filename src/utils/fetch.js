@@ -37,8 +37,7 @@ const service = axios.create({
     timeout, // 请求超时时间
     headers: {
         // 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-		'Content-type': 'application/json; charset=UTF-8',
-     'Authorization':'9W0/FTnx++a+HLtfa3iW+h=='
+		'Content-type': 'application/json; charset=UTF-8'
     },
     withCredentials: false, // 跨域请求时是否需要使用凭证
     maxContentLength: 2000, // 响应内容的最大尺寸
@@ -59,8 +58,9 @@ service.interceptors.request.use(config => {
     let sign = ''
     // config.headers['timestamp'] = new Date().getTime()
     if (store.getters.token || Cache.get('SYS_TOKEN')) { // 抑制store可能未实例化时的异常
-        //config.headers['Authorization'] = store.getters.token || Cache.get('SYS_TOKEN')
-				config.headers['userToken'] = '9W0/FTnx++a+HLtfa3iW+h=='
+				//config.headers['Authorization'] = Cache.get('SYS_TOKEN')
+				config.headers['Authorization'] = '9W0/FTnx++a+HLtfa3iW+h=='
+				
     }
     if (/^(post|put|delete)$/.test(config.method.toLowerCase())) {
         if (config.data && config.data['ContentType'] && config.data['ContentType'].indexOf('json') > -1) {

@@ -40,7 +40,7 @@
                   </a-radio-group>
                 </a-form-model-item>
                 <a-form-model-item label="内容" prop="BackReviewContent" v-if="form.State === '4'">
-                  <a-input v-model="form.BackReviewContent" type="textarea" />
+                  <a-input v-model="form.BackReviewContent" type="textarea" placeholder="同意"/>
                 </a-form-model-item>
                 <a-form-model-item label="内容" v-else>
                   <a-input v-model="form.BackReviewContent" type="textarea"/>

@@ -74,7 +74,7 @@ export default {
 					})
 				}, 300)
 			} else {
-				 // window.location.href = 'http://api.jjx.hq.acxk.net/Home/Login'
+				 window.location.href = 'http://api.jjx.hq.acxk.net/Home/Login'
 			}
 		},
 		cheak(index) {

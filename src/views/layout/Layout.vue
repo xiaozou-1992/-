@@ -51,11 +51,7 @@
 	import Cache from '@/utils/cache'
 	import { comm } from '@/api/comm'
 	import {
-		getTokenMarketInner,
-		getTokenToUser,
-		getCheckStore,
-		doGetMenu,
-		LoginOut
+
 	} from '@/api/follow'
 	export default {
 		data() {
@@ -134,22 +130,12 @@
 			}
 		},
 		async created() {
-			if (Cache.get('token')) {
-				this.myInfo = Cache.get('myInfo')
-				// this._getTokenToUser()
-			}
 			let keys = parseInt(comm('type').type)
 			this.keys = [keys]
 		},
 		methods: {
 			backhome() {
-				this.$router.push('/index')
-			},
-			menuFunction() {
-				let arr = []
-				arr = this.menuList
-				let obj = arr.filter(item => item.path == this.$route.name)
-				this.showKey = obj[0].key
+				this.$router.push('/')
 			},
 			menu(type, s) {
 				this.$router.push({
@@ -158,18 +144,11 @@
 						type: type
 					}
 				})
-				this.keys = [type]
 			},
 			goBack() {
 				this.$router.back(-1)
-				let keys = 0
-				let that = this
-				setTimeout(() => {
-					keys = parseInt(comm('type').type)
-					that.$nextTick(function() {
-						that.keys = [keys]
-					})
-				}, 300)
+				let k = parseInt(comm('type').type)
+				this.keys = [k]
 			},
 			reload() {
 				this.isRouterAlive = false
@@ -178,21 +157,8 @@
 				})
 			},
 			async logout() {
-				await LoginOut()
-				Cache.remove('token')
 				Cache.remove('SYS_TOKEN')
-				Cache.remove('listMenus')
-				Cache.remove('DealerID')
-				Cache.remove('Type')
-				Cache.remove('info')
 				window.location.href = 'http://jjx.hq.acxk.net/#/register'
-			},
-			async _getTokenToUser() {
-				let res = await getTokenToUser()
-				this.detail = res.data.data
-				Cache.set('info', res.data.data)
-				this.info = Cache.get('info')
-				Cache.set('Type', 3)
 			}
 		},
 		mounted() {
