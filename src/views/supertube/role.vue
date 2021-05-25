@@ -32,6 +32,7 @@
 		GetAdminRoleList,
 		GetUserAuthorityList
 	} from '@/api/follow'
+	import Cache from '@/utils/cache'
 	export default {
 		components: {
 

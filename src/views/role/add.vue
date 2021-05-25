@@ -24,6 +24,7 @@
 </template>
 
 <script>
+	import Cache from '@/utils/cache'
 	import tree from '@/components/tree/tree.vue'
 	import {
 		DoAddRole,
