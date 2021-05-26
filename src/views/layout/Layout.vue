@@ -142,8 +142,10 @@
 				let token = decodeURIComponent(comm('userToken').userToken)
 				Cache.set('SYS_TOKEN', token)
 			}
-			let res = await GetUserAuthorityList()
-			Cache.set('menuListSub', res.data.data)
+			if (!Cache.get('menuListSub') || comm('userToken').userToken) {
+				let res = await GetUserAuthorityList()
+				Cache.set('', res.data.data)
+			}
 		},
 		created() {
 			this.getUserInfo()
