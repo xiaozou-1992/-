@@ -1,23 +1,25 @@
 <template>
   <div class="content">
-    <div class="h2">活动类型管理</div>
-    <div id="components-form-demo-advanced-search">
-      <a-form class="ant-advanced-search-form home-form" :form="form" @submit="handleSearch">
-        <a-row :gutter="24">
-          <a-col :span="8">
-            <a-form-item label="类型名称"><a-input class="field-right" placeholder="请输入类型名称" v-decorator="[`name`]" autocomplete="off" /></a-form-item>
-          </a-col>
-          <a-col :span="8" style="margin-top:4px;">
-            <a-button type="primary" html-type="submit" class="btn1">搜索</a-button>
-            <a-button @click="handleReset" class="btn1">重置</a-button>
-						<a-button type="primary" icon="plus" @click="addList({})">新增</a-button>
-          </a-col>
-        </a-row>
-      </a-form>
-    </div>
-    <!-- <el-button-group>
-      <el-button type="primary" size="small" icon="el-icon-plus" @click="addList({})">新增</el-button>
-    </el-button-group> -->
+		<div ref="boxheight">
+			<div class="h2">活动类型管理</div>
+			<div id="components-form-demo-advanced-search">
+			  <a-form class="ant-advanced-search-form home-form" :form="form" @submit="handleSearch">
+			    <a-row :gutter="24">
+			      <a-col :span="8">
+			        <a-form-item label="类型名称"><a-input class="field-right" placeholder="请输入类型名称" v-decorator="[`name`]" autocomplete="off" /></a-form-item>
+			      </a-col>
+			      <a-col :span="8" style="margin-top:4px;">
+			        <a-button type="primary" html-type="submit" class="btn1">搜索</a-button>
+			        <a-button @click="handleReset" class="btn1">重置</a-button>
+							<a-button type="primary" icon="plus" @click="addList({})">新增</a-button>
+			      </a-col>
+			    </a-row>
+			  </a-form>
+			</div>
+			<!-- <el-button-group>
+			  <el-button type="primary" size="small" icon="el-icon-plus" @click="addList({})">新增</el-button>
+			</el-button-group> -->
+		</div>
     <div style="margin-top: 20px;">
       <el-table ref="tableForm" :data="data" v-loading="loading" border :max-height="tableHeight" highlight-current-row
                 style="width: 100%;"
@@ -82,13 +84,16 @@ export default {
 				pageIndex: 1,
 				pageSize: 20
 			},
-			tableHeight: parseFloat(window.innerHeight - 400),
+			tableHeight: 0,
 			nowTime: ''
 		}
 	},
 	computed: {},
 	created() {
 		this.getList()
+		this.$nextTick(() => {
+			this.tableHeight = window.innerHeight - this.$refs.boxheight.offsetHeight - 265
+		})
 	},
 	mounted() {},
 	methods: {

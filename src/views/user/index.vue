@@ -1,45 +1,47 @@
 <template>
   <div class="content">
-    <div class="h2">用户管理</div>
-    <div id="components-form-demo-advanced-search">
-      <a-form class="ant-advanced-search-form home-form" :form="form" @submit="handleSearch">
-        <a-row :gutter="24">
-          <a-col :span="8">
-            <a-form-item label="姓名">
-              <a-input class="field-right" placeholder="请输入姓名" v-decorator="[`name`]" autocomplete="off"/>
-            </a-form-item>
-          </a-col>
-          <a-col :span="8">
-            <a-form-item label="工号/学号">
-              <a-input class="field-right" placeholder="请输入工号 / 学号" v-decorator="[`userNo`]" autocomplete="off"/>
-            </a-form-item>
-          </a-col>
-          <a-col :span="8">
-            <a-form-item label="用户类型">
-              <a-select v-decorator="['type']" style="width: 100%" placeholder="请选择用户类型" allowClear>
-                <a-select-option v-for="(item, index) in typeList" :key="item.ID">{{ item.Name }}</a-select-option>
-              </a-select>
-            </a-form-item>
-          </a-col>
-          <a-col :span="8">
-            <a-form-item label="所属部门">
-              <a-select placeholder="请输入所属部门" v-decorator="['departID']" showSearch optionFilterProp="children" :filterOption="filterOption">
-                <a-spin v-if="fetching" slot="notFoundContent" size="small" />
-                <a-select-option v-for="(item, index) in departList" :key="item.ID">{{ item.Name }}</a-select-option>
-              </a-select>
-            </a-form-item>
-          </a-col>
-          <a-col :span="8" style="margin-top:4px;">
-            <a-button type="primary" html-type="submit" class="btn1">搜索</a-button>
-            <a-button :style="{ marginLeft: '8px' }" @click="handleReset" class="btn2">重置</a-button>
-          </a-col>
-        </a-row>
-      </a-form>
-    </div>
-    <el-button-group>
-      <el-button type="primary" size="small" icon="el-icon-check" @click="synchro">同步</el-button>
-      <el-button type="warning" size="small" icon="el-icon-finished" @click="synchroAll">同步所有</el-button>
-    </el-button-group>
+    <div ref="boxheight" class="getheight">
+			<div class="h2">用户管理</div>
+			<div id="components-form-demo-advanced-search">
+			  <a-form class="ant-advanced-search-form home-form" :form="form" @submit="handleSearch">
+			    <a-row :gutter="24">
+			      <a-col :span="8">
+			        <a-form-item label="姓名">
+			          <a-input class="field-right" placeholder="请输入姓名" v-decorator="[`name`]" autocomplete="off"/>
+			        </a-form-item>
+			      </a-col>
+			      <a-col :span="8">
+			        <a-form-item label="工号/学号">
+			          <a-input class="field-right" placeholder="请输入工号 / 学号" v-decorator="[`userNo`]" autocomplete="off"/>
+			        </a-form-item>
+			      </a-col>
+			      <a-col :span="8">
+			        <a-form-item label="用户类型">
+			          <a-select v-decorator="['type']" style="width: 100%" placeholder="请选择用户类型" allowClear>
+			            <a-select-option v-for="(item, index) in typeList" :key="item.ID">{{ item.Name }}</a-select-option>
+			          </a-select>
+			        </a-form-item>
+			      </a-col>
+			      <a-col :span="8">
+			        <a-form-item label="所属部门">
+			          <a-select placeholder="请输入所属部门" v-decorator="['departID']" showSearch optionFilterProp="children" :filterOption="filterOption">
+			            <a-spin v-if="fetching" slot="notFoundContent" size="small" />
+			            <a-select-option v-for="(item, index) in departList" :key="item.ID">{{ item.Name }}</a-select-option>
+			          </a-select>
+			        </a-form-item>
+			      </a-col>
+			      <a-col :span="8" style="margin-top:4px;">
+			        <a-button type="primary" html-type="submit" class="btn1">搜索</a-button>
+			        <a-button :style="{ marginLeft: '8px' }" @click="handleReset" class="btn2">重置</a-button>
+			      </a-col>
+			    </a-row>
+			  </a-form>
+			</div>
+			<el-button-group>
+			  <el-button type="primary" size="small" icon="el-icon-check" @click="synchro">同步</el-button>
+			  <el-button type="warning" size="small" icon="el-icon-finished" @click="synchroAll">同步所有</el-button>
+			</el-button-group>
+		</div>
     <div style="margin-top: 20px;">
       <el-table ref="tableForm" :data="data" v-loading="loading" border :max-height="tableHeight" highlight-current-row
                 style="width: 100%;"
@@ -103,7 +105,7 @@
 					pageIndex: 2,
 					pageSize: 20
 				},
-				tableHeight: parseFloat(window.innerHeight - 480),
+				tableHeight: 0,
 				RoleList: [],
 				typeList: [{
 					ID: '1',
@@ -119,6 +121,9 @@
 		created() {
 			this.getList()
 			this.fetchDepart()
+			this.$nextTick(() => {
+				this.tableHeight = window.innerHeight - this.$refs.boxheight.offsetHeight - 265
+			})
 		},
 		mounted() {},
 		methods: {

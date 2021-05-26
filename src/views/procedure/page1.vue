@@ -180,7 +180,6 @@
 				this.getList()
 				this.buildingList = []
 				this.classroomList = []
-				this.schoolList = []
 			},
 			handleSizeChange(val) {
 				this.pagination.pageSize = val

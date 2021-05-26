@@ -1,28 +1,30 @@
 <template>
   <div class="content">
-    <div class="h2">部门管理</div>
-    <div id="components-form-demo-advanced-search">
-      <a-form class="ant-advanced-search-form home-form" :form="form" @submit="handleSearch">
-        <a-row :gutter="24">
-          <a-col :span="8">
-            <a-form-item label="部门名称"><a-input class="field-right" placeholder="请输入部门名称" v-decorator="[`name`]" autocomplete="off"/></a-form-item>
-          </a-col>
-          <a-col :span="8">
-            <a-form-item label="编号"><a-input class="field-right" placeholder="请输入编号" v-decorator="[`code`]" autocomplete="off"/></a-form-item>
-          </a-col>
-          <a-col :span="8" style="margin-top:4px;">
-            <a-button type="primary" html-type="submit" class="btn1">搜索</a-button>
-            <a-button :style="{ marginLeft: '8px' }" @click="handleReset" class="btn2">重置</a-button>
-          </a-col>
-        </a-row>
-      </a-form>
-    </div>
-    <el-button-group>
-      <el-button type="primary" size="small" icon="el-icon-check" @click="synchroAll">同步部门</el-button>
-      <!-- <el-button type="primary" size="small" icon="el-icon-plus" @click="addList">新增</el-button>
-      <el-button type="info" size="small" icon="el-icon-upload2" @click="importData">导入</el-button>
-      <el-button type="success" size="small" icon="el-icon-check" @click="updataList">同步学生信息</el-button> -->
-    </el-button-group>
+		<div ref="boxheight">
+			<div class="h2">部门管理</div>
+			<div id="components-form-demo-advanced-search">
+			  <a-form class="ant-advanced-search-form home-form" :form="form" @submit="handleSearch">
+			    <a-row :gutter="24">
+			      <a-col :span="8">
+			        <a-form-item label="部门名称"><a-input class="field-right" placeholder="请输入部门名称" v-decorator="[`name`]" autocomplete="off"/></a-form-item>
+			      </a-col>
+			      <a-col :span="8">
+			        <a-form-item label="编号"><a-input class="field-right" placeholder="请输入编号" v-decorator="[`code`]" autocomplete="off"/></a-form-item>
+			      </a-col>
+			      <a-col :span="8" style="margin-top:4px;">
+			        <a-button type="primary" html-type="submit" class="btn1">搜索</a-button>
+			        <a-button :style="{ marginLeft: '8px' }" @click="handleReset" class="btn2">重置</a-button>
+			      </a-col>
+			    </a-row>
+			  </a-form>
+			</div>
+			<el-button-group>
+			  <el-button type="primary" size="small" icon="el-icon-check" @click="synchroAll">同步部门</el-button>
+			  <!-- <el-button type="primary" size="small" icon="el-icon-plus" @click="addList">新增</el-button>
+			  <el-button type="info" size="small" icon="el-icon-upload2" @click="importData">导入</el-button>
+			  <el-button type="success" size="small" icon="el-icon-check" @click="updataList">同步学生信息</el-button> -->
+			</el-button-group>
+		</div>
     <div style="margin-top: 20px;">
       <el-table ref="tableForm" :data="data" v-loading="loading" style="width: 100%;margin-bottom: 20px;" border :max-height="tableHeight"
                 highlight-current-row
@@ -98,13 +100,16 @@ export default {
 				pageIndex: 1,
 				pageSize: 20
 			},
-			tableHeight: parseFloat(window.innerHeight - 440),
+			tableHeight: 0,
 			nowTime: ''
 		}
 	},
 	computed: {},
 	created() {
 		this.getList()
+		this.$nextTick(() => {
+			this.tableHeight = window.innerHeight - this.$refs.boxheight.offsetHeight - 265
+		})
 	},
 	mounted() {},
 	methods: {

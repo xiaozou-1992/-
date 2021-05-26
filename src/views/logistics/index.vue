@@ -1,64 +1,66 @@
 <template>
 	<div class="content">
-		<div class="h2">所有申请记录</div>
-		<div id="components-form-demo-advanced-search">
-			<a-form class="ant-advanced-search-form home-form" :form="form" @submit="handleSearch">
-				<a-row :gutter="24">
-					<a-col :span="8">
-						<a-form-item label="申请人">
-							<a-input class="field-right" placeholder="请输入申请人名称" v-decorator="[`name`]" autocomplete="off" />
-						</a-form-item>
-					</a-col>
-					<a-col :span="8">
-						<a-form-item label="校区">
-							<a-select :allowClear="true" v-decorator="['schoolID']" placeholder="请选择校区" optionFilterProp="children"
-							 showSearch @change="getAllBuildingList">
-								<a-select-option v-for="(item, index) in schoolList" :key="index" :value="item.ID">{{ item.XQM }}</a-select-option>
-							</a-select>
-						</a-form-item>
-					</a-col>
-					<a-col :span="8">
-						<a-form-item label="教学楼">
-							<a-select :allowClear="true" v-decorator="['buildingID']" placeholder="请选择教学楼" optionFilterProp="children"
-							 showSearch @change="getAllClassRoomList">
-								<a-select-option v-for="(item, index) in buildingList" :key="index" :value="item.ID">{{ item.Name }}</a-select-option>
-							</a-select>
-						</a-form-item>
-					</a-col>
-					<a-col :span="8">
-						<a-form-item label="教室">
-							<a-select :allowClear="true" v-decorator="['classID']" placeholder="请选择教室" optionFilterProp="children"
-							 showSearch>
-								<a-select-option v-for="(item, index) in classroomList" :key="index" :value="item.ID">{{ item.Name }}</a-select-option>
-							</a-select>
-						</a-form-item>
-					</a-col>
-					<a-col :span="8">
-						<a-form-item label="申请日期">
-							<a-range-picker style="width: 100%;" v-decorator="[`date`]" />
-						</a-form-item>
-					</a-col>
-					<a-col :span="8">
-						<a-form-item label="节次">
-							<a-input-number :min="JCMin" :max="JCMax" v-decorator="[`StartJC`]" @blur="numberChange(1)" style="width: 46%;" />
-							~
-							<a-input-number style="width: 46%;" :min="JCMin" :max="JCMax" v-decorator="[`EndJC`]" @blur="numberChange(2)" />
-						</a-form-item>
-					</a-col>
-
-					<a-col :span="8">
-						<a-form-item label="状态">
-							<a-select v-decorator="['state']" placeholder="请选择状态" optionFilterProp="children">
-								<a-select-option v-for="(item, index) in stateList" :key="index" :value="item.ID">{{ item.Name }}</a-select-option>
-							</a-select>
-						</a-form-item>
-					</a-col>
-					<a-col :span="8" style="margin-top:4px;">
-						<a-button type="primary" html-type="submit" class="btn1">搜索</a-button>
-						<a-button :style="{ marginLeft: '8px' }" @click="handleReset" class="btn2">重置</a-button>
-					</a-col>
-				</a-row>
-			</a-form>
+		<div ref="boxheight">
+			<div class="h2">所有申请记录</div>
+			<div id="components-form-demo-advanced-search">
+				<a-form class="ant-advanced-search-form home-form" :form="form" @submit="handleSearch">
+					<a-row :gutter="24">
+						<a-col :span="8">
+							<a-form-item label="申请人">
+								<a-input class="field-right" placeholder="请输入申请人名称" v-decorator="[`name`]" autocomplete="off" />
+							</a-form-item>
+						</a-col>
+						<a-col :span="8">
+							<a-form-item label="校区">
+								<a-select :allowClear="true" v-decorator="['schoolID']" placeholder="请选择校区" optionFilterProp="children"
+								 showSearch @change="getAllBuildingList">
+									<a-select-option v-for="(item, index) in schoolList" :key="index" :value="item.ID">{{ item.XQM }}</a-select-option>
+								</a-select>
+							</a-form-item>
+						</a-col>
+						<a-col :span="8">
+							<a-form-item label="教学楼">
+								<a-select :allowClear="true" v-decorator="['buildingID']" placeholder="请选择教学楼" optionFilterProp="children"
+								 showSearch @change="getAllClassRoomList">
+									<a-select-option v-for="(item, index) in buildingList" :key="index" :value="item.ID">{{ item.Name }}</a-select-option>
+								</a-select>
+							</a-form-item>
+						</a-col>
+						<a-col :span="8">
+							<a-form-item label="教室">
+								<a-select :allowClear="true" v-decorator="['classID']" placeholder="请选择教室" optionFilterProp="children"
+								 showSearch>
+									<a-select-option v-for="(item, index) in classroomList" :key="index" :value="item.ID">{{ item.Name }}</a-select-option>
+								</a-select>
+							</a-form-item>
+						</a-col>
+						<a-col :span="8">
+							<a-form-item label="申请日期">
+								<a-range-picker style="width: 100%;" v-decorator="[`date`]" />
+							</a-form-item>
+						</a-col>
+						<a-col :span="8">
+							<a-form-item label="节次">
+								<a-input-number :min="JCMin" :max="JCMax" v-decorator="[`StartJC`]" @blur="numberChange(1)" style="width: 46%;" />
+								~
+								<a-input-number style="width: 46%;" :min="JCMin" :max="JCMax" v-decorator="[`EndJC`]" @blur="numberChange(2)" />
+							</a-form-item>
+						</a-col>
+			
+						<a-col :span="8">
+							<a-form-item label="状态">
+								<a-select v-decorator="['state']" placeholder="请选择状态" optionFilterProp="children">
+									<a-select-option v-for="(item, index) in stateList" :key="index" :value="item.ID">{{ item.Name }}</a-select-option>
+								</a-select>
+							</a-form-item>
+						</a-col>
+						<a-col :span="8" style="margin-top:4px;">
+							<a-button type="primary" html-type="submit" class="btn1">搜索</a-button>
+							<a-button :style="{ marginLeft: '8px' }" @click="handleReset" class="btn2">重置</a-button>
+						</a-col>
+					</a-row>
+				</a-form>
+			</div>
 		</div>
 		<div style="margin-top: 20px;">
 			<el-table ref="tableForm" :data="data" v-loading="loading" border :max-height="tableHeight" highlight-current-row
@@ -183,10 +185,9 @@
 					pageIndex: 1,
 					pageSize: 20
 				},
-				tableHeight: parseFloat(window.innerHeight - 480),
+				tableHeight: 0,
 				ClassList: [],
 				DepartCodeList: [],
-				layoutHeight: window.innerHeight - 460 + 'px',
 				examineID: '',
 				nowTime: ''
 			}
@@ -195,6 +196,9 @@
 		created() {
 			this.getList()
 			this.getAllSchoolList()
+			this.$nextTick(() => {
+				this.tableHeight = window.innerHeight - this.$refs.boxheight.offsetHeight - 265
+			})
 		},
 		mounted() {},
 		methods: {
@@ -261,7 +265,6 @@
 				this.getList()
 				this.buildingList = []
 				this.classroomList = []
-				this.schoolList = []
 			},
 			handleSizeChange(val) {
 				this.pagination.pageSize = val

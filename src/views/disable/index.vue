@@ -1,55 +1,57 @@
 <template>
   <div class="content">
-    <div class="h2">楼宇教室禁用管理</div>
-    <div id="components-form-demo-advanced-search">
-      <a-form class="ant-advanced-search-form home-form" :form="form" @submit="handleSearch">
-        <a-row :gutter="24">
-          <a-col :span="8">
-            <a-form-item label="禁用类型">
-              <a-select :allowClear="true" v-decorator="['type']" placeholder="请选择禁用类型" optionFilterProp="children" showSearch>
-                <a-select-option v-for="(item, index) in typeList" :key="index" :value="item.ID">{{ item.Name }}</a-select-option>
-              </a-select>
-            </a-form-item>
-          </a-col>
-          <a-col :span="8">
-            <a-form-item label="教学楼">
-              <a-select :allowClear="true" v-decorator="['buildingID']" placeholder="请选择教学楼" optionFilterProp="children"
-                        showSearch
-              >
-                <a-select-option v-for="(item, index) in buildingList" :key="index" :value="item.ID">{{ item.Name }}</a-select-option>
-              </a-select>
-            </a-form-item>
-          </a-col>
-          <a-col :span="8">
-            <a-form-item label="教室">
-              <a-select :allowClear="true" v-decorator="['classID']" placeholder="请选择教室" optionFilterProp="children"
-                        showSearch
-              >
-                <a-select-option v-for="(item, index) in classroomList" :key="index" :value="item.ID">{{ item.Name }}</a-select-option>
-              </a-select>
-            </a-form-item>
-          </a-col>
-          <a-col :span="8">
-            <a-form-item label="日期">
-              <a-range-picker style="width: 100%;" v-decorator="[`date`]" />
-            </a-form-item>
-          </a-col>
-          <!-- <a-col :span="8">
-            <a-form-item label="节次">
-              <a-slider range :min="JCMin" :max="JCMax" v-decorator="[`JC`]" />
-            </a-form-item>
-          </a-col> -->
-          <a-col :span="8" style="margin-top:4px;">
-            <a-button type="primary" html-type="submit" class="btn1">搜索</a-button>
-            <a-button @click="handleReset" class="btn1">重置</a-button>
-						<a-button type="primary" icon="plus" @click="addList">新增</a-button>
-          </a-col>
-        </a-row>
-      </a-form>
-    </div>
-    <!-- <el-button-group>
-      <el-button type="primary" size="small" icon="el-icon-plus" @click="addList">新增</el-button>
-    </el-button-group> -->
+		<div ref="boxheight">
+			<div class="h2">楼宇教室禁用管理</div>
+			<div id="components-form-demo-advanced-search">
+			  <a-form class="ant-advanced-search-form home-form" :form="form" @submit="handleSearch">
+			    <a-row :gutter="24">
+			      <a-col :span="8">
+			        <a-form-item label="禁用类型">
+			          <a-select :allowClear="true" v-decorator="['type']" placeholder="请选择禁用类型" optionFilterProp="children" showSearch>
+			            <a-select-option v-for="(item, index) in typeList" :key="index" :value="item.ID">{{ item.Name }}</a-select-option>
+			          </a-select>
+			        </a-form-item>
+			      </a-col>
+			      <a-col :span="8">
+			        <a-form-item label="教学楼">
+			          <a-select :allowClear="true" v-decorator="['buildingID']" placeholder="请选择教学楼" optionFilterProp="children"
+			                    showSearch
+			          >
+			            <a-select-option v-for="(item, index) in buildingList" :key="index" :value="item.ID">{{ item.Name }}</a-select-option>
+			          </a-select>
+			        </a-form-item>
+			      </a-col>
+			      <a-col :span="8">
+			        <a-form-item label="教室">
+			          <a-select :allowClear="true" v-decorator="['classID']" placeholder="请选择教室" optionFilterProp="children"
+			                    showSearch
+			          >
+			            <a-select-option v-for="(item, index) in classroomList" :key="index" :value="item.ID">{{ item.Name }}</a-select-option>
+			          </a-select>
+			        </a-form-item>
+			      </a-col>
+			      <a-col :span="8">
+			        <a-form-item label="日期">
+			          <a-range-picker style="width: 100%;" v-decorator="[`date`]" />
+			        </a-form-item>
+			      </a-col>
+			      <!-- <a-col :span="8">
+			        <a-form-item label="节次">
+			          <a-slider range :min="JCMin" :max="JCMax" v-decorator="[`JC`]" />
+			        </a-form-item>
+			      </a-col> -->
+			      <a-col :span="8" style="margin-top:4px;">
+			        <a-button type="primary" html-type="submit" class="btn1">搜索</a-button>
+			        <a-button @click="handleReset" class="btn1">重置</a-button>
+							<a-button type="primary" icon="plus" @click="addList">新增</a-button>
+			      </a-col>
+			    </a-row>
+			  </a-form>
+			</div>
+			<!-- <el-button-group>
+			  <el-button type="primary" size="small" icon="el-icon-plus" @click="addList">新增</el-button>
+			</el-button-group> -->
+		</div>
     <div style="margin-top: 20px;">
       <el-table ref="tableForm" :data="data" v-loading="loading" style="width: 100%;margin-bottom: 20px;" border :max-height="tableHeight"
                 highlight-current-row
@@ -135,7 +137,7 @@
 					pageIndex: 1,
 					pageSize: 20
 				},
-				tableHeight: parseFloat(window.innerHeight - 440),
+				tableHeight: 0,
 				buildingList: [],
 				classroomList: [],
 				typeList: [{
@@ -166,6 +168,9 @@
 				this.values.classID = this.$route.query.classID
 			}
 			this.getList()
+			this.$nextTick(() => {
+				this.tableHeight = window.innerHeight - this.$refs.boxheight.offsetHeight - 265
+			})
 		},
 		mounted() {},
 		methods: {

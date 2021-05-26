@@ -1,37 +1,39 @@
 <template>
   <div class="content">
-    <div class="h2">楼宇管理</div>
-    <div id="components-form-demo-advanced-search">
-      <a-form class="ant-advanced-search-form home-form" :form="form" @submit="handleSearch">
-        <a-row :gutter="24">
-          <a-col :span="8">
-            <a-form-item label="名称">
-              <a-input class="field-right" placeholder="请输入名称" v-decorator="[`name`]" autocomplete="off"/>
-            </a-form-item>
-          </a-col>
-          <a-col :span="8">
-            <a-form-item label="编号">
-              <a-input class="field-right" placeholder="请输入编号" v-decorator="[`code`]" autocomplete="off" />
-            </a-form-item>
-          </a-col>
-          <a-col :span="8">
-            <a-form-item label="校区">
-              <a-select :allowClear="true" v-decorator="['xqID']" placeholder="请选择校区" optionFilterProp="children" showSearch>
-                <a-select-option v-for="(item, index) in schoolList" :key="index" :value="item.ID">{{ item.XQM }}</a-select-option>
-              </a-select>
-            </a-form-item>
-          </a-col>
-          <a-col :span="8" style="margin-top:4px;">
-            <a-button type="primary" html-type="submit" class="btn1">搜索</a-button>
-            <a-button @click="handleReset" class="btn1">重置</a-button>
-						<a-button type="primary" icon="check" @click="synchroAll">同步楼宇</a-button>
-          </a-col>
-        </a-row>
-      </a-form>
-    </div>
-  <!--  <el-button-group>
-      <el-button type="primary" size="small" icon="el-icon-check" @click="synchroAll">同步楼宇</el-button>
-    </el-button-group> -->
+		<div ref="boxheight">
+			<div class="h2">楼宇管理</div>
+			  <div id="components-form-demo-advanced-search">
+			    <a-form class="ant-advanced-search-form home-form" :form="form" @submit="handleSearch">
+			      <a-row :gutter="24">
+			        <a-col :span="8">
+			          <a-form-item label="名称">
+			            <a-input class="field-right" placeholder="请输入名称" v-decorator="[`name`]" autocomplete="off"/>
+			          </a-form-item>
+			        </a-col>
+			        <a-col :span="8">
+			          <a-form-item label="编号">
+			            <a-input class="field-right" placeholder="请输入编号" v-decorator="[`code`]" autocomplete="off" />
+			          </a-form-item>
+			        </a-col>
+			        <a-col :span="8">
+			          <a-form-item label="校区">
+			            <a-select :allowClear="true" v-decorator="['xqID']" placeholder="请选择校区" optionFilterProp="children" showSearch>
+			              <a-select-option v-for="(item, index) in schoolList" :key="index" :value="item.ID">{{ item.XQM }}</a-select-option>
+			            </a-select>
+			          </a-form-item>
+			        </a-col>
+			        <a-col :span="8" style="margin-top:4px;">
+			          <a-button type="primary" html-type="submit" class="btn1">搜索</a-button>
+			          <a-button @click="handleReset" class="btn1">重置</a-button>
+								<a-button type="primary" icon="check" @click="synchroAll">同步楼宇</a-button>
+			        </a-col>
+			      </a-row>
+			    </a-form>
+			  </div>
+			<!--  <el-button-group>
+			    <el-button type="primary" size="small" icon="el-icon-check" @click="synchroAll">同步楼宇</el-button>
+			  </el-button-group> -->
+		</div>
     <div style="margin-top: 20px;">
       <el-table ref="tableForm" :data="data" v-loading="loading" border :max-height="tableHeight" highlight-current-row
                 style="width: 100%;"
@@ -97,7 +99,7 @@
 					pageIndex: 1,
 					pageSize: 20
 				},
-				tableHeight: parseFloat(window.innerHeight - 410),
+				tableHeight: 0,
 				layoutHeight: window.innerHeight - 460 + 'px',
 				schoolList: [],
 				addIf: false,
@@ -108,6 +110,9 @@
 		created() {
 			this.getList()
 			this.getAllSchoolList()
+			this.$nextTick(() => {
+				this.tableHeight = window.innerHeight - this.$refs.boxheight.offsetHeight - 265
+			})
 		},
 		mounted() {},
 		methods: {

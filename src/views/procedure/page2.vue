@@ -194,7 +194,6 @@
 				this.values = {}
 				this.buildingList = []
 				this.classroomList = []
-				this.schoolList = []
 				this.getList()
 			},
 			handleSizeChange(val) {
