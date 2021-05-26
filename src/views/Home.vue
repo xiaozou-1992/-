@@ -27,7 +27,7 @@
 		},
 		created() {
 			if (!Cache.get('SYS_TOKEN')) {
-				let token = comm('userToken').userToken
+				let token = decodeURIComponent(comm('userToken').userToken)
 				Cache.set('SYS_TOKEN', token)
 			}
 		},

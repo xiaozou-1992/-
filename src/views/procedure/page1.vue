@@ -159,7 +159,7 @@
 				this.form.validateFields((error, values) => {
 					this.pagination.currentPage = 1
 					this.values = values
-					if (values.date) {
+					if (values.date.length > 0) {
 						values.applyStartDate = moment(values.date[0]._d).format('YYYY-MM-DD') + 'T00:00:00.000Z'
 						values.applyEndDate = moment(values.date[1]._d).format('YYYY-MM-DD') + 'T00:00:00.000Z'
 					}

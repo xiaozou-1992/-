@@ -2,7 +2,7 @@
   <div class="aid">
     <div class="base">
       <p class="fixed-top">
-        {{ JSON.stringify(text) == '{}' ? '添加学生' : '修改学生' }}
+        {{ JSON.stringify(text) == '{}' ? '添加学院审批人' : '修改学院审批人' }}
         <a-icon class="icon-close" @click="closeFunction" type="close-circle" />
       </p>
       <div class="main" id="new_message">

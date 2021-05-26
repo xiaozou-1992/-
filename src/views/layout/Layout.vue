@@ -31,7 +31,7 @@
 				<a-layout style="padding: 11px 0; background: #fff;width: 201px;border-right: 1px solid #eee;">
 					<a-layout-sider class="side-left" :trigger="null">
 						<a-menu mode="inline" :default-selected-keys="keys">
-							<a-menu-item :class="{'on': menuList.find(d=>(d.id==item.id)).path=== routeOn?true:false}" v-for="(item,index) in menuListSub" @click="menu(item.id)" :key="item.id">
+							<a-menu-item :class="{'on': item.path=== routeOn?true:false}" v-for="(item,index) in menuList" @click="menu(item.id,item.path)" :key="item.id" v-if="menuListSub.find(d=>(d.id===item.id)) || (myInfo.ID === 1 && myInfo.Name==='superadmin')">
 								<a-icon :type="item.type" />
 								<span class="nav-text">{{ item.title }}</span>
 							</a-menu-item>
@@ -148,10 +148,10 @@
 			backhome() {
 				this.$router.push('/')
 			},
-			menu(type) {
-				let item = this.menuList.find(d => (d.id === type))
+			menu(type,path) {
+				//let item = this.menuList.find(d => (d.id === type))
 				this.$router.push({
-					name: item.path,
+					name: path,
 					query: {
 						type: type
 					}
@@ -173,7 +173,7 @@
 			async logout() {
 				Cache.remove('SYS_TOKEN')
 				Cache.remove('menuListSub')
-				window.location.href = 'http://jjx.hq.acxk.net/#/register'
+				window.location.href = 'http://api.jjx.hq.acxk.net/Home/LoginOut'
 			}
 		},
 		mounted() {
