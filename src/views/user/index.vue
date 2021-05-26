@@ -103,7 +103,7 @@
 					pageIndex: 2,
 					pageSize: 20
 				},
-				tableHeight: parseFloat(window.innerHeight - 530),
+				tableHeight: parseFloat(window.innerHeight - 480),
 				RoleList: [],
 				typeList: [{
 					ID: '1',

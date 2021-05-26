@@ -98,7 +98,7 @@ export default {
 				pageIndex: 1,
 				pageSize: 20
 			},
-			tableHeight: parseFloat(window.innerHeight - 530),
+			tableHeight: parseFloat(window.innerHeight - 440),
 			nowTime: ''
 		}
 	},

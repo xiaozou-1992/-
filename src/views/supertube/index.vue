@@ -34,9 +34,6 @@
         </a-row>
       </a-form>
     </div>
-    <el-button-group>
-      
-    </el-button-group>
     <div style="margin-top: 20px;">
       <el-table ref="tableForm" :data="data" v-loading="loading" border :max-height="tableHeight" highlight-current-row
                 style="width: 100%;"
@@ -110,7 +107,7 @@ export default {
 				pageIndex: 2,
 				pageSize: 20
 			},
-			tableHeight: parseFloat(window.innerHeight - 530),
+			tableHeight: parseFloat(window.innerHeight - 410),
 			RoleList: [],
 			departList: [],
 			fetching: false,
