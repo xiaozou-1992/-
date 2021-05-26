@@ -159,7 +159,7 @@
 				this.form.validateFields((error, values) => {
 					this.pagination.currentPage = 1
 					this.values = values
-					if (values.date.length > 0) {
+					if (values.date !== undefined && values.date.length > 0) {
 						values.applyStartDate = moment(values.date[0]._d).format('YYYY-MM-DD') + 'T00:00:00.000Z'
 						values.applyEndDate = moment(values.date[1]._d).format('YYYY-MM-DD') + 'T00:00:00.000Z'
 					}
@@ -193,12 +193,24 @@
 				this.schoolList = res.data.data
 			},
 			async getAllBuildingList(e) {
-				let res = await GetAllBuildingList({xqID: e})
-				this.buildingList = res.data.data
+				if(e){
+					let res = await GetAllBuildingList({xqID: e})
+					this.buildingList = res.data.data
+				}else{
+					this.form.setFieldsValue({buildingID: ''})
+					this.buildingList = []
+					this.form.setFieldsValue({classID: ''})
+					this.classroomList = []
+				}
 			},
 			async getAllClassRoomList(e) {
-				let res = await GetAllClassRoomList({buildingID: e})
-				this.classroomList = res.data.data
+				if(e){
+					let res = await GetAllClassRoomList({buildingID: e})
+					this.classroomList = res.data.data
+				}else{
+					this.form.setFieldsValue({classID: ''})
+					this.classroomList = []
+				}
 			},
 			async getList() {
 				this.loading = true

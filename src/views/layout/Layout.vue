@@ -31,7 +31,7 @@
 				<a-layout style="padding: 11px 0; background: #fff;width: 201px;border-right: 1px solid #eee;">
 					<a-layout-sider class="side-left" :trigger="null">
 						<a-menu mode="inline" :default-selected-keys="keys">
-							<a-menu-item :class="{'on': item.path=== routeOn?true:false}" v-for="(item,index) in menuList" @click="menu(item.id,item.path)" :key="item.id" v-if="menuListSub.find(d=>(d.id===item.id)) || (myInfo.ID === 1 && myInfo.Name==='superadmin')">
+							<a-menu-item :class="{'on': item.path=== routeOn?true:false}" v-for="(item,index) in menuList" @click="menu(item.id,item.path)" :key="item.id" v-if="menuListSub.find(d=>(d.id==item.id)) || (myInfo.Name === 'superadmin' && myInfo.ID === '1')">
 								<a-icon :type="item.type" />
 								<span class="nav-text">{{ item.title }}</span>
 							</a-menu-item>
@@ -53,7 +53,8 @@
 		comm
 	} from '@/api/comm'
 	import {
-		GetUserInfo
+		GetUserInfo,
+		GetUserAuthorityList
 	} from '@/api/follow'
 	export default {
 		data() {
@@ -135,6 +136,14 @@
 			$route(to, from) {
 				this.routeOn = this.$route.name
 			}
+		},
+		async beforeCreate() {
+			if (!Cache.get('SYS_TOKEN') || comm('userToken').userToken) {
+				let token = decodeURIComponent(comm('userToken').userToken)
+				Cache.set('SYS_TOKEN', token)
+			}
+			let res = await GetUserAuthorityList()
+			Cache.set('menuListSub', res.data.data)
 		},
 		created() {
 			this.getUserInfo()

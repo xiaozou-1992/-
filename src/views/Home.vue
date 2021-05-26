@@ -22,14 +22,8 @@
 		},
 		computed: {},
 		async beforeCreate() {
-			let res = await GetUserAuthorityList()
-			Cache.set('menuListSub', res.data.data)
-		},
-		created() {
-			if (!Cache.get('SYS_TOKEN')) {
-				let token = decodeURIComponent(comm('userToken').userToken)
-				Cache.set('SYS_TOKEN', token)
-			}
+			// let res = await GetUserAuthorityList()
+			// Cache.set('menuListSub', res.data.data)
 		},
 		methods: {
 			menu(s) {
