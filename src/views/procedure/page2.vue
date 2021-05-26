@@ -1,100 +1,97 @@
 <template>
-  <div class="content">
-    <div id="components-form-demo-advanced-search">
-      <a-form class="ant-advanced-search-form home-form" :form="form" @submit="handleSearch">
-        <a-row :gutter="24">
-          <a-col :span="8">
-            <a-form-item label="申请人">
-              <a-input class="field-right" placeholder="请输入申请人名称" v-decorator="[`name`]" autocomplete="off" />
-            </a-form-item>
-          </a-col>
-          <a-col :span="8">
-            <a-form-item label="校区">
-              <a-select :allowClear="true" v-decorator="['schoolID']" placeholder="请选择校区" optionFilterProp="children" showSearch
-                        @change="getAllBuildingList"
-              >
-                <a-select-option v-for="(item, index) in schoolList" :key="index" :value="item.ID">{{ item.XQM }}</a-select-option>
-              </a-select>
-            </a-form-item>
-          </a-col>
-          <a-col :span="8">
-            <a-form-item label="教学楼">
-              <a-select :allowClear="true" v-decorator="['buildingID']" placeholder="请选择教学楼" optionFilterProp="children" showSearch
-                        @change="getAllClassRoomList"
-              >
-                <a-select-option v-for="(item, index) in buildingList" :key="index" :value="item.ID">{{ item.Name }}</a-select-option>
-              </a-select>
-            </a-form-item>
-          </a-col>
-          <a-col :span="8">
-            <a-form-item label="教室">
-              <a-select :allowClear="true" v-decorator="['classID']" placeholder="请选择教室" optionFilterProp="children" showSearch>
-                <a-select-option v-for="(item, index) in classroomList" :key="index" :value="item.ID">{{ item.Name }}</a-select-option>
-              </a-select>
-            </a-form-item>
-          </a-col>
-          <a-col :span="8">
-            <a-form-item label="申请日期">
-              <a-range-picker style="width: 100%;" v-decorator="[`date`]" />
-            </a-form-item>
-          </a-col>
-          <a-col :span="8">
-            <a-form-item label="节次">
-              <a-input-number :min="JCMin" :max="JCMax" v-decorator="[`StartJC`]" @blur="numberChange(1)" style="width: 45.5%;"/> ~  <a-input-number style="width: 45.5%;" :min="JCMin" :max="JCMax" v-decorator="[`EndJC`]" @blur="numberChange(2)"/>
-            </a-form-item>
-          </a-col>
-          <a-col :span="8">
-            <a-form-item label="状态">
-              <a-select v-decorator="['state']" placeholder="请选择状态" optionFilterProp="children">
-                <a-select-option v-for="(item, index) in stateList" :key="index" :value="item.ID">{{ item.Name }}</a-select-option>
-              </a-select>
-            </a-form-item>
-          </a-col>
-          <a-col :span="8" style="margin-top:4px;">
-            <a-button type="primary" html-type="submit" class="btn1">搜索</a-button>
-            <a-button :style="{ marginLeft: '8px' }" @click="handleReset" class="btn2">重置</a-button>
-          </a-col>
-        </a-row>
-      </a-form>
-    </div>
-    <div style="margin-top: 20px;">
-      <el-table ref="tableForm" :data="data" v-loading="loading" border :max-height="tableHeight" highlight-current-row
-                style="width: 100%;"
-      >
-        <el-table-column prop="IsEnable" label="状态" min-width="150">
-          <template slot-scope="scope">
-            <a-tag color="red" v-if="scope.row.State === '4'">后勤审核不通过</a-tag>
-            <a-tag color="green" v-if="scope.row.State === '3'">后勤审核通过</a-tag>
-          </template>
-        </el-table-column>
-        <el-table-column prop="ActName" label="活动类型" min-width="180" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="ActContent" label="活动内容" min-width="200" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="Unity" label="举办单位" min-width="180" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="StudentName" label="申请人" min-width="120"></el-table-column>
-        <el-table-column prop="Phone" label="手机号" min-width="120"></el-table-column>
-        <el-table-column prop="ApplyTime" label="申请日期" min-width="168"></el-table-column>
-        <el-table-column prop="IsEnable" label="节次" min-width="120">
-          <template slot-scope="scope">
-            {{ scope.row.StartJC }} ~ {{ scope.row.EndJC }} 节
-          </template>
-        </el-table-column>
-        <el-table-column label="操作" width="62" fixed="right">
-          <template slot-scope="scope">
-            <a-popover title="详情">
-              <i class="el-font el-icon-view" style="color: #67C23A;" @click="modifyList(scope.row, 'modify')"></i>
-            </a-popover>
-          </template>
-        </el-table-column>
-      </el-table>
-      <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="pagination.currentPage"
-                     :page-sizes="pagination.pageSizeOptions" :page-size="pagination.pageSize" layout="total, sizes, prev, pager, next, jumper"
-                     :total="pagination.total"
-      ></el-pagination>
-    </div>
-    <add :text="text" :detail="true" :nowTime="nowTime" :schoolList="schoolList" v-show="addIf"
-         @closeFun="closeFun"
-    ></add>
-  </div>
+	<div class="content">
+		<div id="components-form-demo-advanced-search">
+			<a-form class="ant-advanced-search-form home-form" :form="form" @submit="handleSearch">
+				<a-row :gutter="24">
+					<a-col :span="8">
+						<a-form-item label="申请人">
+							<a-input class="field-right" placeholder="请输入申请人名称" v-decorator="[`name`]" autocomplete="off" />
+						</a-form-item>
+					</a-col>
+					<a-col :span="8">
+						<a-form-item label="校区">
+							<a-select :allowClear="true" v-decorator="['schoolID']" placeholder="请选择校区" optionFilterProp="children"
+							 showSearch @change="getAllBuildingList">
+								<a-select-option v-for="(item, index) in schoolList" :key="index" :value="item.ID">{{ item.XQM }}</a-select-option>
+							</a-select>
+						</a-form-item>
+					</a-col>
+					<a-col :span="8">
+						<a-form-item label="教学楼">
+							<a-select :allowClear="true" v-decorator="['buildingID']" placeholder="请选择教学楼" optionFilterProp="children"
+							 showSearch @change="getAllClassRoomList">
+								<a-select-option v-for="(item, index) in buildingList" :key="index" :value="item.ID">{{ item.Name }}</a-select-option>
+							</a-select>
+						</a-form-item>
+					</a-col>
+					<a-col :span="8">
+						<a-form-item label="教室">
+							<a-select :allowClear="true" v-decorator="['classID']" placeholder="请选择教室" optionFilterProp="children"
+							 showSearch>
+								<a-select-option v-for="(item, index) in classroomList" :key="index" :value="item.ID">{{ item.Name }}</a-select-option>
+							</a-select>
+						</a-form-item>
+					</a-col>
+					<a-col :span="8">
+						<a-form-item label="申请日期">
+							<a-range-picker style="width: 100%;" v-decorator="[`date`]" />
+						</a-form-item>
+					</a-col>
+					<a-col :span="8">
+						<a-form-item label="节次">
+							<a-input-number :min="JCMin" :max="JCMax" v-decorator="[`StartJC`]" @blur="numberChange(1)" style="width: 45.5%;" />
+							~
+							<a-input-number style="width: 45.5%;" :min="JCMin" :max="JCMax" v-decorator="[`EndJC`]" @blur="numberChange(2)" />
+						</a-form-item>
+					</a-col>
+					<a-col :span="8">
+						<a-form-item label="状态">
+							<a-select v-decorator="['state']" placeholder="请选择状态" optionFilterProp="children">
+								<a-select-option v-for="(item, index) in stateList" :key="index" :value="item.ID">{{ item.Name }}</a-select-option>
+							</a-select>
+						</a-form-item>
+					</a-col>
+					<a-col :span="8" style="margin-top:4px;">
+						<a-button type="primary" html-type="submit" class="btn1">搜索</a-button>
+						<a-button :style="{ marginLeft: '8px' }" @click="handleReset" class="btn2">重置</a-button>
+					</a-col>
+				</a-row>
+			</a-form>
+		</div>
+		<div style="margin-top: 20px;">
+			<el-table ref="tableForm" :data="data" v-loading="loading" border :max-height="tableHeight" highlight-current-row
+			 style="width: 100%;">
+				<el-table-column prop="IsEnable" label="状态" min-width="150">
+					<template slot-scope="scope">
+						<a-tag color="red" v-if="scope.row.State === '4'">后勤审核不通过</a-tag>
+						<a-tag color="green" v-if="scope.row.State === '3'">后勤审核通过</a-tag>
+					</template>
+				</el-table-column>
+				<el-table-column prop="ActName" label="活动类型" min-width="180" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="ActContent" label="活动内容" min-width="200" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="Unity" label="举办单位" min-width="180" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="StudentName" label="申请人" min-width="120"></el-table-column>
+				<el-table-column prop="Phone" label="手机号" min-width="120"></el-table-column>
+				<el-table-column prop="ApplyTime" label="申请日期" min-width="168"></el-table-column>
+				<el-table-column prop="IsEnable" label="节次" min-width="120">
+					<template slot-scope="scope">
+						{{ scope.row.StartJC }} ~ {{ scope.row.EndJC }} 节
+					</template>
+				</el-table-column>
+				<el-table-column label="操作" width="62" fixed="right">
+					<template slot-scope="scope">
+						<a-popover title="详情">
+							<i class="el-font el-icon-view" style="color: #67C23A;" @click="modifyList(scope.row, 'modify')"></i>
+						</a-popover>
+					</template>
+				</el-table-column>
+			</el-table>
+			<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="pagination.currentPage"
+			 :page-sizes="pagination.pageSizeOptions" :page-size="pagination.pageSize" layout="total, sizes, prev, pager, next, jumper"
+			 :total="pagination.total"></el-pagination>
+		</div>
+		<add :text="text" :detail="true" :nowTime="nowTime" :schoolList="schoolList" v-show="addIf" @closeFun="closeFun"></add>
+	</div>
 </template>
 
 <script>
@@ -186,14 +183,18 @@
 			numberChange(type) {
 				this.form.validateFields((error, values) => {
 					if (values.StartJC > values.EndJC) {
-						this.form.setFieldsValue({EndJC: this.JCMax})
+						this.form.setFieldsValue({
+							EndJC: this.JCMax
+						})
 					}
 				})
 			},
 			handleReset() {
 				this.form.resetFields()
 				this.values = {}
-				this.gradeYear = null
+				this.buildingList = []
+				this.classroomList = []
+				this.schoolList = []
 				this.getList()
 			},
 			handleSizeChange(val) {
@@ -210,22 +211,32 @@
 				this.schoolList = res.data.data
 			},
 			async getAllBuildingList(e) {
-				if(e){
-					let res = await GetAllBuildingList({xqID: e})
+				if (e) {
+					let res = await GetAllBuildingList({
+						xqID: e
+					})
 					this.buildingList = res.data.data
-				}else{
-					this.form.setFieldsValue({buildingID: ''})
+				} else {
+					this.form.setFieldsValue({
+						buildingID: ''
+					})
 					this.buildingList = []
-					this.form.setFieldsValue({classID: ''})
+					this.form.setFieldsValue({
+						classID: ''
+					})
 					this.classroomList = []
 				}
 			},
 			async getAllClassRoomList(e) {
-				if(e){
-					let res = await GetAllClassRoomList({buildingID: e})
+				if (e) {
+					let res = await GetAllClassRoomList({
+						buildingID: e
+					})
 					this.classroomList = res.data.data
-				}else{
-					this.form.setFieldsValue({classID: ''})
+				} else {
+					this.form.setFieldsValue({
+						classID: ''
+					})
 					this.classroomList = []
 				}
 			},

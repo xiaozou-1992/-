@@ -33,7 +33,7 @@
             <a-tag color="green">{{ scope.row.Code }}</a-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="IsJoin" label="负责人" min-width="220" show-overflow-tooltip>
+        <el-table-column prop="IsJoin" label="审批人" min-width="220" show-overflow-tooltip>
           <template slot-scope="scope">
             <span v-for="(item,index) in scope.row.ChargerList">
               {{ item.Name }}
@@ -46,7 +46,7 @@
             操作
           </template>
           <template slot-scope="scope">
-            <a-popover title="负责人">
+            <a-popover title="审批人">
               <a-icon type="user-add" class="el-font" style="color: #1890FF;" @click="addList(scope.row)"/>
             </a-popover>
             <!-- <a-popover title="删除负责人" v-if="scope.row.ChargerList">

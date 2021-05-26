@@ -178,6 +178,9 @@
 				this.form.resetFields()
 				this.values = {}
 				this.getList()
+				this.buildingList = []
+				this.classroomList = []
+				this.schoolList = []
 			},
 			handleSizeChange(val) {
 				this.pagination.pageSize = val
