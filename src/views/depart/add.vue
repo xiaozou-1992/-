@@ -21,7 +21,7 @@
             </div> -->
           </a-form-model-item>
           <a-form-model-item label="" class="fixed-bottom">
-            <a-button type="primary" @click="handleSubmit">{{ JSON.stringify(text) == '{}' ? '确认添加' : '确认修改' }}</a-button>
+            <a-button type="primary" @click="handleSubmit" :loading="loading">{{ JSON.stringify(text) == '{}' ? '确认添加' : '确认修改' }}</a-button>
             <a-button style="margin-left: 10px;" @click="closeFunction">取消</a-button>
           </a-form-model-item>
         </a-form-model>
@@ -63,6 +63,7 @@
 					name: 'coordinated'
 				}),
 				userList: [],
+				loading: false,
 				fetching: false,
 				form: {
 					charger: []
@@ -94,15 +95,17 @@
 			handleSubmit(e) {
 				this.$refs.ruleForm.validate(async valid => {
 					if (valid) {
+						this.loading = true
 						let data = {}
 						data.id = this.text.ID
 						data.charger = this.form.charger.toString()
-						let res = {}
-						if (this.text.Type === 1) {
-							res = await UpdateDepartCharger(data)
-						} else {
-							res = await DoAddDepartCharger(data)
-						}
+						let res = await UpdateDepartCharger(data)
+						// if (this.text.Type === 1) {
+						// 	res = await UpdateDepartCharger(data)
+						// } else {
+						// 	res = await DoAddDepartCharger(data)
+						// }
+						this.loading = false
 						if (res.data.code === 0) {
 							this.$message.success(res.data.msg)
 							this.closeFunction('1')

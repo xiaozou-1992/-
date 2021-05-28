@@ -8,7 +8,8 @@
       <div class="main" id="new_message">
         <a-form-model ref="ruleForm" :model="form" :rules="rules">
           <a-form-model-item label="角色" prop="Name">
-            <a-select mode="multiple" placeholder="请输入角色名称" showSearch v-model="form.roleIDList" optionFilterProp="children" :filterOption="filterOption"
+            <a-select mode="multiple" placeholder="请输入角色名称" showSearch v-model="form.roleIDList" optionFilterProp="children"
+                      :filterOption="filterOption"
             >
               <a-spin v-if="fetching" slot="notFoundContent" size="small" />
               <a-select-option v-for="(item, index) in roleList" :key="item.ID">{{ item.Name }}</a-select-option>
@@ -16,7 +17,7 @@
           </a-form-model-item>
 
           <a-form-model-item label="" class="fixed-bottom">
-            <a-button type="primary" @click="handleSubmit">{{ JSON.stringify(text) == '{}' ? '确认添加' : '确认修改' }}</a-button>
+            <a-button type="primary" @click="handleSubmit" :loading="loading">{{ JSON.stringify(text) == '{}' ? '确认添加' : '确认修改' }}</a-button>
             <a-button style="margin-left: 10px;" @click="closeFunction">取消</a-button>
           </a-form-model-item>
         </a-form-model>
@@ -57,6 +58,7 @@
 				treeValue: [],
 				roleList: [],
 				fetching: false,
+				loading: false,
 				form: {
 					id: '',
 					roleIDList: []
@@ -78,7 +80,7 @@
 				return option.componentOptions.children[0].text.toLowerCase().indexOf(input.toLowerCase()) >= 0
 			},
 			async fetchRole(value) {
-				let res = await GetRoleAllList({name:''})
+				let res = await GetRoleAllList({name: ''})
 				this.roleList = res.data.data || []
 			},
 			async getDetail(value) {
@@ -101,24 +103,26 @@
 			handleSubmit(e) {
 				this.$refs.ruleForm.validate(async valid => {
 					if (valid) {
+						this.loading = true
 						let data = this.form
 						let res = await DoUpdateAdminUserRole(data)
 						if (res.data.code === 0) {
 							this.$message.success(res.data.msg)
 							this.getInfo()
 							this.closeFunction('1')
-							setTimeout(()=>{
-								window.location.reload();
-							},300)
+							setTimeout(() => {
+								window.location.reload()
+							}, 300)
 						} else {
 							this.$message.error(res.data.msg)
 						}
+						this.loading = false
 					} else {
 						return false
 					}
 				})
 			},
-			async getInfo(){
+			async getInfo() {
 				let res = await GetUserAuthorityList()
 				Cache.set('menuListSub', res.data.data)
 			},

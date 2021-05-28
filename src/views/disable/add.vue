@@ -46,7 +46,7 @@
             <a-input v-model="form.Remarks" type="textarea" />
           </a-form-model-item>
           <a-form-model-item label="" class="fixed-bottom">
-            <a-button type="primary" @click="handleSubmit">{{ JSON.stringify(text) == '{}' ? '确认添加' : '确认修改' }}</a-button>
+            <a-button type="primary" @click="handleSubmit" :loading="loading">{{ JSON.stringify(text) == '{}' ? '确认添加' : '确认修改' }}</a-button>
             <a-button style="margin-left: 10px;" @click="closeFunction">取消</a-button>
           </a-form-model-item>
         </a-form-model>
@@ -91,6 +91,7 @@
 				schoolList: [],
 				classroomList1: [],
 				buildingList1: [],
+				loading: false,
 				form: {
 					BorC: '',
 					BIDorCID: '',
@@ -195,22 +196,20 @@
 			handleSubmit(e) {
 				this.$refs.ruleForm.validate(async valid => {
 					if (valid) {
+						this.loading = true
 						let data = this.form
 						if (this.form.BorC === 'building') {
 							this.form.BIDorCID = this.form.BuildingID
 						} else {
 							this.form.BIDorCID = this.form.ClassID
 						}
-						// delete data.SchoolID
-						// delete data.BuildingID
-						// delete data.ClassID
-						// delete data.date
 						let res = {}
 						if (!this.text.ID) {
 							res = await DoAddForbbidenBorC(data)
 						} else {
 							res = await DoUpdateForbbidenBorC(data)
 						}
+						this.loading = false
 						if (res.data.code === 0) {
 							this.$message.success(res.data.msg)
 							this.closeFunction('1')

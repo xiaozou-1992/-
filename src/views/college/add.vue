@@ -24,7 +24,7 @@
             </a-select>
           </a-form-model-item>
           <a-form-model-item label="" class="fixed-bottom">
-            <a-button type="primary" @click="handleSubmit">{{ JSON.stringify(text) == '{}' ? '确认添加' : '确认修改' }}</a-button>
+            <a-button type="primary" @click="handleSubmit" :loading="loading">{{ JSON.stringify(text) == '{}' ? '确认添加' : '确认修改' }}</a-button>
             <a-button style="margin-left: 10px;" @click="closeFunction">取消</a-button>
           </a-form-model-item>
         </a-form-model>
@@ -38,7 +38,6 @@
 	import {
 		DoAddDepartCharger,
 		UpdateStudent,
-		GetDepartAllList,
 		GetUserAllList
 	} from '@/api/follow'
 	export default {
@@ -113,6 +112,7 @@
 			handleSubmit(e) {
 				this.$refs.ruleForm.validate(async valid => {
 					if (valid) {
+						this.loading = true
 						let data = this.form
 						data.charger = this.form.charger.toString()
 						let res = {}
@@ -127,6 +127,7 @@
 						} else {
 							this.$message.error(res.data.msg)
 						}
+						this.loading = false
 					} else {
 						return false
 					}

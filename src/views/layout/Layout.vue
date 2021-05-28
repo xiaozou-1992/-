@@ -1,51 +1,51 @@
 <template>
-	<a-layout id="components-layout-demo-top-side-2">
-		<a-layout>
-			<a-layout-header class="header">
-				<div class="logo">
-					<img src="../../assets/logo.png" />
-					<span>后勤教室借用系统</span>
-				</div>
-				<div class="btn-con">
-					<a-button class="trigger" type="primary" @click="goBack()">
-						<a-icon type="rollback" />
-					</a-button>
-					<a-button class="trigger" type="primary" @click="reload()">
-						<a-icon type="reload" />
-					</a-button>
-				</div>
-				<div class="trigger-right" @click="logout()">
-					退出登录
-					<a-icon type="logout" />
-				</div>
-				<!-- <div class="trigger-right" @click="backhome()">
+  <a-layout id="components-layout-demo-top-side-2">
+    <a-layout>
+      <a-layout-header class="header">
+        <div class="logo">
+          <img src="../../assets/logo.png" />
+          <span>后勤教室借用系统</span>
+        </div>
+        <div class="btn-con">
+          <a-button class="trigger" type="primary" @click="goBack()">
+            <a-icon type="rollback" />
+          </a-button>
+          <a-button class="trigger" type="primary" @click="reload()">
+            <a-icon type="reload" />
+          </a-button>
+        </div>
+        <div class="trigger-right" @click="logout()">
+          退出登录
+          <a-icon type="logout" />
+        </div>
+        <!-- <div class="trigger-right" @click="backhome()">
           返回首页
           <a-icon type="home" />
         </div> -->
-				<!-- <div class="changePassword" @click="menu('changePassword')">修改密码</div> -->
-				<div class="changePassword">
-					{{ myInfo?myInfo.Name:'暂无' }}
-				</div>
-			</a-layout-header>
-			<a-layout-content v-if="isRouterAlive" ref="layoutContent" :style="{position:'relative',display:'flex', background: '#fff', minHeight: '280px',margin:'20px 20px 0 20px',padding:'20px', height: layoutContentHeight, overflow: 'hidden' }">
-				<a-layout style="padding: 11px 0; background: #fff;width: 201px;border-right: 1px solid #eee;">
-					<a-layout-sider class="side-left" :trigger="null">
-						<a-menu mode="inline" :default-selected-keys="keys">
-							<a-menu-item :class="{'on': item.path=== routeOn?true:false}" v-for="(item,index) in menuList" @click="menu(item.id,item.path)" :key="item.id" v-if="menuListSub.find(d=>(d.id==item.id)) || (myInfo.Name === 'superadmin' && myInfo.ID === '1')">
-								<a-icon :type="item.type" />
-								<span class="nav-text">{{ item.title }}</span>
-							</a-menu-item>
-						</a-menu>
-					</a-layout-sider>
-				</a-layout>
-				<keep-alive>
-					<router-view :key="$route.fullPath" v-if="$route.meta.keepAlive"></router-view>
-				</keep-alive>
-				<router-view :key="$route.fullPath" v-if="!$route.meta.keepAlive"></router-view>
-			</a-layout-content>
-		</a-layout>
-		<a-layout-footer style="text-align: center;padding:10px 0;">安财信科提供技术支持</a-layout-footer>
-	</a-layout>
+        <!-- <div class="changePassword" @click="menu('changePassword')">修改密码</div> -->
+        <div class="changePassword">
+          {{ myInfo?myInfo.Name:'暂无' }}
+        </div>
+      </a-layout-header>
+      <a-layout-content v-if="isRouterAlive" ref="layoutContent" :style="{position:'relative',display:'flex', background: '#fff', minHeight: '280px',margin:'20px 20px 0 20px',padding:'20px', height: layoutContentHeight, overflow: 'hidden' }">
+        <a-layout style="padding: 11px 0; background: #fff;width: 201px;border-right: 1px solid #eee;">
+          <a-layout-sider class="side-left" :trigger="null">
+            <a-menu mode="inline" :default-selected-keys="keys">
+              <a-menu-item :class="{'on': item.path=== routeOn?true:false}" v-for="(item,index) in menuList" @click="menu(item.id,item.path)" :key="item.id" v-if="menuListSub.find(d=>(d.id===item.id)) || (myInfo.Name === 'superadmin' && myInfo.ID === '1')">
+                <a-icon :type="item.type" />
+                <span class="nav-text">{{ item.title }}</span>
+              </a-menu-item>
+            </a-menu>
+          </a-layout-sider>
+        </a-layout>
+        <keep-alive>
+          <router-view :key="$route.fullPath" v-if="$route.meta.keepAlive"></router-view>
+        </keep-alive>
+        <router-view :key="$route.fullPath" v-if="!$route.meta.keepAlive"></router-view>
+      </a-layout-content>
+    </a-layout>
+    <a-layout-footer style="text-align: center;padding:10px 0;">安财信科提供技术支持</a-layout-footer>
+  </a-layout>
 </template>
 <script>
 	import Cache from '@/utils/cache'
@@ -129,7 +129,7 @@
 				}],
 				menuListSub: Cache.get('menuListSub'),
 				list: [],
-				routeOn:''
+				routeOn: ''
 			}
 		},
 		watch: {
@@ -144,7 +144,8 @@
 			}
 			if (!Cache.get('menuListSub') || comm('userToken').userToken) {
 				let res = await GetUserAuthorityList()
-				Cache.set('', res.data.data)
+				Cache.set('menuListSub', res.data.data)
+				this.menuListSub = res.data.data
 			}
 		},
 		created() {
@@ -159,8 +160,8 @@
 			backhome() {
 				this.$router.push('/')
 			},
-			menu(type,path) {
-				//let item = this.menuList.find(d => (d.id === type))
+			menu(type, path) {
+				// let item = this.menuList.find(d => (d.id === type))
 				this.$router.push({
 					name: path,
 					query: {
@@ -224,7 +225,7 @@
 			border-right: 3px solid #1890ff;
 		}
 	}
-	
+
 	.ant-menu {
 		border-right: 0 !important;
 	}

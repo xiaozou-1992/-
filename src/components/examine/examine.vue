@@ -46,7 +46,7 @@
                   <a-input v-model="form.BackReviewContent" type="textarea"/>
                 </a-form-model-item>
                 <a-form-model-item label="" class="fixed-bottom">
-                  <a-button type="primary" @click="handleSubmit">{{ JSON.stringify(text) == '{}' ? '确认' : '确认' }}</a-button>
+                  <a-button type="primary" @click="handleSubmit" :loading="loading">{{ JSON.stringify(text) == '{}' ? '确认' : '确认' }}</a-button>
                   <a-button style="margin-left: 10px;" @click="closeFunction">取消</a-button>
                 </a-form-model-item>
               </a-form-model>
@@ -84,6 +84,7 @@
 				form: this.$form.createForm(this, {
 					name: 'coordinated'
 				}),
+				loading: false,
 				data: {},
 				form: {
 					State: '',
@@ -128,9 +129,11 @@
 				}
 				this.$refs.ruleForm.validate(async valid => {
 					if (valid) {
+						this.loading = true
 						let data = this.form
 						data.ID = this.text.ID
 						let res = await ReviewAdminApply2(data)
+						this.loading = false
 						if (res.data.code === 0) {
 							this.$message.success(res.data.msg)
 							this.closeFunction('1')
