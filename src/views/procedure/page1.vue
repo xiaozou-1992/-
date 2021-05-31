@@ -138,7 +138,7 @@
 				tableHeight: parseFloat(window.innerHeight - 530),
 				ClassList: [],
 				DepartCodeList: [],
-				layoutHeight: window.innerHeight - 460 + 'px',
+				layoutHeight: window.innerHeight - 480 + 'px',
 				examineID: '',
 				buildingList: [],
 				classroomList: [],
@@ -195,10 +195,10 @@
 				this.schoolList = res.data.data
 			},
 			async getAllBuildingList(e) {
-				if(e){
+				if (e) {
 					let res = await GetAllBuildingList({xqID: e})
 					this.buildingList = res.data.data
-				}else{
+				} else {
 					this.form.setFieldsValue({buildingID: ''})
 					this.buildingList = []
 					this.form.setFieldsValue({classID: ''})
@@ -206,10 +206,10 @@
 				}
 			},
 			async getAllClassRoomList(e) {
-				if(e){
+				if (e) {
 					let res = await GetAllClassRoomList({buildingID: e})
 					this.classroomList = res.data.data
-				}else{
+				} else {
 					this.form.setFieldsValue({classID: ''})
 					this.classroomList = []
 				}

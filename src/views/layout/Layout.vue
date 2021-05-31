@@ -146,6 +146,8 @@
 				let res = await GetUserAuthorityList()
 				Cache.set('menuListSub', res.data.data)
 				this.menuListSub = res.data.data
+			} else {
+				this.menuListSub = Cache.get('menuListSub')
 			}
 		},
 		created() {

@@ -1,4 +1,4 @@
-const requestUrl = 'http://192.168.2.118:8034/'
+const requestUrl = 'http://api.jjx.hq.acxk.net/'
 const pageSizeOptions = ["30", "50", "100", "200", "500"]
 const pageSize = 30
 const JCList = [1,10]

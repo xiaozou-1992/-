@@ -2,7 +2,7 @@
   <div class="aid">
     <div class="base">
       <p class="fixed-top">
-        {{ text.Type === 1 ? '修改部门负责人' : '添加部门负责人' }}
+        {{ text.Type === 1 ? '修改部门审批人' : '添加部门审批人' }}
         <a-icon @click="closeFunction" :style="{ fontSize: '20px',float: 'right', margin: '10px' }" type="close-circle" />
       </p>
       <div class="main" id="new_message">
