@@ -39,11 +39,11 @@
                     </a-radio>
                   </a-radio-group>
                 </a-form-model-item>
-                <a-form-model-item label="内容" prop="BackReviewContent" v-if="form.State === '4'">
-                  <a-input v-model="form.BackReviewContent" type="textarea" placeholder="同意"/>
+                <a-form-model-item label="审批意见" prop="BackReviewContent" v-if="form.State === '4'">
+                  <a-input v-model="form.BackReviewContent" type="textarea" placeholder="请输入审批意见"/>
                 </a-form-model-item>
-                <a-form-model-item label="内容" v-else>
-                  <a-input v-model="form.BackReviewContent" type="textarea"/>
+                <a-form-model-item label="审批意见" v-else>
+                  <a-input v-model="form.BackReviewContent" type="textarea" placeholder="请输入审批意见"/>
                 </a-form-model-item>
                 <a-form-model-item label="" class="fixed-bottom">
                   <a-button type="primary" @click="handleSubmit" :loading="loading">{{ JSON.stringify(text) == '{}' ? '确认' : '确认' }}</a-button>
