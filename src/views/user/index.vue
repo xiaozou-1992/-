@@ -181,7 +181,7 @@
 					cancelText: '取消',
 					async onOk() {
 						let res = await SynchronizationUser({
-							type: 'all',
+							userType: 'all',
 							userNo: ''
 						})
 						if (res.data.code === 0) {

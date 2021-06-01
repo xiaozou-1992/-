@@ -7,8 +7,8 @@
       </p>
       <div class="main">
         <a-form-model ref="ruleForm" :model="form" :rules="rules">
-          <a-form-model-item label="用户类型" prop="type">
-            <a-radio-group name="radioGroup" v-model="form.type">
+          <a-form-model-item label="用户类型" prop="userType">
+            <a-radio-group name="radioGroup" v-model="form.userType">
               <a-radio :value="'js'">
                 教师
               </a-radio>
@@ -50,10 +50,10 @@
 				}),
 				form: {
 					userNo: '',
-					type: ''
+					userType: ''
 				},
 				rules: {
-					type: [{
+					userType: [{
 						required: true,
 						message: '请选择用户类型',
 						trigger: 'blur'

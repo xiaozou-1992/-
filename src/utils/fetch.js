@@ -58,8 +58,8 @@ service.interceptors.request.use(config => {
     let sign = ''
     // config.headers['timestamp'] = new Date().getTime()
     if (store.getters.token || Cache.get('SYS_TOKEN')) { // 抑制store可能未实例化时的异常
-				config.headers['Authorization'] = Cache.get('SYS_TOKEN')
-				//config.headers['Authorization'] = 'se87U4qeF0xhrunEntcYiR=='
+				//config.headers['Authorization'] = Cache.get('SYS_TOKEN')
+				config.headers['Authorization'] = 'se87U4qeF0xhrunEntcYiR=='
 				
     }
     if (/^(post|put|delete)$/.test(config.method.toLowerCase())) {
